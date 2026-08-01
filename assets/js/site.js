@@ -1,4 +1,4 @@
-/* Site behaviour. Three small things: theme, tag filtering, lazy video.
+/* Site behavior. Three small things: theme, tag filtering, lazy video.
    No dependencies, no build step. */
 
 (function () {
