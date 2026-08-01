@@ -64,7 +64,7 @@
       <h1>Vibhakar Mohta</h1>
       <p class="tagline">I teach robots to recover from their own mistakes.</p>
       <div class="bio">
-<p>My research question is how robots get better without a human in the loop for every mistake. Behavior cloning inherits only the states a demonstrator happened to visit, so each additional nine of reliability costs another order of magnitude of teleoperation. I am more interested in the flywheel: systems that close their own loop, notice when they have gone off distribution, and turn their own failures into the next batch of training data.</p><p>The organizing idea for me is <strong>thinking fast and slow</strong>. A reactive policy is fast, cheap and confidently wrong off distribution. Search is slow, expensive and able to recover. Most of what I build puts the two in one loop and spends compute only where the fast system is about to fail. In <a href="projects/sailor.html">SAILOR</a> (NeurIPS 2025 Spotlight) that means learning a world model, a reward model and a critic from demonstrations alone, then running MPPI over imagined latent rollouts to correct a diffusion policy mid-episode, matching diffusion policies trained on 5 to 10 times the data. In <a href="projects/physical-ai-hack.html">PIVot</a> it means short-horizon ACT specialists sitting under an LLM that decides which one to run next.</p><p>Right now I am exploring the frontier of <strong>world action models</strong>: the bet that the robotics GPT moment comes from models that predict what the world does next and what to do about it in one representation, rather than from ever larger piles of teleoperation. That is the same gap between open loop prediction and closed loop control that shows up everywhere in this field. At <a href="https://nuro.ai">Nuro</a> I work on the Core Behavior team, post-training flow-based driving policies with reinforcement learning so the vehicle drives the way a person would.</p><p>On the side I am building on an <strong>SO101 arm</strong>, mostly to keep my own hands on the data collection and evaluation loop rather than reasoning about it from a paper. Before Nuro I finished my MS at the <a href="https://www.ri.cmu.edu/">CMU Robotics Institute</a>, and before that a dual degree at IIT Kharagpur. Along the way I built a fair number of robots: a stair-climbing terrace farming robot, an autonomous lunar excavator, a self-fabricated ground vehicle that placed twice at IGVC, and a 1/10-scale racecar that learned to drive inside a model of the world.</p>      </div>
+<p>My research question is how robots get better without a human in the loop for every mistake. Behavior cloning inherits only the states a demonstrator happened to visit, so each additional nine of reliability costs another order of magnitude of teleoperation. I am more interested in the flywheel: systems that close their own loop, notice when they have gone off distribution, and turn their own failures into the next batch of training data.</p><p>The organizing idea for me is <strong>thinking fast and slow</strong>. A reactive policy is fast, cheap and confidently wrong off distribution. Search is slow, expensive and able to recover. Most of what I build puts the two in one loop and spends compute only where the fast system is about to fail. In <a href="projects/sailor.html">SAILOR</a> (NeurIPS 2025 Spotlight) that means learning a world model, a reward model and a critic without any extra human labels, then running MPPI over imagined latent rollouts to correct a diffusion policy mid-episode, beating diffusion policies trained on 5 to 10 times the data. In <a href="projects/physical-ai-hack.html">PIVot</a> it means short-horizon ACT specialists sitting under an LLM that decides which one to run next.</p><p>Right now I am exploring the frontier of <strong>world action models</strong>: the bet that the robotics GPT moment comes from models that predict what the world does next and what to do about it in one representation, rather than from ever larger piles of teleoperation. That is the same gap between open loop prediction and closed loop control that shows up everywhere in this field. At <a href="https://nuro.ai">Nuro</a> I work on the Core Behavior team, post-training flow-based driving policies with reinforcement learning so the vehicle drives the way a person would.</p><p>On the side I am building on an <strong>SO101 arm</strong>, mostly to keep my own hands on the data collection and evaluation loop rather than reasoning about it from a paper. Before Nuro I finished my MS at the <a href="https://www.ri.cmu.edu/">CMU Robotics Institute</a>, and before that a dual degree at IIT Kharagpur. Along the way I built a fair number of robots: a stair-climbing terrace farming robot, an autonomous lunar excavator, a self-fabricated ground vehicle that placed twice at IGVC, and a 1/10-scale racecar that learned to drive inside a model of the world.</p>      </div>
       <div class="linkrow">
   <a href="mailto:vib2810@gmail.com"
 >
@@ -248,7 +248,7 @@ data-lazyvideo>
         <h3><a href="projects/sailor.html">SAILOR</a></h3>
         <p class="sub">Robust imitation via learning to search</p>
         <span class="meta">Sep 2024 to Jan 2025 · NeurIPS 2025 · Spotlight</span>
-        <p class="desc">A learning-to-search method: at every control step the robot searches over imagined latent rollouts for a correction to its own plan, so it can notice it is going wrong mid-episode and steer back. It beats diffusion policies trained on 5–10× more data.</p>
+        <p class="desc">A learning-to-search method: at every control step the robot searches over imagined latent rollouts for a correction to its own plan, so it can notice it is going wrong mid-episode and steer back. It beats diffusion policies trained on 5 to 10x more data.</p>
         <div class="chips">
 <a class="chip" href="projects/index.html?tag=robot-learning">Robot learning</a>
 <a class="chip" href="projects/index.html?tag=manipulation">Manipulation</a>
@@ -407,7 +407,7 @@ target="_blank" rel="noopener">Lane detection paper (SPIE)</a>
         <div>
           <h3><a href="https://nuro.ai" target="_blank" rel="noopener">Nuro</a></h3>
           <div class="role">Research Scientist, Core Behavior</div>
-          <ul><li>On the <strong>Core Behavior</strong> team: post-train flow-based behaviour models with reinforcement learning for safe, humanlike driving.</li><li>Scaled RL infrastructure and training pipelines to millions of simulated rollouts to learn a general driving policy.</li><li>Design ML architectures that emit kinematically feasible trajectories, for passenger comfort and safety.</li></ul>
+          <ul><li>On the <strong>Core Behavior</strong> team: post-train flow-based behavior models with reinforcement learning for safe, humanlike driving.</li><li>Scaled RL infrastructure and training pipelines to millions of simulated rollouts to learn a general driving policy.</li><li>Design ML architectures that emit kinematically feasible trajectories, for passenger comfort and safety.</li></ul>
         </div>
       </div>
       <div class="entry">
@@ -415,7 +415,7 @@ target="_blank" rel="noopener">Lane detection paper (SPIE)</a>
         <div>
           <h3><a href="https://plus.ai" target="_blank" rel="noopener">Plus AI</a></h3>
           <div class="role">Prediction ML Engineer</div>
-          <ul><li>Built a transformer that predicts joint and conditional distributions over other vehicles' behaviour, scaled to large on-road datasets.</li></ul>
+          <ul><li>Built a transformer that predicts joint and conditional distributions over other vehicles' behavior, scaled to large on-road datasets.</li></ul>
         </div>
       </div>
       <div class="entry">
@@ -423,7 +423,7 @@ target="_blank" rel="noopener">Lane detection paper (SPIE)</a>
         <div>
           <h3><a href="https://aurora.tech" target="_blank" rel="noopener">Aurora Innovation</a></h3>
           <div class="role">Motion Planning ML Intern</div>
-          <ul><li>Data-driven metric for flagging undesirable turn-signal behaviour in high-speed autonomous trucking, 98.6% recall, 94.2% accuracy across on-road and simulation datasets.</li></ul>
+          <ul><li>Data-driven metric for flagging undesirable turn-signal behavior in high-speed autonomous trucking, 98.6% recall, 94.2% accuracy across on-road and simulation datasets.</li></ul>
         </div>
       </div>
       <div class="entry">
@@ -481,7 +481,7 @@ target="_blank" rel="noopener">Podcast</a>
   </div>
   <div>
     <h3><a href="https://ieeexplore.ieee.org/document/10004400" target="_blank" rel="noopener">Design of an All-Purpose Terrace Farming Robot</a></h3>
-    <div class="authors"><strong>Vibhakar Mohta</strong> et al.</div>
+    <div class="authors"><strong>Vibhakar Mohta</strong>, Adarsh Patnaik, S. K. Panda, Siva Vignesh Krishnan, Abhi Gupta, Abhay Shukla, Gauri Wadhwa, Shrey Verma, A. Bandopadhyay</div>
     <div class="venue">
       IEEE/ASME 18th International Conference on Mechatronic and Embedded Systems and Applications (MESA), 2022
     </div>
@@ -500,7 +500,7 @@ target="_blank" rel="noopener">Video</a>
   </div>
   <div>
     <h3><a href="https://lcas.lincoln.ac.uk/wp/wp-content/uploads/2021/09/t6.3-TAROS2021paper03.pdf" target="_blank" rel="noopener">Collision Avoidance with Optimal Path Replanning for Mobile Robots</a></h3>
-    <div class="authors"><strong>Vibhakar Mohta</strong> et al.</div>
+    <div class="authors"><strong>Vibhakar Mohta</strong>, Sagar Dimri, Hariharan R., Sikha Hota</div>
     <div class="venue">
       Towards Autonomous Robotic Systems (TAROS), Springer LNCS, 2021
     </div>

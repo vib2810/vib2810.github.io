@@ -4,12 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Vibhakar Mohta</title>
-<meta name="description" content="The planning layer behind LunAR-X: choosing where to dig and in what order so that building a berm costs the least total energy.">
+<meta name="description" content="The planner behind LunAR-X: given a set of excavation zones and a berm to build, decide what to dig, where to dump it, and in what order, so the rover drives as little as possible.">
 <meta name="author" content="Vibhakar Mohta">
 <link rel="canonical" href="https://vib2810.github.io/projects/berm-planning.html">
 <meta property="og:site_name" content="Vibhakar Mohta">
 <meta property="og:title" content="Vibhakar Mohta">
-<meta property="og:description" content="The planning layer behind LunAR-X: choosing where to dig and in what order so that building a berm costs the least total energy.">
+<meta property="og:description" content="The planner behind LunAR-X: given a set of excavation zones and a berm to build, decide what to dig, where to dump it, and in what order, so the rover drives as little as possible.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://vib2810.github.io/projects/berm-planning.html">
 <meta property="og:locale" content="en_US">
@@ -21,7 +21,7 @@
 <meta property="og:image:alt" content="Vibhakar Mohta, Research Scientist, Nuro">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Vibhakar Mohta">
-<meta name="twitter:description" content="The planning layer behind LunAR-X: choosing where to dig and in what order so that building a berm costs the least total energy.">
+<meta name="twitter:description" content="The planner behind LunAR-X: given a set of excavation zones and a berm to build, decide what to dig, where to dump it, and in what order, so the rover drives as little as possible.">
 <meta name="twitter:image" content="https://vib2810.github.io/assets/img/og.jpg">
 <meta name="theme-color" content="#E8721C">
 <link rel="stylesheet" href="../assets/css/site.css">
@@ -61,7 +61,7 @@
   <a class="backlink" href="../projects/index.html">← All projects</a>
   <h1>Planning for berm construction</h1>
   <p class="sub">Energy-optimal excavation sequencing</p>
-  <span class="meta">Fall 2023 · CMU · Planning for Robotics (16-782)</span>
+  <span class="meta">Fall 2023 · CMU · Planning and Decision-making in Robotics (16-782) · with Hariharan Ravichandran</span>
 <div class="venue">Course project</div>  <div class="chips">
 <a class="chip" href="../projects/index.html?tag=field-robotics">Field robotics</a>
 <a class="chip" href="../projects/index.html?tag=planning">Planning &amp; control</a>
@@ -81,22 +81,22 @@ data-lazyvideo>
 <div class="wrap">
   <div class="prose">
     <h2>The problem</h2>
-    <p>Building a berm is not one excavation, it is dozens, and the order matters more than any individual pass. Each pass changes the terrain the next one starts from, and driving between distant excavation sites burns energy that a lunar platform does not have. Optimizing site assignment and pass trajectories jointly is intractable at any useful worksite size.</p>
+    <p>Building a berm is not one excavation, it is dozens, and the order matters. Every pass changes the terrain the next one starts from, and driving between distant excavation and deposition sites is the dominant cost on a rover with a fixed power budget. The space of orderings is combinatorial, so uninformed search does not finish.</p>
 
     <h2>What I built</h2>
-    <ul><li>Formulated berm construction as a <strong>bilevel</strong> problem: the outer level assigns and sequences excavation sites, the inner level plans the trajectory for each pass.</li><li>Optimized total operation energy, excavation plus the driving between sites, subject to worksite and reachability constraints.</li><li>Implemented in C++ on ROS 2 as a task optimizer node, with worksites specified in YAML and the planned sequence rendered as an animation for inspection.</li><li>Evaluated on three test environments of increasing size against greedy nearest-site baselines.</li></ul>
+    <ul><li>Formulated construction as a search over which excavation zone to dig, which berm section to deposit into, and in what order, minimizing <strong>total distance traveled</strong> by the rover.</li><li>Used a <strong>hybrid A*</strong> planner to compute edge costs, so every transition is a path the rover can actually drive over traversable terrain rather than a straight-line estimate.</li><li>Built the heuristic by relaxing the problem to a collision-free <strong>TSP over deposition poses</strong> and solving it with Google OR-Tools.</li><li>Ran weighted A* at several inflation factors to trade optimality against search time.</li><li>Implemented in C++ on ROS 2 as a task optimizer node, with worksites specified in YAML and the resulting sequence rendered as an animation for inspection.</li></ul>
 
 
     <div class="result">
-      <div class="big">Fed into LunAR-X</div>
-      <div class="txt">The sequencing formulation carried directly into the MRSD capstone excavation system, which went on to build straight and curved berms autonomously on a regolith simulant testbed.</div>
+      <div class="big">2.6x faster</div>
+      <div class="txt">On the hardest of three worksites, uninformed search produced no plan in ten minutes. The TSP heuristic solved it in 70 seconds, and inflating the heuristic to eps=5 cut that to 27 seconds while costing 1.3 percent more plan cost (174.6 against 172.3).</div>
     </div>
 
     <h2>What worked</h2>
-    <ul class="ticks"><li>Ordering matters more than site selection on its own. Because each pass changes the terrain the next one starts on, a greedy nearest-site choice looks cheap locally and compounds into long transits late in the build.</li><li>The bilevel split is what makes it tractable. Once the site assignment is fixed, each inner trajectory problem is small and independent, so the outer search can afford to evaluate many assignments.</li></ul>
+    <ul class="ticks"><li>The TSP relaxation is the whole result. It is cheap to compute and tight enough that it turns an intractable search into one that finishes, which is the difference between the planner existing and not.</li><li>Weighted A* was a very good trade here. A 2.6x speedup for a 1.3 percent worse plan is worth taking on a rover where planning time is idle time.</li><li>Computing edge costs with hybrid A* rather than Euclidean distance meant the plan did not fall apart when handed to the controller.</li></ul>
 
     <h2>What didn't</h2>
-    <ul class="crosses"><li>The formulation assumes the terrain updates predictably after each pass. Real excavation does not deposit exactly what the model predicts, and the planner has no closed loop against a measured berm profile.</li><li>This is a course project result: the comparison is against greedy baselines in simulation, with no hardware measurement of the energy savings it claims.</li></ul>
+    <ul class="crosses"><li>The terrain update model is assumed rather than measured. Each excavation is treated as changing the worksite in a known way, which is optimistic on real regolith.</li><li>Everything is evaluated in plan cost and search time. No energy was measured on hardware, so the claim is about distance driven, not joules.</li></ul>
   </div>
 </div>
 
