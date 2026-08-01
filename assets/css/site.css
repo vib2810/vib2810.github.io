@@ -911,3 +911,19 @@ a.chip:hover { border-color: var(--accent); color: var(--accent-ink); text-decor
 :root[data-theme="dark"] .pub .thumb img { filter: brightness(.9) contrast(1.02); }
 
 .filterbar button .chip-n { opacity: .55; margin-left: .5em; font-variant-numeric: tabular-nums; }
+
+/* Postscript under the intro: an aside, not a fourth paragraph. */
+.bio-ps {
+  margin: 1.1rem 0 0; max-width: 62ch;
+  font-size: .93rem; line-height: 1.6; color: var(--ink-3);
+  padding-left: .95rem; border-left: 2px solid var(--rule-2);
+}
+.bio-ps .ps-mark {
+  font-family: var(--mono); font-size: .68rem; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--accent-ink);
+  margin-right: .5em;
+}
+.bio-ps strong { color: var(--ink-2); font-weight: 620; }
+@media (max-width: 720px) {
+  .bio-ps { font-size: .88rem; margin-top: .9rem; padding-left: .8rem; }
+}
