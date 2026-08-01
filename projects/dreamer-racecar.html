@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dream4Speed — Vibhakar Mohta</title>
+<meta name="description" content="DreamerV3 adapted for F1Tenth racing, trained on one simulated track from raw LiDAR, then driven on a physical 1/10-scale car with no real-world fine-tuning and no hyperparameter retuning.">
+<meta name="author" content="Vibhakar Mohta">
+<meta property="og:title" content="Dream4Speed — Vibhakar Mohta">
+<meta property="og:description" content="DreamerV3 adapted for F1Tenth racing, trained on one simulated track from raw LiDAR, then driven on a physical 1/10-scale car with no real-world fine-tuning and no hyperparameter retuning.">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="../assets/css/site.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='14' fill='%23E8721C'/><text y='72' x='50' text-anchor='middle' font-size='64' font-family='monospace' font-weight='bold' fill='white'>V</text></svg>">
+<script>
+  /* set the theme before first paint so there is no flash */
+  (function () {
+    try {
+      var t = localStorage.getItem('theme');
+      if (t) document.documentElement.setAttribute('data-theme', t);
+    } catch (e) {}
+  })();
+</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="site-head">
+  <div class="wrap">
+    <a class="brand" href="../index.html">Vibhakar Mohta</a>
+    <nav class="site-nav" aria-label="Primary">
+      <a href="../index.html"           >Home</a>
+      <a href="../projects/index.html"  aria-current="page">Projects</a>
+      <a href="../publications.html"    >Publications</a>
+      <a href="../about.html"           >About</a>
+      <a href="../assets/docs/vibhakar-mohta-resume.pdf">CV</a>
+      <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch colour theme">◐</button>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+<div class="wrap proj-head">
+  <a class="backlink" href="../projects/index.html">← All projects</a>
+  <h1>Dream4Speed</h1>
+  <p class="sub">Robust reinforcement learning for F1Tenth racing</p>
+  <span class="meta">Feb to Apr 2024 · CMU · with John Dolan · Hariharan Ravichandran, Shrey Tyagi, Abhinav Gupta</span>
+<div class="venue">F1Tenth platform · zero-shot sim2real</div>  <div class="chips">
+<a class="chip" href="../projects/index.html?tag=robot-learning">Robot learning</a>
+<a class="chip" href="../projects/index.html?tag=autonomous-driving">Autonomous driving</a>
+</div>
+</div>
+
+<div class="wrap proj-hero">
+  <div class="frame tall fit-cover">
+  <video poster="../assets/media/dreamer-racecar/hero.jpg"         muted loop playsinline preload="none"
+data-lazyvideo>
+    <source src="../assets/media/dreamer-racecar/hero.mp4" type="video/mp4">
+<img src="../assets/media/dreamer-racecar/hero.gif" alt="">  </video>
+</div>
+
+</div>
+
+<div class="wrap">
+  <div class="prose">
+    <h2>The problem</h2>
+    <p>Model-based RL is sample efficient because it trains the policy inside a learned world model, and that is exactly why it breaks on contact with hardware: the model is fit to one simulator and one track layout. Two specific failures dominate. The policies come out bang-bang, saturating the steering at both limits in a way no physical servo tracks and no servo survives for long. And 1080 LiDAR beams flattened into an MLP throw away the spatial structure that makes a scan interpretable in the first place.</p>
+
+    <h2>What I built</h2>
+    <ul><li>Adapted DreamerV3 to the F1Tenth platform. Observations are 1080 LiDAR range measurements over a 270° field of view, <strong>rendered as an image</strong> so DreamerV3's convolutional encoder and reconstruction loss get spatial structure to work with instead of a flat vector. Actions are target longitudinal speed and steering angle.</li><li>Trained in Racecar Gym (PyBullet) rather than the standard F1Tenth Gym, for a physics model closer to the real vehicle.</li><li>Shaped the reward as track progress from a 5 cm-resolution distance transform of the track, plus a speed term, plus <em>quadratic penalties on steering angle and steering rate</em> (an LQR-style action cost), plus a large negative terminal reward on contact with the boundary.</li><li>Deployed on real hardware: Traxxas chassis, VESC 6 MkIII ESC, Hokuyo UST-10LX LiDAR, Jetson Orin Nano running ROS 2 Foxy onboard, with the Dreamer model itself executed off-board across a ros-bridge.</li></ul>
+
+
+    <div class="result">
+      <div class="big">Zero-shot</div>
+      <div class="txt">The policy drove the physical car with no real-world fine-tuning and none of the per-domain hyperparameter tuning the DreamerV3 paper emphasizes. In simulation, trained on Austria alone, it completed 65% of runs on Austria and 100% on the simpler unseen Columbia layout.</div>
+    </div>
+
+    <h2>What worked</h2>
+    <ul class="ticks"><li><strong>Treating the LiDAR scan as an image.</strong> Rendering the beams into 2D lets the convolutional encoder impose an inductive bias the MLP encodings used in prior racing Dreamer work do not have. The world model's reconstructed scans track ground truth closely, which is the evidence that the latent state actually holds track geometry rather than a memorized policy.</li><li><strong>The quadratic steering penalties changed the shape of the policy, not just its score.</strong> The steering histogram goes from piled up at the two limits to spread across the range. That is the difference between a command stream a servo can follow and one that just chatters.</li><li>Picking the simulator with the more comprehensive physics model over the more popular one was a sim2real decision made up front, before any tuning, and it is what left nothing to tune afterward.</li></ul>
+
+    <h2>What didn't</h2>
+    <ul class="crosses"><li>Cross-track generalization was partial at best. Zero completed laps on Barcelona and Silverstone, at 68% and 62% average progress. The one unseen track it cleared, Columbia, is the simplest layout in the set.</li><li>Action regularization reduced the bang-bang behavior without eliminating it. The control is smoother, not smooth.</li><li>The world model runs off-board over a wireless ros-bridge, not on the Jetson. And a purely reactive LiDAR policy gives up the lap times map-based racing methods get. Domain randomization over track and vehicle parameters was the obvious next step, and we did not do it.</li></ul>
+  </div>
+</div>
+
+<div class="wrap" style="margin-top:clamp(2.5rem,5vw,3.5rem)">
+  <div class="figs">
+    <figure class="fig" style="margin:0">
+      <div class="frame tall fit-cover">
+  <video poster="../assets/media/dreamer-racecar/track.jpg"         muted loop playsinline preload="none"
+data-lazyvideo>
+    <source src="../assets/media/dreamer-racecar/track.mp4" type="video/mp4">
+  </video>
+</div>
+
+      <figcaption>Racing the learned policy on a second track, no retraining between courses.</figcaption>
+    </figure>
+    <figure class="fig" style="margin:0">
+      <div class="frame tall fit-contain">
+  <img src="../assets/media/dreamer-racecar/maps.jpg" alt="" loading="lazy" decoding="async">
+</div>
+
+      <figcaption>Trained on Austria alone, tested on Barcelona, Columbia and Silverstone.</figcaption>
+    </figure>
+  </div>
+</div>
+
+<div class="wrap" style="margin-top:clamp(2.5rem,5vw,3.5rem);padding-bottom:clamp(2.5rem,6vw,4rem)">
+  <div class="sec-head"><span class="num">[ → ]</span><h2>Links</h2></div>
+  <div class="linkrow">
+  <a href="https://drive.google.com/file/d/1nDXsjPwhPgi5aYvWulRkoidSaxH_kT6D/view?usp=sharing"
+target="_blank" rel="noopener">Report</a>
+  <a href="https://drive.google.com/drive/folders/1An15oAtxGvifvzpjvkLu-mvdqdqmIMaO?usp=sharing"
+target="_blank" rel="noopener">Video</a>
+</div>
+
+  <div class="sources">
+    <h3>Where the figures came from</h3>
+    <ul>
+      <li><b>hero</b> &middot;
+Local file (dreamer_deployment.mov)      </li>
+      <li><b>track</b> &middot;
+Local file (race2_side.mp4)      </li>
+      <li><b>maps</b> &middot;
+Project report (drive_dreamer_report.pdf)      </li>
+    </ul>
+  </div>
+
+  <div class="projnav">
+<a href="dream-in-graphs.html">← Dream in Graphs</a>    <span class="spacer"></span>
+<a href="lunar-x.html">LunAR-X →</a>  </div>
+</div>
+
+</main>
+
+<footer class="site-foot">
+  <div class="wrap">
+    <div class="note">
+      Vibhakar Mohta<br>
+      Research Scientist, Nuro<br>
+      <span style="opacity:.7">Built by hand. No trackers.</span>
+    </div>
+    <div class="linkrow">
+  <a href="mailto:vib2810@gmail.com"
+>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 6 10-6"/></svg>
+Email
+  </a>
+  <a href="https://scholar.google.com/citations?user=2ZRnqiEAAAAJ&amp;hl=en"
+target="_blank" rel="noopener">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2 0 8.5l12 6.5 9.8-5.3v6.8H24V8.5L12 2ZM4.6 13.4v4.1c0 1.9 3.3 3.5 7.4 3.5s7.4-1.6 7.4-3.5v-4.1L12 17.4l-7.4-4Z"/></svg>
+Scholar
+  </a>
+  <a href="https://github.com/vib2810"
+target="_blank" rel="noopener">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1.1-.7 0-.7 0-.7 1.2.1 1.9 1.3 1.9 1.3 1.1 1.8 2.9 1.3 3.6 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-5.9 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17.3 4.9 18.3 5.2 18.3 5.2c.6 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .5Z"/></svg>
+GitHub
+  </a>
+  <a href="https://linkedin.com/in/vibhakarmohta"
+target="_blank" rel="noopener">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 1 1 0 3.5a2.5 2.5 0 0 1 4.98 0ZM.24 8.25h4.5V24h-4.5V8.25Zm7.86 0h4.31v2.15h.06a4.72 4.72 0 0 1 4.25-2.34c4.55 0 5.39 3 5.39 6.88V24h-4.5v-7.9c0-1.88-.03-4.3-2.62-4.3-2.63 0-3.03 2.05-3.03 4.16V24H8.1V8.25Z"/></svg>
+LinkedIn
+  </a>
+  <a href="../assets/docs/vibhakar-mohta-resume.pdf"
+>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6M8 13h8M8 17h5"/></svg>
+Résumé
+  </a>
+</div>
+  </div>
+</footer>
+
+<script src="../assets/js/site.js" defer></script>
+</body>
+</html>

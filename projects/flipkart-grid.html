@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Intelligent Pickers — Vibhakar Mohta</title>
+<meta name="description" content="A warehouse picking stack built for Flipkart&#39;s national robotics challenge: a mobile base that maps the shelf, a 6-DOF arm, a custom gripper, and grasp planning over the resulting point cloud. Second in the country out of more than 6500 teams.">
+<meta name="author" content="Vibhakar Mohta">
+<meta property="og:title" content="Intelligent Pickers — Vibhakar Mohta">
+<meta property="og:description" content="A warehouse picking stack built for Flipkart&#39;s national robotics challenge: a mobile base that maps the shelf, a 6-DOF arm, a custom gripper, and grasp planning over the resulting point cloud. Second in the country out of more than 6500 teams.">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="../assets/css/site.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='14' fill='%23E8721C'/><text y='72' x='50' text-anchor='middle' font-size='64' font-family='monospace' font-weight='bold' fill='white'>V</text></svg>">
+<script>
+  /* set the theme before first paint so there is no flash */
+  (function () {
+    try {
+      var t = localStorage.getItem('theme');
+      if (t) document.documentElement.setAttribute('data-theme', t);
+    } catch (e) {}
+  })();
+</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="site-head">
+  <div class="wrap">
+    <a class="brand" href="../index.html">Vibhakar Mohta</a>
+    <nav class="site-nav" aria-label="Primary">
+      <a href="../index.html"           >Home</a>
+      <a href="../projects/index.html"  aria-current="page">Projects</a>
+      <a href="../publications.html"    >Publications</a>
+      <a href="../about.html"           >About</a>
+      <a href="../assets/docs/vibhakar-mohta-resume.pdf">CV</a>
+      <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch colour theme">◐</button>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+<div class="wrap proj-head">
+  <a class="backlink" href="../projects/index.html">← All projects</a>
+  <h1>Intelligent Pickers</h1>
+  <p class="sub">Flipkart GRID 2.0 National Intelligent Picking Challenge</p>
+  <span class="meta">2020 to 2021 · IIT Kharagpur · Team Intelligent Pickers</span>
+<div class="venue">National runners-up · 6500+ teams</div>  <div class="chips">
+<a class="chip" href="../projects/index.html?tag=manipulation">Manipulation</a>
+<a class="chip" href="../projects/index.html?tag=perception">Perception</a>
+</div>
+</div>
+
+<div class="wrap proj-hero">
+  <div class="frame tall fit-cover">
+  <video poster="../assets/media/flipkart-grid/hero.jpg"         muted loop playsinline preload="none"
+data-lazyvideo>
+    <source src="../assets/media/flipkart-grid/hero.mp4" type="video/mp4">
+<img src="../assets/media/flipkart-grid/hero.gif" alt="">  </video>
+</div>
+
+</div>
+
+<div class="wrap">
+  <div class="prose">
+    <h2>The problem</h2>
+    <p>Picking a named item out of a bin of retail products is not clean pick and place. The products are jumbled, many are deformable or shiny, and several look alike from above, so the grasp has to be chosen from a point cloud of a pile rather than from a known object pose. The competition added its own constraint: the whole thing had to be demonstrable end to end under elimination-round deadlines.</p>
+
+    <h2>What I built</h2>
+    <ul><li>Motion planning for a 6-DOF manipulator, with the full reach, grasp and place cycle demonstrated on retail products.</li><li>A gripper designed around the challenge's actual product mix rather than as a general-purpose end effector.</li><li>A mobile base driven under joystick control while generating point clouds of the picking area.</li><li>Grasp planning over the reconstructed point cloud, selecting a grasp on an individual product in clutter.</li></ul>
+
+
+    <div class="result">
+      <div class="big">Top 2 of 6500+</div>
+      <div class="txt">National runners-up in the Flipkart GRID 2.0 Intelligent Picking Challenge, after progressing through the challenge&#39;s national elimination rounds.</div>
+    </div>
+
+    <h2>What worked</h2>
+    <ul class="ticks"><li>Splitting the system into stages that stand alone (drive and map, plan a grasp against the point cloud, execute with the arm) meant each piece could be shown working independently. Under a competition deadline, that is worth more than a tighter but all-or-nothing loop.</li><li>Building the gripper for the specific product mix removed a large amount of grasp-planning difficulty at the hardware level, which is usually the cheaper place to solve it.</li></ul>
+
+    <h2>What didn't</h2>
+    <ul class="crosses"><li>This was a competition deliverable, not a deployed system. Everything ran in a controlled setup with a joystick-driven mapping pass, and there is no measured pick rate on a realistic, continuously restocked bin.</li></ul>
+  </div>
+</div>
+
+
+<div class="wrap" style="margin-top:clamp(2.5rem,5vw,3.5rem);padding-bottom:clamp(2.5rem,6vw,4rem)">
+  <div class="sec-head"><span class="num">[ → ]</span><h2>Links</h2></div>
+  <div class="linkrow">
+  <a href="https://drive.google.com/file/d/1I6-ZsFM6QG6BtJ0fDwtklsUrD6mtUYtU/view"
+target="_blank" rel="noopener">Certificate</a>
+  <a href="https://unstop.com/o/flipkart-grid-20-robotics-challenge-flipkart-grid-20-flipkart-113687"
+target="_blank" rel="noopener">Challenge</a>
+  <a href="https://www.linkedin.com/feed/update/urn:li:activity:6756912875538931712/"
+target="_blank" rel="noopener">Feature</a>
+</div>
+
+  <div class="sources">
+    <h3>Where the figures came from</h3>
+    <ul>
+      <li><b>hero</b> &middot;
+Local file (drive_flipkart.mp4)      </li>
+    </ul>
+  </div>
+
+  <div class="projnav">
+<a href="aarohi.html">← AAROHI</a>    <span class="spacer"></span>
+<a href="path-tracking.html">Path trackers, compared honestly →</a>  </div>
+</div>
+
+</main>
+
+<footer class="site-foot">
+  <div class="wrap">
+    <div class="note">
+      Vibhakar Mohta<br>
+      Research Scientist, Nuro<br>
+      <span style="opacity:.7">Built by hand. No trackers.</span>
+    </div>
+    <div class="linkrow">
+  <a href="mailto:vib2810@gmail.com"
+>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 6 10-6"/></svg>
+Email
+  </a>
+  <a href="https://scholar.google.com/citations?user=2ZRnqiEAAAAJ&amp;hl=en"
+target="_blank" rel="noopener">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2 0 8.5l12 6.5 9.8-5.3v6.8H24V8.5L12 2ZM4.6 13.4v4.1c0 1.9 3.3 3.5 7.4 3.5s7.4-1.6 7.4-3.5v-4.1L12 17.4l-7.4-4Z"/></svg>
+Scholar
+  </a>
+  <a href="https://github.com/vib2810"
+target="_blank" rel="noopener">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1.1-.7 0-.7 0-.7 1.2.1 1.9 1.3 1.9 1.3 1.1 1.8 2.9 1.3 3.6 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-5.9 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17.3 4.9 18.3 5.2 18.3 5.2c.6 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .5Z"/></svg>
+GitHub
+  </a>
+  <a href="https://linkedin.com/in/vibhakarmohta"
+target="_blank" rel="noopener">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 1 1 0 3.5a2.5 2.5 0 0 1 4.98 0ZM.24 8.25h4.5V24h-4.5V8.25Zm7.86 0h4.31v2.15h.06a4.72 4.72 0 0 1 4.25-2.34c4.55 0 5.39 3 5.39 6.88V24h-4.5v-7.9c0-1.88-.03-4.3-2.62-4.3-2.63 0-3.03 2.05-3.03 4.16V24H8.1V8.25Z"/></svg>
+LinkedIn
+  </a>
+  <a href="../assets/docs/vibhakar-mohta-resume.pdf"
+>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6M8 13h8M8 17h5"/></svg>
+Résumé
+  </a>
+</div>
+  </div>
+</footer>
+
+<script src="../assets/js/site.js" defer></script>
+</body>
+</html>

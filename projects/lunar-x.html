@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LunAR-X — Vibhakar Mohta</title>
+<meta name="description" content="An autonomous excavator that builds berms out of lunar regolith simulant: a bucket drum that shaves material continuously to hold ground reaction forces low, and a planner that decides where to dig and in what order.">
+<meta name="author" content="Vibhakar Mohta">
+<meta property="og:title" content="LunAR-X — Vibhakar Mohta">
+<meta property="og:description" content="An autonomous excavator that builds berms out of lunar regolith simulant: a bucket drum that shaves material continuously to hold ground reaction forces low, and a planner that decides where to dig and in what order.">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="../assets/css/site.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='14' fill='%23E8721C'/><text y='72' x='50' text-anchor='middle' font-size='64' font-family='monospace' font-weight='bold' fill='white'>V</text></svg>">
+<script>
+  /* set the theme before first paint so there is no flash */
+  (function () {
+    try {
+      var t = localStorage.getItem('theme');
+      if (t) document.documentElement.setAttribute('data-theme', t);
+    } catch (e) {}
+  })();
+</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="site-head">
+  <div class="wrap">
+    <a class="brand" href="../index.html">Vibhakar Mohta</a>
+    <nav class="site-nav" aria-label="Primary">
+      <a href="../index.html"           >Home</a>
+      <a href="../projects/index.html"  aria-current="page">Projects</a>
+      <a href="../publications.html"    >Publications</a>
+      <a href="../about.html"           >About</a>
+      <a href="../assets/docs/vibhakar-mohta-resume.pdf">CV</a>
+      <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch colour theme">◐</button>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+<div class="wrap proj-head">
+  <a class="backlink" href="../projects/index.html">← All projects</a>
+  <h1>LunAR-X</h1>
+  <p class="sub">Autonomous regolith excavation on lunar-like terrain</p>
+  <span class="meta">Jan to Dec 2023 · CMU MRSD capstone · with Red Whittaker, in partnership with Caterpillar</span>
+<div class="venue">Presented at NASA LSIC</div>  <div class="chips">
+<a class="chip" href="../projects/index.html?tag=field-robotics">Field robotics</a>
+<a class="chip" href="../projects/index.html?tag=planning">Planning &amp; control</a>
+</div>
+</div>
+
+<div class="wrap proj-hero">
+  <div class="frame tall fit-cover">
+  <video poster="../assets/media/lunar-x/hero.jpg"         muted loop playsinline preload="none"
+data-lazyvideo>
+    <source src="../assets/media/lunar-x/hero.mp4" type="video/mp4">
+<img src="../assets/media/lunar-x/hero.gif" alt="">  </video>
+</div>
+
+</div>
+
+<div class="wrap">
+  <div class="prose">
+    <h2>The problem</h2>
+    <p>At one sixth of Earth gravity, reaction force is the binding constraint: an excavator that digs in discrete bites can push itself off the ground, so the tool has to stay engaged and shave. That propagates into the planning. Each pass changes the terrain the next one starts from, driving between sites is the dominant cost, and point turns carve grooves that make the worksite untraversable later. The naive search over dig orderings has (2·D·N + E)! states, and nobody is teleoperating this in real time.</p>
+
+    <h2>What I built</h2>
+    <ul><li>A full autonomous excavation stack on ROS 2, on a Clearpath Husky A200 skid-steer base with a custom <strong>bucket drum</strong> tool that excavates in one rotation direction and dumps in reverse, on a linear mechanism that lifts it 0.5 m to deposit the berm.</li><li><strong>Continuous excavation</strong> instead of discrete bites: the tool stays engaged and shaves material through the pass, holding ground reaction forces low throughout rather than spiking at each bite.</li><li>A bilevel planner for the dig sequence. Weighted A* at the top level over worksite state (which berm section to build next, from which of two approach poses, and which excavation zone to return to), with a Nav2 Smac hybrid A* path as the edge cost, under a 1.0 m minimum turn radius and Reeds-Shepp primitives so the rover never point-turns.</li><li>A relaxed collision-free TSP over dump poses, solved with Google OR-Tools, as the top-level heuristic.</li><li>Localization fusing wheel encoders, IMU, ground-facing visual odometry for slip, and beacons; dual RGBD cameras for ground-plane fitting and berm profile estimation, updating the worksite map at 1 Hz.</li></ul>
+
+
+    <div class="result">
+      <div class="big">±2 cm</div>
+      <div class="txt">The final validation demonstration built a 15 cm by 76 cm berm end to end with zero manual interventions, within 2.1 cm of the target height and 1.3 cm of the target length, moving 8 kg of simulant per excavation cycle against a 3 kg requirement. Presented at the NASA Lunar Surface Innovation Consortium.</div>
+    </div>
+
+    <h2>What worked</h2>
+    <ul class="ticks"><li><strong>The heuristic is what made the planner exist.</strong> With no heuristic, the top-level search produced no plan at all in 10 minutes on a 16-section berm. Relaxing to a collision-free 2D TSP and solving it with OR-Tools cut that to 70 s at optimal weight, and 27 s at weight 5 for 1.3% higher plan cost.</li><li><strong>Banning point turns is a planning decision, not a control one.</strong> The base is differential drive and can rotate in place perfectly well. The reason not to is that spinning in loose simulant digs a groove that strands you later, so the constraint belongs in the path planner as a minimum turn radius, not in the controller as a preference.</li><li>Localization came in at 2 cm against a 30 cm requirement. That margin is what the berm shaping fed on: the height tolerance actually achieved was 2.1 cm.</li></ul>
+
+    <h2>What didn't</h2>
+    <ul class="crosses"><li>The whole demonstration ran in Earth gravity on a simulant testbed. The low-reaction-force case for continuous excavation is a design rationale carried over from the lunar setting, not something the testbed measured.</li><li>The capstone ran a simplified version of the sequencing planner. The full bilevel search with the TSP heuristic was evaluated separately in simulation, on berms of up to 16 sections.</li></ul>
+  </div>
+</div>
+
+<div class="wrap" style="margin-top:clamp(2.5rem,5vw,3.5rem)">
+  <div class="figs">
+    <figure class="fig" style="margin:0">
+      <div class="frame tall fit-cover">
+  <video poster="../assets/media/lunar-x/berm.jpg"         muted loop playsinline preload="none"
+data-lazyvideo>
+    <source src="../assets/media/lunar-x/berm.mp4" type="video/mp4">
+  </video>
+</div>
+
+      <figcaption>Building a curved berm, successive continuous excavation passes.</figcaption>
+    </figure>
+    <figure class="fig" style="margin:0">
+      <div class="frame tall fit-cover">
+  <img src="../assets/media/lunar-x/robot.jpg" alt="" loading="lazy" decoding="async">
+</div>
+
+      <figcaption>The platform and its excavation tool.</figcaption>
+    </figure>
+    <figure class="fig" style="margin:0">
+      <div class="frame tall fit-cover">
+  <video poster="../assets/media/lunar-x/video.jpg"         muted loop playsinline preload="none"
+data-lazyvideo>
+    <source src="../assets/media/lunar-x/video.mp4" type="video/mp4">
+  </video>
+</div>
+
+      <figcaption>From the team&#39;s project video.</figcaption>
+    </figure>
+  </div>
+</div>
+
+<div class="wrap" style="margin-top:clamp(2.5rem,5vw,3.5rem);padding-bottom:clamp(2.5rem,6vw,4rem)">
+  <div class="sec-head"><span class="num">[ → ]</span><h2>Links</h2></div>
+  <div class="linkrow">
+  <a href="https://mrsdprojects.ri.cmu.edu/2023teamc/"
+target="_blank" rel="noopener">Project website</a>
+  <a href="https://github.com/Lunar-Autonomous-Regolith-Excavator/LunAR-X"
+target="_blank" rel="noopener">Code</a>
+  <a href="https://youtu.be/YWWGcqENcMo"
+target="_blank" rel="noopener">Video</a>
+  <a href="https://drive.google.com/open?id=1E1d_Ks4znFoPX9TVhLTD4QVd8uxXk2M8"
+target="_blank" rel="noopener">Report</a>
+  <a href="https://lsic.jhuapl.edu/"
+target="_blank" rel="noopener">NASA LSIC</a>
+</div>
+
+  <div class="sources">
+    <h3>Where the figures came from</h3>
+    <ul>
+      <li><b>hero</b> &middot;
+<a href="https://raw.githubusercontent.com/Lunar-Autonomous-Regolith-Excavator/LunAR-X/devel/media/lunarx.gif" target="_blank" rel="noopener">GitHub</a>      </li>
+      <li><b>berm</b> &middot;
+<a href="https://raw.githubusercontent.com/Lunar-Autonomous-Regolith-Excavator/LunAR-X/devel/media/curved_berm.gif" target="_blank" rel="noopener">GitHub</a>      </li>
+      <li><b>robot</b> &middot;
+<a href="https://raw.githubusercontent.com/Lunar-Autonomous-Regolith-Excavator/LunAR-X/devel/media/depiction.png" target="_blank" rel="noopener">GitHub</a>      </li>
+      <li><b>video</b> &middot;
+<a href="https://www.youtube.com/watch?v=YWWGcqENcMo" target="_blank" rel="noopener">YouTube</a>      </li>
+    </ul>
+  </div>
+
+  <div class="projnav">
+<a href="dreamer-racecar.html">← Dream4Speed</a>    <span class="spacer"></span>
+<a href="diffusion-policies.html">Seeing with your ears →</a>  </div>
+</div>
+
+</main>
+
+<footer class="site-foot">
+  <div class="wrap">
+    <div class="note">
+      Vibhakar Mohta<br>
+      Research Scientist, Nuro<br>
+      <span style="opacity:.7">Built by hand. No trackers.</span>
+    </div>
+    <div class="linkrow">
+  <a href="mailto:vib2810@gmail.com"
+>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 6 10-6"/></svg>
+Email
+  </a>
+  <a href="https://scholar.google.com/citations?user=2ZRnqiEAAAAJ&amp;hl=en"
+target="_blank" rel="noopener">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2 0 8.5l12 6.5 9.8-5.3v6.8H24V8.5L12 2ZM4.6 13.4v4.1c0 1.9 3.3 3.5 7.4 3.5s7.4-1.6 7.4-3.5v-4.1L12 17.4l-7.4-4Z"/></svg>
+Scholar
+  </a>
+  <a href="https://github.com/vib2810"
+target="_blank" rel="noopener">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1.1-.7 0-.7 0-.7 1.2.1 1.9 1.3 1.9 1.3 1.1 1.8 2.9 1.3 3.6 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-5.9 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17.3 4.9 18.3 5.2 18.3 5.2c.6 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .5Z"/></svg>
+GitHub
+  </a>
+  <a href="https://linkedin.com/in/vibhakarmohta"
+target="_blank" rel="noopener">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 1 1 0 3.5a2.5 2.5 0 0 1 4.98 0ZM.24 8.25h4.5V24h-4.5V8.25Zm7.86 0h4.31v2.15h.06a4.72 4.72 0 0 1 4.25-2.34c4.55 0 5.39 3 5.39 6.88V24h-4.5v-7.9c0-1.88-.03-4.3-2.62-4.3-2.63 0-3.03 2.05-3.03 4.16V24H8.1V8.25Z"/></svg>
+LinkedIn
+  </a>
+  <a href="../assets/docs/vibhakar-mohta-resume.pdf"
+>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6M8 13h8M8 17h5"/></svg>
+Résumé
+  </a>
+</div>
+  </div>
+</footer>
+
+<script src="../assets/js/site.js" defer></script>
+</body>
+</html>

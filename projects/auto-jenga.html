@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Autonomous Jenga — Vibhakar Mohta</title>
+<meta name="description" content="A Franka arm that builds Jenga towers from a pile of blocks, and, more usefully, notices when a grasp has gone wrong and retries instead of building on the mistake.">
+<meta name="author" content="Vibhakar Mohta">
+<meta property="og:title" content="Autonomous Jenga — Vibhakar Mohta">
+<meta property="og:description" content="A Franka arm that builds Jenga towers from a pile of blocks, and, more usefully, notices when a grasp has gone wrong and retries instead of building on the mistake.">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="../assets/css/site.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='14' fill='%23E8721C'/><text y='72' x='50' text-anchor='middle' font-size='64' font-family='monospace' font-weight='bold' fill='white'>V</text></svg>">
+<script>
+  /* set the theme before first paint so there is no flash */
+  (function () {
+    try {
+      var t = localStorage.getItem('theme');
+      if (t) document.documentElement.setAttribute('data-theme', t);
+    } catch (e) {}
+  })();
+</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="site-head">
+  <div class="wrap">
+    <a class="brand" href="../index.html">Vibhakar Mohta</a>
+    <nav class="site-nav" aria-label="Primary">
+      <a href="../index.html"           >Home</a>
+      <a href="../projects/index.html"  aria-current="page">Projects</a>
+      <a href="../publications.html"    >Publications</a>
+      <a href="../about.html"           >About</a>
+      <a href="../assets/docs/vibhakar-mohta-resume.pdf">CV</a>
+      <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch colour theme">◐</button>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+<div class="wrap proj-head">
+  <a class="backlink" href="../projects/index.html">← All projects</a>
+  <h1>Autonomous Jenga</h1>
+  <p class="sub">Robust block stacking with recovery behaviours</p>
+  <span class="meta">Spring 2023 · CMU · Robot Autonomy, with Oliver Kroemer</span>
+<div class="venue">Franka Emika Panda</div>  <div class="chips">
+<a class="chip" href="../projects/index.html?tag=manipulation">Manipulation</a>
+<a class="chip" href="../projects/index.html?tag=perception">Perception</a>
+</div>
+</div>
+
+<div class="wrap proj-hero">
+  <div class="frame tall fit-cover">
+  <video poster="../assets/media/auto-jenga/hero.jpg"         muted loop playsinline preload="none"
+data-lazyvideo>
+    <source src="../assets/media/auto-jenga/hero.mp4" type="video/mp4">
+<img src="../assets/media/auto-jenga/hero.gif" alt="">  </video>
+</div>
+
+</div>
+
+<div class="wrap">
+  <div class="prose">
+    <h2>The problem</h2>
+    <p>Stacking looks like solved pick and place right up until a grasp slips. Jenga blocks are near-identical, they lie in a pile at arbitrary orientations, and a single bad pickup either drops a block or topples what is already built. The hard part is not the nominal pipeline; it is that the nominal pipeline has no notion of its own failure, so every error compounds into the next placement.</p>
+
+    <h2>What I built</h2>
+    <ul><li>A finite state machine coordinating perception, planning and execution on a Franka Panda through frankapy, with MoveIt for motion planning.</li><li>YOLOv8 instance segmentation on a wrist-mounted RealSense, trained on a custom Jenga block dataset. Hand-eye calibration through easy_handeye with ArUco markers.</li><li>A heuristic grasp scorer that rejects poor candidates and picks a viable block out of the pile rather than reaching for the nearest one.</li><li>Explicit <strong>recovery behavior</strong>: a failed or slipped grasp is detected, the arm backs off and retries from a known pose instead of continuing with a bad state.</li><li>A compaction step after each placement that presses the block flush against the layer below, removing the accumulated misalignment that topples towers late in a build.</li></ul>
+
+
+    <div class="result">
+      <div class="big">84%</div>
+      <div class="txt">Pickup accuracy across runs, with heuristic grasp selection accounting for most of the gap over naive nearest-block picking. The system ran two full tower-building rounds, resetting and rebuilding without intervention.</div>
+    </div>
+
+    <h2>What worked</h2>
+    <ul class="ticks"><li>Segmentation rather than bounding-box detection. An instance mask gives the block's in-plane orientation directly, so the wrist angle for the grasp comes out of perception instead of needing a separate pose estimation stage.</li><li>Making failure a state in the machine rather than an exception. Once retrying is a normal transition, one bad grasp costs a few seconds instead of the tower.</li><li>The compaction press is trivial to implement and disproportionately useful. Millimeter errors that individually look harmless are what make the fifth layer fall over.</li></ul>
+
+    <h2>What didn't</h2>
+    <ul class="crosses"><li>84% pickup accuracy means roughly one grasp in six still fails. Recovery behavior hides that cost rather than removing it, and it is the recovery, not the grasping, that is doing the work in the demo.</li><li>Everything is tuned to one table, one lighting setup and one hand-eye calibration. Moving the rig means recalibrating and, for the detector, recollecting data.</li></ul>
+  </div>
+</div>
+
+
+<div class="wrap" style="margin-top:clamp(2.5rem,5vw,3.5rem);padding-bottom:clamp(2.5rem,6vw,4rem)">
+  <div class="sec-head"><span class="num">[ → ]</span><h2>Links</h2></div>
+  <div class="linkrow">
+  <a href="https://www.youtube.com/watch?v=B1N4hSssyfQ"
+target="_blank" rel="noopener">Demo video</a>
+  <a href="https://github.com/vib2810/auto_jenga"
+target="_blank" rel="noopener">Code</a>
+</div>
+
+  <div class="sources">
+    <h3>Where the figures came from</h3>
+    <ul>
+      <li><b>hero</b> &middot;
+<a href="https://www.youtube.com/watch?v=B1N4hSssyfQ" target="_blank" rel="noopener">YouTube</a>      </li>
+    </ul>
+  </div>
+
+  <div class="projnav">
+<a href="berm-planning.html">← Planning for berm construction</a>    <span class="spacer"></span>
+<a href="stable-diffusion-humans.html">Masked LDM →</a>  </div>
+</div>
+
+</main>
+
+<footer class="site-foot">
+  <div class="wrap">
+    <div class="note">
+      Vibhakar Mohta<br>
+      Research Scientist, Nuro<br>
+      <span style="opacity:.7">Built by hand. No trackers.</span>
+    </div>
+    <div class="linkrow">
+  <a href="mailto:vib2810@gmail.com"
+>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 6 10-6"/></svg>
+Email
+  </a>
+  <a href="https://scholar.google.com/citations?user=2ZRnqiEAAAAJ&amp;hl=en"
+target="_blank" rel="noopener">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2 0 8.5l12 6.5 9.8-5.3v6.8H24V8.5L12 2ZM4.6 13.4v4.1c0 1.9 3.3 3.5 7.4 3.5s7.4-1.6 7.4-3.5v-4.1L12 17.4l-7.4-4Z"/></svg>
+Scholar
+  </a>
+  <a href="https://github.com/vib2810"
+target="_blank" rel="noopener">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1.1-.7 0-.7 0-.7 1.2.1 1.9 1.3 1.9 1.3 1.1 1.8 2.9 1.3 3.6 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-5.9 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17.3 4.9 18.3 5.2 18.3 5.2c.6 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .5Z"/></svg>
+GitHub
+  </a>
+  <a href="https://linkedin.com/in/vibhakarmohta"
+target="_blank" rel="noopener">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 1 1 0 3.5a2.5 2.5 0 0 1 4.98 0ZM.24 8.25h4.5V24h-4.5V8.25Zm7.86 0h4.31v2.15h.06a4.72 4.72 0 0 1 4.25-2.34c4.55 0 5.39 3 5.39 6.88V24h-4.5v-7.9c0-1.88-.03-4.3-2.62-4.3-2.63 0-3.03 2.05-3.03 4.16V24H8.1V8.25Z"/></svg>
+LinkedIn
+  </a>
+  <a href="../assets/docs/vibhakar-mohta-resume.pdf"
+>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6M8 13h8M8 17h5"/></svg>
+Résumé
+  </a>
+</div>
+  </div>
+</footer>
+
+<script src="../assets/js/site.js" defer></script>
+</body>
+</html>

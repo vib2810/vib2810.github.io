@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PIVot — Vibhakar Mohta</title>
+<meta name="description" content="A two-level system: short-horizon visuomotor specialists trained with ACT, and an LLM above them deciding which one to run next and when it has failed. Runners-up at the Physical AI Hack.">
+<meta name="author" content="Vibhakar Mohta">
+<meta property="og:title" content="PIVot — Vibhakar Mohta">
+<meta property="og:description" content="A two-level system: short-horizon visuomotor specialists trained with ACT, and an LLM above them deciding which one to run next and when it has failed. Runners-up at the Physical AI Hack.">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="../assets/css/site.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='14' fill='%23E8721C'/><text y='72' x='50' text-anchor='middle' font-size='64' font-family='monospace' font-weight='bold' fill='white'>V</text></svg>">
+<script>
+  /* set the theme before first paint so there is no flash */
+  (function () {
+    try {
+      var t = localStorage.getItem('theme');
+      if (t) document.documentElement.setAttribute('data-theme', t);
+    } catch (e) {}
+  })();
+</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="site-head">
+  <div class="wrap">
+    <a class="brand" href="../index.html">Vibhakar Mohta</a>
+    <nav class="site-nav" aria-label="Primary">
+      <a href="../index.html"           >Home</a>
+      <a href="../projects/index.html"  aria-current="page">Projects</a>
+      <a href="../publications.html"    >Publications</a>
+      <a href="../about.html"           >About</a>
+      <a href="../assets/docs/vibhakar-mohta-resume.pdf">CV</a>
+      <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch colour theme">◐</button>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+<div class="wrap proj-head">
+  <a class="backlink" href="../projects/index.html">← All projects</a>
+  <h1>PIVot</h1>
+  <p class="sub">ACTing fast and slow, hierarchical LLM-VLAs for long-horizon tasks</p>
+  <span class="meta">Feb 2026 · Physical AI Hack, Founders Inc · San Francisco</span>
+<div class="venue">Runners-up · 45+ teams, 900+ participants</div>  <div class="chips">
+<a class="chip" href="../projects/index.html?tag=manipulation">Manipulation</a>
+<a class="chip" href="../projects/index.html?tag=robot-learning">Robot learning</a>
+<a class="chip" href="../projects/index.html?tag=generative">Generative &amp; foundation models</a>
+<a class="chip" href="../projects/index.html?tag=hackathon">Hackathons</a>
+</div>
+</div>
+
+<div class="wrap proj-hero">
+  <div class="frame tall fit-cover">
+  <video poster="../assets/media/physical-ai-hack/hero.jpg"         muted loop playsinline preload="none"
+data-lazyvideo>
+    <source src="../assets/media/physical-ai-hack/hero.mp4" type="video/mp4">
+<img src="../assets/media/physical-ai-hack/hero.gif" alt="">  </video>
+</div>
+
+</div>
+
+<div class="wrap">
+  <div class="prose">
+    <h2>The problem</h2>
+    <p>Visuomotor policies are good at short, well-defined skills and fall apart over long horizons. Episodes get long, sub-tasks fail in ways the policy cannot represent, and nothing in the system has any notion that it should stop, back up and try something else. Collecting enough demonstrations to cover a whole long-horizon task, including all the ways it goes wrong partway through, is not practical.</p>
+
+    <h2>What I built</h2>
+    <ul><li>Individual short-horizon specialist policies trained with <strong>ACT</strong>: 60 demonstrations each with location randomization, 70k training steps at batch size 64.</li><li>An <strong>LLM judge</strong> on top that reads the scene, chooses which specialist to invoke next, and decides when the current one has finished or failed. The slow deliberative layer over the fast learned skills.</li><li>Framed the system as decisions over specialists rather than over raw actions, so long-horizon structure is something the system reasons about explicitly instead of something a single policy has to absorb.</li><li>Demonstrated on stacking a red cup onto a blue cup, built over a single hackathon weekend.</li></ul>
+
+
+    <div class="result">
+      <div class="big">~80%</div>
+      <div class="txt">About 80% success across 20 consecutive rollouts of the demo task. Runners-up among 45+ teams and 900+ participants at the Physical AI Hack at Founders Inc.</div>
+    </div>
+
+    <h2>What worked</h2>
+    <ul class="ticks"><li>Decomposition is what made the data budget work. Each specialist only has to cover a few seconds of behavior, so 60 demonstrations per skill was enough; the long-horizon burden moved out of the policy and onto the LLM.</li><li>Location randomization in those 60 demonstrations is what let each specialist tolerate whatever state the previous one left behind. Without it, the handoff between skills is the thing that breaks.</li><li>Making failure a first-class transition. The LLM can decide a skill has failed and re-invoke it, which is behavior a monolithic policy has no way to express at all.</li></ul>
+
+    <h2>What didn't</h2>
+    <ul class="crosses"><li>"Can an LLM be a good judge?" was an open question on our own slides, and the weekend did not answer it. The judge's success and failure calls were never checked against ground truth, so we have no idea how often it was wrong in either direction.</li><li>20 rollouts of one task in one setup is a demo, not an evaluation. Nothing here says how the hierarchy behaves as the number of specialists or the horizon grows.</li></ul>
+  </div>
+</div>
+
+<div class="wrap" style="margin-top:clamp(2.5rem,5vw,3.5rem)">
+  <div class="figs">
+    <figure class="fig" style="margin:0">
+      <div class="frame tall fit-cover">
+  <video poster="../assets/media/physical-ai-hack/pitch.jpg"         muted loop playsinline preload="none"
+data-lazyvideo>
+    <source src="../assets/media/physical-ai-hack/pitch.mp4" type="video/mp4">
+  </video>
+</div>
+
+      <figcaption>Pitching PIVot at Founders Inc, 80% success across 20 consecutive rollouts.</figcaption>
+    </figure>
+  </div>
+</div>
+
+<div class="wrap" style="margin-top:clamp(2.5rem,5vw,3.5rem);padding-bottom:clamp(2.5rem,6vw,4rem)">
+  <div class="sec-head"><span class="num">[ → ]</span><h2>Links</h2></div>
+  <div class="linkrow">
+  <a href="https://www.youtube.com/watch?v=GDnfMwnFuWI"
+target="_blank" rel="noopener">Demo video</a>
+  <a href="https://www.linkedin.com/posts/vibhakarmohta_we-secured-the-runners-up-position-at-physical-ugcPost-7423991002866307072-a57I"
+target="_blank" rel="noopener">Post</a>
+  <a href="https://luma.com/8ca2z1rr"
+target="_blank" rel="noopener">Event</a>
+  <a href="https://f.inc/"
+target="_blank" rel="noopener">Founders Inc</a>
+</div>
+
+  <div class="sources">
+    <h3>Where the figures came from</h3>
+    <ul>
+      <li><b>hero</b> &middot;
+<a href="https://www.youtube.com/watch?v=REelDy-2BHk" target="_blank" rel="noopener">YouTube</a>      </li>
+      <li><b>pitch</b> &middot;
+<a href="https://www.youtube.com/watch?v=GDnfMwnFuWI" target="_blank" rel="noopener">YouTube</a>      </li>
+    </ul>
+  </div>
+
+  <div class="projnav">
+<span></span>    <span class="spacer"></span>
+<a href="weavehacks.html">ReviveAgent →</a>  </div>
+</div>
+
+</main>
+
+<footer class="site-foot">
+  <div class="wrap">
+    <div class="note">
+      Vibhakar Mohta<br>
+      Research Scientist, Nuro<br>
+      <span style="opacity:.7">Built by hand. No trackers.</span>
+    </div>
+    <div class="linkrow">
+  <a href="mailto:vib2810@gmail.com"
+>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 6 10-6"/></svg>
+Email
+  </a>
+  <a href="https://scholar.google.com/citations?user=2ZRnqiEAAAAJ&amp;hl=en"
+target="_blank" rel="noopener">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2 0 8.5l12 6.5 9.8-5.3v6.8H24V8.5L12 2ZM4.6 13.4v4.1c0 1.9 3.3 3.5 7.4 3.5s7.4-1.6 7.4-3.5v-4.1L12 17.4l-7.4-4Z"/></svg>
+Scholar
+  </a>
+  <a href="https://github.com/vib2810"
+target="_blank" rel="noopener">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1.1-.7 0-.7 0-.7 1.2.1 1.9 1.3 1.9 1.3 1.1 1.8 2.9 1.3 3.6 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-5.9 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17.3 4.9 18.3 5.2 18.3 5.2c.6 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .5Z"/></svg>
+GitHub
+  </a>
+  <a href="https://linkedin.com/in/vibhakarmohta"
+target="_blank" rel="noopener">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 1 1 0 3.5a2.5 2.5 0 0 1 4.98 0ZM.24 8.25h4.5V24h-4.5V8.25Zm7.86 0h4.31v2.15h.06a4.72 4.72 0 0 1 4.25-2.34c4.55 0 5.39 3 5.39 6.88V24h-4.5v-7.9c0-1.88-.03-4.3-2.62-4.3-2.63 0-3.03 2.05-3.03 4.16V24H8.1V8.25Z"/></svg>
+LinkedIn
+  </a>
+  <a href="../assets/docs/vibhakar-mohta-resume.pdf"
+>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6M8 13h8M8 17h5"/></svg>
+Résumé
+  </a>
+</div>
+  </div>
+</footer>
+
+<script src="../assets/js/site.js" defer></script>
+</body>
+</html>
