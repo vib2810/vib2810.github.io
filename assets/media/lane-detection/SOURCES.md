@@ -1,4 +1,4 @@
-# Media sources — Real-time lane detection & stop-line extraction
+# Media sources, Real-time lane detection & stop-line extraction
 
 Regenerate with:  `python3 tools/make_media.py --slug lane-detection`
 
@@ -6,5 +6,5 @@ Regenerate with:  `python3 tools/make_media.py --slug lane-detection`
 |---|---|---|
 | `hero` | https://youtu.be/0gNgN58NdnY | 3s +12s |
 
-Replace any file in this folder with your own and keep the filename —
+Replace any file in this folder with your own and keep the filename , 
 the site picks it up with no other change.

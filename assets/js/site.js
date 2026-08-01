@@ -78,7 +78,7 @@
 
   /* ---------------------------------------------------------- lazy video */
   /* Clips only load and play once they are on screen, and pause when they
-     leave — otherwise a page of twelve autoplaying videos costs real battery. */
+     leave, otherwise a page of twelve autoplaying videos costs real battery. */
   var vids = document.querySelectorAll('video[data-lazyvideo]');
 
   if (!vids.length) return;
@@ -104,7 +104,7 @@
       v.dataset.loaded = '1';
     }
     var p = v.play();
-    if (p && p.catch) p.catch(function () { /* autoplay blocked — poster stands in */ });
+    if (p && p.catch) p.catch(function () { /* autoplay blocked, poster stands in */ });
   }
 
   if (!('IntersectionObserver' in window)) {

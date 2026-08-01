@@ -1,5 +1,5 @@
 /* ==========================================================================
-   vibhakarmohta — site styles
+   vibhakarmohta, site styles
    One file. Design tokens at the top; change those and the whole site moves.
    ========================================================================== */
 
@@ -13,7 +13,7 @@
   --ink-3:      #7C838C;   /* metadata */
   --rule:       #E3DFD5;   /* hairlines */
   --rule-2:     #D3CEC1;
-  --accent:     #E8721C;   /* the single accent — links, active state */
+  --accent:     #E8721C;   /* the single accent, links, active state */
   --accent-ink: #B8540A;   /* accent, but readable on paper */
   --slate:      #3E5C76;   /* cool secondary */
   --grid:       #EAE7DE;   /* graph-paper lines */
@@ -28,7 +28,7 @@
   --wide:   1240px;
   --narrow: 760px;
   --pad:    clamp(1.15rem, 4vw, 2.5rem);
-  --radius: 3px;          /* deliberately tight — instrument panel, not app UI */
+  --radius: 3px;          /* deliberately tight, instrument panel, not app UI */
   --t: 180ms cubic-bezier(.2, .7, .3, 1);
 }
 
@@ -66,8 +66,8 @@ body {
   background: var(--paper);
   color: var(--ink);
   font-family: var(--sans);
-  font-size: 17.5px;
-  line-height: 1.62;
+  font-size: 16.5px;
+  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
@@ -99,7 +99,7 @@ p  { margin: 0 0 1.05em; }
 /* the mono metadata voice used everywhere */
 .mono, .eyebrow, .chip, .meta, .datecol, .linkrow a, .count {
   font-family: var(--mono);
-  font-size: .84rem;
+  font-size: .76rem;
   letter-spacing: .06em;
   text-transform: uppercase;
 }
@@ -179,7 +179,7 @@ p  { margin: 0 0 1.05em; }
 }
 
 /* ==========================================================================
-   section scaffolding — numbered headers with a rule to the margin
+   section scaffolding, numbered headers with a rule to the margin
    ========================================================================== */
 
 section { padding-block: clamp(3rem, 7vw, 5.25rem); }
@@ -265,21 +265,21 @@ section + section { border-top: 1px solid var(--rule); }
 }
 .portrait:hover { transform: scale(1.01); }
 
-.linkrow { display: flex; flex-wrap: wrap; gap: .6rem; margin-top: 1.7rem; }
+.linkrow { display: flex; flex-wrap: wrap; gap: .45rem; margin-top: 1.5rem; }
 .linkrow a {
   display: inline-flex; align-items: center; gap: .42rem;
   border: 1px solid var(--rule-2); background: var(--card);
-  color: var(--ink-2); padding: .58rem 1rem; border-radius: var(--radius);
+  color: var(--ink-2); padding: .42rem .72rem; border-radius: var(--radius);
   transition: color var(--t), border-color var(--t), transform var(--t);
 }
 .linkrow a:hover {
   color: var(--accent-ink); border-color: var(--accent);
   text-decoration: none; transform: translateY(-1px);
 }
-.linkrow svg { width: 18px; height: 18px; flex: none; }
+.linkrow svg { width: 14px; height: 14px; flex: none; }
 
 /* ==========================================================================
-   robot strip — every machine, in a row
+   robot strip, every machine, in a row
    ========================================================================== */
 
 .robot-strip { padding-block: 0; border-top: 1px solid var(--rule); }
@@ -348,7 +348,7 @@ section + section { border-top: 1px solid var(--rule); }
 .updates.expanded li[data-extra] { display: grid; }
 
 /* ==========================================================================
-   media frame — corner brackets, like a tracking overlay
+   media frame, corner brackets, like a tracking overlay
    ========================================================================== */
 
 .frame { position: relative; background: var(--paper-2); border-radius: var(--radius); overflow: hidden; }
@@ -362,7 +362,7 @@ section + section { border-top: 1px solid var(--rule); }
 .frame::after  { bottom: 7px; right: 7px; border-bottom: 2px solid; border-right: 2px solid; }
 
 /* ==========================================================================
-   featured project rows — GIF one side, text the other
+   featured project rows, GIF one side, text the other
    ========================================================================== */
 
 .feature {
@@ -665,21 +665,22 @@ a.chip:hover { border-color: var(--accent); color: var(--accent-ink); text-decor
 
 
 /* ==========================================================================
-   phones — the desktop scale is deliberately large, which is too much at
+   phones, the desktop scale is deliberately large, which is too much at
    390px. Everything below is mobile-only; desktop is untouched.
    ========================================================================== */
 
 @media (max-width: 720px) {
-  body { font-size: 16px; line-height: 1.55; }
+  body { font-size: 15px; line-height: 1.5; }
 
   h1 { font-size: clamp(1.85rem, 8.5vw, 2.5rem); }
   h2 { font-size: clamp(1.3rem, 5.5vw, 1.6rem); }
   h3 { font-size: 1.08rem; }
 
-  .mono, .eyebrow, .chip, .meta, .datecol, .linkrow a, .count { font-size: .72rem; }
+  .mono, .eyebrow, .chip, .meta, .datecol, .linkrow a, .count { font-size: .68rem; }
 
   /* header: one tight row for the brand, one for the links */
-  .site-head .wrap { min-height: 0; padding-block: .3rem; row-gap: .1rem; }
+  /* brand on its own line, nav on the next, so nothing gets clipped */
+  .site-head .wrap { min-height: 0; padding-block: .3rem; flex-wrap: wrap; row-gap: .1rem; }
   .brand { font-size: .76rem; }
   .site-nav { flex-wrap: nowrap; justify-content: space-between; gap: 0; }
   .site-nav a { font-size: .68rem; letter-spacing: .02em; padding-inline: .3rem; white-space: nowrap; }
@@ -693,10 +694,11 @@ a.chip:hover { border-color: var(--accent); color: var(--accent-ink); text-decor
     padding: .3rem .7rem .3rem .55rem; margin-bottom: .9rem;
   }
   .hero .tagline { font-size: 1.08rem; margin-bottom: 1.1rem; }
-  .hero .bio { font-size: .95rem; }
+  .hero .bio { font-size: .92rem; }
+  .hero .bio p { margin-bottom: .8em; }
   .linkrow { gap: .45rem; margin-top: 1.1rem; }
-  .linkrow a { padding: .5rem .7rem; font-size: .68rem; }
-  .linkrow svg { width: 15px; height: 15px; }
+  .linkrow a { padding: .42rem .6rem; font-size: .64rem; }
+  .linkrow svg { width: 13px; height: 13px; }
 
   /* Portrait leads on a phone. Explicit box: `width:100%` inside a
      shrink-wrapped flex item collapses, so set both dimensions outright. */
@@ -707,7 +709,8 @@ a.chip:hover { border-color: var(--accent); color: var(--accent-ink); text-decor
   }
 
   /* sections */
-  section { padding-block: 2.4rem; }
+  section { padding-block: 2rem; }
+  p { margin-bottom: .85em; }
   .sec-head { gap: .7rem; margin-bottom: 1.25rem; }
   .sec-head .num { font-size: .74rem; }
   .sec-head h2 { font-size: 1.3rem; }
@@ -715,7 +718,7 @@ a.chip:hover { border-color: var(--accent); color: var(--accent-ink); text-decor
 
   /* updates */
   .updates li { padding-block: .55rem; }
-  .updates .txt { font-size: .95rem; }
+  .updates .txt { font-size: .9rem; }
 
   /* robot rail */
   .robot { width: 190px; }
@@ -725,7 +728,7 @@ a.chip:hover { border-color: var(--accent); color: var(--accent-ink); text-decor
   /* cards and features */
   .card .body { padding: .9rem 1rem 1rem; }
   .card h3 { font-size: 1.05rem; }
-  .card p { font-size: .92rem; }
+  .card p { font-size: .88rem; }
   .feature h3 { font-size: 1.3rem; }
   .feature .sub { font-size: .95rem; }
   .feature p.desc { font-size: .95rem; }
@@ -735,7 +738,7 @@ a.chip:hover { border-color: var(--accent); color: var(--accent-ink); text-decor
   .proj-head h1 { font-size: clamp(1.7rem, 7.5vw, 2.2rem); }
   .proj-head .sub { font-size: 1.02rem; }
   .prose h2 { font-size: .82rem; margin-top: 1.9rem; }
-  .prose p, .prose li { font-size: .95rem; }
+  .prose p, .prose li { font-size: .91rem; }
   .result { padding: .9rem 1rem; }
   .result .big { font-size: 1.5rem; }
   .result .txt { font-size: .92rem; }
@@ -750,7 +753,7 @@ a.chip:hover { border-color: var(--accent); color: var(--accent-ink); text-decor
 }
 
 @media (max-width: 400px) {
-  body { font-size: 15.5px; }
+  body { font-size: 14.5px; }
   .portrait { width: 148px; max-width: 148px; height: 148px; }
   .robot { width: 172px; }
   .site-nav a { font-size: .64rem; padding-inline: .22rem; }
