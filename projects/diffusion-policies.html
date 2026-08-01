@@ -69,18 +69,21 @@
 </div>
 
 <div class="wrap proj-hero">
-  <div class="frame tall fit-contain">
+  <div class="frame  fit-contain">
   <img src="../assets/media/diffusion-policies/hero.jpg" alt="" loading="lazy" decoding="async">
 </div>
 
 </div>
 
 <div class="wrap">
-  <div class="prose">
+  <article class="prose blog">
+
     <h2>The problem</h2>
+    
     <p>Vision-conditioned policies go blind exactly when precision matters: at contact, the gripper and the object occlude each other. Sound is the cheap way back in, but it is a sparse signal in a dense trajectory. In our target task, the audio that distinguishes the two objects lasts about two seconds out of a sixty-second episode, so the policy&#39;s easiest route to low training loss is to ignore the microphone entirely.</p>
 
     <h2>What I built</h2>
+    
     <ul><li>Extended Diffusion Policy conditioning from vision alone to three streams: a 512-dimensional ResNet-18 image feature over an observation history of 2, a 264-dimensional audio embedding from 1D convolutions over the spectrogram of the last two seconds from a gripper-mounted microphone, and an 8-dimensional joint state (7 joint positions plus gripper width). All fused into the noise prediction network with FiLM.</li><li>Receding-horizon execution: predict <em>T<sub>p</sub></em> = 16 actions, execute <em>T<sub>a</sub></em> = 8. DDIM with about 10 denoising steps at inference to run in real time on the Franka.</li><li>Three tasks of increasing difficulty: fixed-location pick and place, vision-based pick and place from a random start pose, and identifying which of two <em>visually identical</em> bags holds coins from the sound it makes when dropped.</li><li>Data collected by a finite state machine rather than teleoperation: 100, 185 and 120 trajectories at 10 Hz for the three tasks. Trained 400 epochs, batch size 128, Adam at 1e-4, on an RTX 3090.</li><li>A standalone audio classifier (coin bag drop, empty bag drop, no drop) used to initialize the audio encoder. It reached about 95% accuracy on its own.</li></ul>
 
 
@@ -90,16 +93,20 @@
     </div>
 
     <h2>What worked</h2>
+    
     <ul class="ticks"><li>The failure mode the diffusion policy avoids is getting stuck. The fully connected baseline had <em>lower</em> validation MSE and still froze mid-trajectory; when it did not freeze it finished the task. Validation loss was the wrong signal for rollout success, which is the practical argument for action-sequence prediction over single-step regression.</li><li>Spectrograms made the discrimination easy in isolation: a bag of coins rings noticeably longer on impact than one of paper, and a small 1D convolutional classifier picked that up at about 95% accuracy.</li><li>Scripting demonstrations with a state machine instead of teleoperating produced smoother, more consistent trajectories and made 200-trajectory datasets a 5 to 6 hour job rather than a skill-intensive one.</li></ul>
 
     <h2>What didn't</h2>
+    
     <ul class="crosses"><li>The headline task never worked. No model, with or without a pretrained audio encoder, solved coin-bag identification. The likely cause is signal sparsity: 2 to 3 seconds of informative audio in a 60 to 70 second trajectory, so the policy learns to ignore the modality. A working audio classifier is not the same as a policy that uses audio.</li><li>Scripted demonstrations have very low variance, so the policy left the training distribution as soon as anything drifted. DAgger-style expert relabeling was the obvious remedy and there was no time to do it.</li><li>ROS serialized the audio through MP3 before writing it out, and the lossy round trip corrupted the waveforms. A large block of early experiments was invalid before anyone noticed.</li></ul>
-  </div>
+
+  </article>
 </div>
 
 
-<div class="wrap" style="margin-top:clamp(2.5rem,5vw,3.5rem);padding-bottom:clamp(2.5rem,6vw,4rem)">
-  <div class="sec-head"><span class="num">[ → ]</span><h2>Links</h2></div>
+
+<div class="wrap proj-foot">
+  <div class="sec-head"><span class="num">[ &rarr; ]</span><h2>Links</h2></div>
   <div class="linkrow">
   <a href="https://drive.google.com/file/d/15a5jUCQ-pDS0GembOGJGAiMKcUn00KLl/view?usp=sharing"
 target="_blank" rel="noopener">Report</a>
@@ -114,8 +121,8 @@ Project report (drive_diffpol_report.pdf)      </li>
   </div>
 
   <div class="projnav">
-<a href="lunar-x.html">← LunAR-X</a>    <span class="spacer"></span>
-<a href="berm-planning.html">Planning for berm construction →</a>  </div>
+<a href="lunar-x.html">&larr; LunAR-X</a>    <span class="spacer"></span>
+<a href="berm-planning.html">Planning for berm construction &rarr;</a>  </div>
 </div>
 
 </main>

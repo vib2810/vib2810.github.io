@@ -69,7 +69,7 @@
 </div>
 
 <div class="wrap proj-hero">
-  <div class="frame tall fit-cover">
+  <div class="frame  fit-cover">
   <video poster="../assets/media/flipkart-grid/hero.jpg"         muted loop playsinline preload="none"
 data-lazyvideo>
     <source src="../assets/media/flipkart-grid/hero.mp4" type="video/mp4">
@@ -79,11 +79,14 @@ data-lazyvideo>
 </div>
 
 <div class="wrap">
-  <div class="prose">
+  <article class="prose blog">
+
     <h2>The problem</h2>
+    
     <p>Picking a named item out of a bin of retail products is not clean pick and place. The products are jumbled, many are deformable or shiny, and several look alike from above, so the grasp has to be chosen from a point cloud of a pile rather than from a known object pose. The competition added its own constraint: the whole thing had to be demonstrable end to end under elimination-round deadlines.</p>
 
     <h2>What I built</h2>
+    
     <ul><li>Motion planning for a 6-DOF manipulator, with the full reach, grasp and place cycle demonstrated on retail products.</li><li>A gripper designed around the challenge's actual product mix rather than as a general-purpose end effector.</li><li>A mobile base driven under joystick control while generating point clouds of the picking area.</li><li>Grasp planning over the reconstructed point cloud, selecting a grasp on an individual product in clutter.</li></ul>
 
 
@@ -93,16 +96,20 @@ data-lazyvideo>
     </div>
 
     <h2>What worked</h2>
+    
     <ul class="ticks"><li>Splitting the system into stages that stand alone (drive and map, plan a grasp against the point cloud, execute with the arm) meant each piece could be shown working independently. Under a competition deadline, that is worth more than a tighter but all-or-nothing loop.</li><li>Building the gripper for the specific product mix removed a large amount of grasp-planning difficulty at the hardware level, which is usually the cheaper place to solve it.</li></ul>
 
     <h2>What didn't</h2>
+    
     <ul class="crosses"><li>This was a competition deliverable, not a deployed system. Everything ran in a controlled setup with a joystick-driven mapping pass, and there is no measured pick rate on a realistic, continuously restocked bin.</li></ul>
-  </div>
+
+  </article>
 </div>
 
 
-<div class="wrap" style="margin-top:clamp(2.5rem,5vw,3.5rem);padding-bottom:clamp(2.5rem,6vw,4rem)">
-  <div class="sec-head"><span class="num">[ → ]</span><h2>Links</h2></div>
+
+<div class="wrap proj-foot">
+  <div class="sec-head"><span class="num">[ &rarr; ]</span><h2>Links</h2></div>
   <div class="linkrow">
   <a href="https://drive.google.com/file/d/1I6-ZsFM6QG6BtJ0fDwtklsUrD6mtUYtU/view"
 target="_blank" rel="noopener">Certificate</a>
@@ -121,8 +128,8 @@ Local file (drive_flipkart.mp4)      </li>
   </div>
 
   <div class="projnav">
-<a href="aarohi.html">← AAROHI</a>    <span class="spacer"></span>
-<a href="path-tracking.html">Path trackers, compared honestly →</a>  </div>
+<a href="aarohi.html">&larr; AAROHI</a>    <span class="spacer"></span>
+<a href="path-tracking.html">Path trackers, compared honestly &rarr;</a>  </div>
 </div>
 
 </main>

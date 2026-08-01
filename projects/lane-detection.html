@@ -69,7 +69,7 @@
 </div>
 
 <div class="wrap proj-hero">
-  <div class="frame tall fit-contain">
+  <div class="frame  fit-contain">
   <video poster="../assets/media/lane-detection/hero.jpg"         muted loop playsinline preload="none"
 data-lazyvideo>
     <source src="../assets/media/lane-detection/hero.mp4" type="video/mp4">
@@ -79,11 +79,14 @@ data-lazyvideo>
 </div>
 
 <div class="wrap">
-  <div class="prose">
+  <article class="prose blog">
+
     <h2>The problem</h2>
+    
     <p>Lane detection methods assume a highway: high-contrast paint on dark tarmac, roughly straight, consistently lit. IGVC provides the opposite. Hand-painted lines on a grass field under moving sun, no consistent lane structure, and frequent gaps where the paint has worn away. Every assumption the standard pipeline rests on fails simultaneously, and the result still has to run at frame rate on the vehicle&#39;s onboard compute.</p>
 
     <h2>What I built</h2>
+    
     <ul><li>Perspective transformation into a bird's-eye view, so lane geometry becomes metric and roughly parallel instead of projective and converging.</li><li>Principal component analysis with lateral clustering over candidate lane pixels, fitting lane curves and separating stop lines from lane markings by their orientation.</li><li>An unscented Kalman filter tracking the fitted lane parameters across frames, carrying the estimate through gaps and detection dropouts.</li><li>Integrated as the perception front end of the EKLAVYA IGVC autonomy stack, feeding the vehicle's navigation.</li></ul>
 
 
@@ -93,19 +96,35 @@ data-lazyvideo>
     </div>
 
     <h2>What worked</h2>
+    
     <ul class="ticks"><li>The bird's-eye transform is what makes PCA usable. After it, a lane segment's principal axis lies roughly along the driving direction and a stop line's lies across it, so the two separate on geometry alone with no classifier involved.</li><li>The UKF absorbed exactly the dropouts that faded paint and grass produce. Per-frame detection was too intermittent to steer on; the tracked estimate was not.</li><li>Fitting geometry rather than learning it kept the whole thing inside the vehicle's compute budget and independent of any labeled dataset from that particular field, which matters when the field changes every competition.</li></ul>
 
     <h2>What didn't</h2>
+    
     <ul class="crosses"><li>The pipeline is hand-tuned, and the thresholds that select candidate lane pixels are the fragile part. They do not transfer across a change in lighting or ground surface without retuning.</li><li>A learned segmentation front end would very likely outperform this today. The geometric approach was the right call for 2019 embedded compute, not a general argument against learning.</li></ul>
-  </div>
+
+  </article>
 </div>
 
 
-<div class="wrap" style="margin-top:clamp(2.5rem,5vw,3.5rem);padding-bottom:clamp(2.5rem,6vw,4rem)">
-  <div class="sec-head"><span class="num">[ → ]</span><h2>Links</h2></div>
+<div class="wrap videos-wrap">
+  <div class="sec-head"><span class="num">[ &#9654; ]</span><h2>Watch</h2></div>
+  <div class="video-cards">
+    <a class="video-card" href="https://www.youtube.com/watch?v=0gNgN58NdnY" target="_blank" rel="noopener">
+      <span class="vthumb">
+        <img src="../assets/media/lane-detection/yt_0gNgN58NdnY.jpg" alt="" loading="lazy" decoding="async">
+        <span class="play" aria-hidden="true">
+          <svg viewBox="0 0 68 48"><path class="bg" d="M66.5 7.7a8.6 8.6 0 0 0-6-6C55.2 0 34 0 34 0S12.8 0 7.5 1.6a8.6 8.6 0 0 0-6 6A90 90 0 0 0 0 24a90 90 0 0 0 1.5 16.3 8.6 8.6 0 0 0 6 6C12.8 48 34 48 34 48s21.2 0 26.5-1.6a8.6 8.6 0 0 0 6-6A90 90 0 0 0 68 24a90 90 0 0 0-1.5-16.3z"/><path class="arrow" d="M27 34V14l18 10z"/></svg>
+        </span>
+      </span>
+      <span class="vlabel">Video</span>
+    </a>
+  </div>
+</div>
+
+<div class="wrap proj-foot">
+  <div class="sec-head"><span class="num">[ &rarr; ]</span><h2>Links</h2></div>
   <div class="linkrow">
-  <a href="https://www.youtube.com/watch?v=0gNgN58NdnY"
-target="_blank" rel="noopener">Video</a>
   <a href="https://www.spiedigitallibrary.org/conference-proceedings-of-spie/11321/113210P/Real-time-lane-detection-fitting-and-navigation-for-unstructured-environments/10.1117/12.2547333.short"
 target="_blank" rel="noopener">Paper</a>
   <a href="eklavya.html"
@@ -121,8 +140,8 @@ target="_blank" rel="noopener">Paper</a>
   </div>
 
   <div class="projnav">
-<a href="path-tracking.html">← Path trackers, compared honestly</a>    <span class="spacer"></span>
-<a href="eklavya.html">EKLAVYA →</a>  </div>
+<a href="path-tracking.html">&larr; Path trackers, compared honestly</a>    <span class="spacer"></span>
+<a href="eklavya.html">EKLAVYA &rarr;</a>  </div>
 </div>
 
 </main>

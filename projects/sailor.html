@@ -70,7 +70,7 @@
 </div>
 
 <div class="wrap proj-hero">
-  <div class="frame tall fit-cover">
+  <div class="frame  fit-cover">
   <video poster="../assets/media/sailor/hero.jpg"         muted loop playsinline preload="none"
 data-lazyvideo>
     <source src="../assets/media/sailor/hero.mp4" type="video/mp4">
@@ -80,11 +80,31 @@ data-lazyvideo>
 </div>
 
 <div class="wrap">
-  <div class="prose">
+  <article class="prose blog">
+
     <h2>The problem</h2>
+    <figure class="fig-side right">
+  <div class="frame  fit-cover">
+  <video poster="../assets/media/sailor/method_anim.jpg"         muted loop playsinline preload="none"
+data-lazyvideo>
+    <source src="../assets/media/sailor/method_anim.mp4" type="video/mp4">
+  </video>
+</div>
+
+  <figcaption>How the search works: the base diffusion policy fails at an out-of-distribution state, local search runs in the learned world model against the learned reward, and SAILOR takes the corrected action.</figcaption>
+</figure>
+
     <p>Behavior cloning supervises a policy only at the states the expert visited. The first small error moves the robot off that support, where there is no supervision at all, and the errors compound from there. Adding demonstrations shrinks the off-support region but never removes it. The standard fixes (DAgger-style human corrections, ground-truth reward labels, a privileged simulator) all require exactly the supervision you do not have.</p>
 
     <h2>What I built</h2>
+    <figure class="fig-side left">
+  <div class="frame  fit-contain">
+  <img src="../assets/media/sailor/method.png" alt="" loading="lazy" decoding="async">
+</div>
+
+  <figcaption>SAILOR searches over imagined latent rollouts to propose a correction to the base policy&#39;s plan.</figcaption>
+</figure>
+
     <ul><li>Learn a <strong>latent world model</strong> and a <strong>reward model</strong> from a mixture of expert demonstrations and the base policy's own rollouts. The reward model is trained to tell expert states from base-policy states in latent space, so no ground-truth reward labels are needed.</li><li>Pre-train a diffusion policy on the expert data as the base policy, then alternate rounds of on-policy collection, world and reward model updates, and optional distillation back into the policy.</li><li>At test time, run <strong>MPPI inside the learned latent space</strong> to search for a correction to the base policy's nominal plan, scoring candidates with the learned reward plus a terminal value from the critic. Execute the first action, replan on the next observation, MPC style.</li><li>Evaluate on 12 visual manipulation tasks across three suites (RoboMimic, RoboSuite, ManiSkill) at three dataset scales, against diffusion-policy baselines trained on identical data. RoboSuite and ManiSkill demonstrations were collected by hand with a 3D SpaceMouse, up to 200 per task.</li><li>Scale the search at test time to 8× the sample budget seen during training, to check whether harder optimization against a learned reward starts hacking it.</li></ul>
 
 
@@ -94,49 +114,38 @@ data-lazyvideo>
     </div>
 
     <h2>What worked</h2>
-    <ul class="ticks"><li><strong>The search only has to be local.</strong> The base diffusion policy already proposes a reasonable multi-step plan, so MPPI only searches for a correction to it rather than for a plan from scratch. That keeps the optimization tractable and means an imperfect world model is still useful.</li><li><strong>The failure data is the reward signal.</strong> Expert demonstrations versus the base policy's own rollouts is precisely the contrast that defines going wrong, so a discriminator over that pair yields a dense latent reward with no labels, no human in the loop, and no simulator reward function.</li><li><strong>No reward hacking at 8× the training sample budget.</strong> The usual objection to test-time scaling is that more optimization finds the learned reward's blind spots. Performance improved up to the training-time budget and then held flat rather than collapsing, plausibly because the models are refit on the same on-policy data the planner drives the agent into.</li></ul>
-
-    <h2>What didn't</h2>
-    <ul class="crosses"><li>SAILOR is not an offline method. It needs on-policy rollouts from the base policy to fit the world and reward models, so unlike plain behavior cloning it needs an environment to interact with.</li><li>Search is not free. Running MPPI in latent space at every control step is much more expensive per action than a forward pass of the base policy. Distillation recovers some of that, but it is a separate step and it gives back some of the recovery behavior.</li><li>All 12 tasks are simulated visual manipulation. No real-robot results in this work.</li></ul>
-  </div>
-</div>
-
-<div class="wrap" style="margin-top:clamp(2.5rem,5vw,3.5rem)">
-  <div class="figs">
-    <figure class="fig" style="margin:0">
-      <div class="frame tall fit-contain">
-  <img src="../assets/media/sailor/method.png" alt="" loading="lazy" decoding="async">
-</div>
-
-      <figcaption>SAILOR searches over imagined latent rollouts to propose a correction to the base policy&#39;s plan.</figcaption>
-    </figure>
-    <figure class="fig" style="margin:0">
-      <div class="frame tall fit-cover">
-  <img src="../assets/media/sailor/arch.png" alt="" loading="lazy" decoding="async">
-</div>
-
-      <figcaption>World model, reward model and critic, all learned from demonstrations alone.</figcaption>
-    </figure>
-    <figure class="fig" style="margin:0">
-      <div class="frame tall fit-cover">
+    <figure class="fig-side right">
+  <div class="frame  fit-cover">
   <video poster="../assets/media/sailor/square.jpg"         muted loop playsinline preload="none"
 data-lazyvideo>
     <source src="../assets/media/sailor/square.mp4" type="video/mp4">
   </video>
 </div>
 
-      <figcaption>Square assembly, base policy (left) versus SAILOR (right).</figcaption>
-    </figure>
-    <figure class="fig" style="margin:0">
-      <div class="frame tall fit-cover">
+  <figcaption>Square assembly. Base policy on the left, SAILOR on the right.</figcaption>
+</figure>
+
+    <ul class="ticks"><li><strong>The search only has to be local.</strong> The base diffusion policy already proposes a reasonable multi-step plan, so MPPI only searches for a correction to it rather than for a plan from scratch. That keeps the optimization tractable and means an imperfect world model is still useful.</li><li><strong>The failure data is the reward signal.</strong> Expert demonstrations versus the base policy's own rollouts is precisely the contrast that defines going wrong, so a discriminator over that pair yields a dense latent reward with no labels, no human in the loop, and no simulator reward function.</li><li><strong>No reward hacking at 8× the training sample budget.</strong> The usual objection to test-time scaling is that more optimization finds the learned reward's blind spots. Performance improved up to the training-time budget and then held flat rather than collapsing, plausibly because the models are refit on the same on-policy data the planner drives the agent into.</li></ul>
+
+    <h2>What didn't</h2>
+    <figure class="fig-side left">
+  <div class="frame  fit-cover">
   <video poster="../assets/media/sailor/door.jpg"         muted loop playsinline preload="none"
 data-lazyvideo>
     <source src="../assets/media/sailor/door.mp4" type="video/mp4">
   </video>
 </div>
 
-      <figcaption>Door opening. The search recovers after the gripper slips off the handle.</figcaption>
-    </figure>
+  <figcaption>Door opening. The search recovers after the gripper slips off the handle.</figcaption>
+</figure>
+
+    <ul class="crosses"><li>SAILOR is not an offline method. It needs on-policy rollouts from the base policy to fit the world and reward models, so unlike plain behavior cloning it needs an environment to interact with.</li><li>Search is not free. Running MPPI in latent space at every control step is much more expensive per action than a forward pass of the base policy. Distillation recovers some of that, but it is a separate step and it gives back some of the recovery behavior.</li><li>All 12 tasks are simulated visual manipulation. No real-robot results in this work.</li></ul>
+
+  </article>
+</div>
+
+<div class="wrap figs-rest">
+  <div class="figs">
     <figure class="fig" style="margin:0">
       <div class="frame tall fit-contain">
   <video poster="../assets/media/sailor/scaling.jpg"         muted loop playsinline preload="none"
@@ -157,8 +166,32 @@ data-lazyvideo>
   </div>
 </div>
 
-<div class="wrap" style="margin-top:clamp(2.5rem,5vw,3.5rem);padding-bottom:clamp(2.5rem,6vw,4rem)">
-  <div class="sec-head"><span class="num">[ → ]</span><h2>Links</h2></div>
+<div class="wrap videos-wrap">
+  <div class="sec-head"><span class="num">[ &#9654; ]</span><h2>Watch</h2></div>
+  <div class="video-cards">
+    <a class="video-card" href="https://www.youtube.com/watch?v=0QfQKvhJFqU" target="_blank" rel="noopener">
+      <span class="vthumb">
+        <img src="../assets/media/sailor/yt_0QfQKvhJFqU.jpg" alt="" loading="lazy" decoding="async">
+        <span class="play" aria-hidden="true">
+          <svg viewBox="0 0 68 48"><path class="bg" d="M66.5 7.7a8.6 8.6 0 0 0-6-6C55.2 0 34 0 34 0S12.8 0 7.5 1.6a8.6 8.6 0 0 0-6 6A90 90 0 0 0 0 24a90 90 0 0 0 1.5 16.3 8.6 8.6 0 0 0 6 6C12.8 48 34 48 34 48s21.2 0 26.5-1.6a8.6 8.6 0 0 0 6-6A90 90 0 0 0 68 24a90 90 0 0 0-1.5-16.3z"/><path class="arrow" d="M27 34V14l18 10z"/></svg>
+        </span>
+      </span>
+      <span class="vlabel">Podcast video</span>
+    </a>
+    <a class="video-card" href="https://www.youtube.com/watch?v=KnXSeTuCgFI" target="_blank" rel="noopener">
+      <span class="vthumb">
+        <img src="../assets/media/sailor/yt_KnXSeTuCgFI.jpg" alt="" loading="lazy" decoding="async">
+        <span class="play" aria-hidden="true">
+          <svg viewBox="0 0 68 48"><path class="bg" d="M66.5 7.7a8.6 8.6 0 0 0-6-6C55.2 0 34 0 34 0S12.8 0 7.5 1.6a8.6 8.6 0 0 0-6 6A90 90 0 0 0 0 24a90 90 0 0 0 1.5 16.3 8.6 8.6 0 0 0 6 6C12.8 48 34 48 34 48s21.2 0 26.5-1.6a8.6 8.6 0 0 0 6-6A90 90 0 0 0 68 24a90 90 0 0 0-1.5-16.3z"/><path class="arrow" d="M27 34V14l18 10z"/></svg>
+        </span>
+      </span>
+      <span class="vlabel">Guest lecture @ CMU</span>
+    </a>
+  </div>
+</div>
+
+<div class="wrap proj-foot">
+  <div class="sec-head"><span class="num">[ &rarr; ]</span><h2>Links</h2></div>
   <div class="linkrow">
   <a href="https://arxiv.org/abs/2506.05294"
 target="_blank" rel="noopener">Paper</a>
@@ -168,10 +201,6 @@ target="_blank" rel="noopener">Website</a>
 target="_blank" rel="noopener">Code</a>
   <a href="https://robopapers.substack.com/p/ep33-a-smooth-sea-never-made-a-skilled"
 target="_blank" rel="noopener">RoboPapers podcast</a>
-  <a href="https://www.youtube.com/watch?v=0QfQKvhJFqU"
-target="_blank" rel="noopener">Podcast video</a>
-  <a href="https://www.youtube.com/watch?v=KnXSeTuCgFI"
-target="_blank" rel="noopener">Guest lecture @ CMU</a>
   <a href="https://neurips.cc/virtual/2025/loc/san-diego/poster/115876"
 target="_blank" rel="noopener">NeurIPS page</a>
 </div>
@@ -180,7 +209,7 @@ target="_blank" rel="noopener">NeurIPS page</a>
     <h3>Where the figures came from</h3>
     <ul>
       <li><b>hero</b> &middot;
-<a href="http://gokul.dev/sailor/resources/breadcan_random_comparison.mp4" target="_blank" rel="noopener">gokul.dev</a>      </li>
+Local file (li_sailor.mp4)      </li>
       <li><b>method</b> &middot;
 <a href="https://raw.githubusercontent.com/arnavkj1995/SAILOR/main/assets/sailor_method_fig.png" target="_blank" rel="noopener">GitHub</a>      </li>
       <li><b>arch</b> &middot;
@@ -197,8 +226,8 @@ target="_blank" rel="noopener">NeurIPS page</a>
   </div>
 
   <div class="projnav">
-<a href="weavehacks.html">← ReviveAgent</a>    <span class="spacer"></span>
-<a href="dream-in-graphs.html">Dream in Graphs →</a>  </div>
+<a href="weavehacks.html">&larr; ReviveAgent</a>    <span class="spacer"></span>
+<a href="dream-in-graphs.html">Dream in Graphs &rarr;</a>  </div>
 </div>
 
 </main>

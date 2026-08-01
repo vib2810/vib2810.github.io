@@ -4,7 +4,8 @@ Regenerate with:  `python3 tools/make_media.py --slug sailor`
 
 | file | source | clip |
 |---|---|---|
-| `hero` | http://gokul.dev/sailor/resources/breadcan_random_comparison.mp4 | 0s +8s |
+| `hero` | local:raw/li_sailor.mp4 | 18s +16s |
+| `method_anim` | local:raw/li_sailor.mp4 | 2s +15s |
 | `method` | https://raw.githubusercontent.com/arnavkj1995/SAILOR/main/assets/sailor_method_fig.png | ,  |
 | `arch` | https://raw.githubusercontent.com/arnavkj1995/SAILOR/main/assets/sailor_arch_fig.png | ,  |
 | `results` | https://raw.githubusercontent.com/arnavkj1995/SAILOR/main/assets/sailor_combo_visual_fig.png | ,  |

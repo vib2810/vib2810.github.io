@@ -69,18 +69,35 @@
 </div>
 
 <div class="wrap proj-hero">
-  <div class="frame tall fit-cover">
+  <div class="frame  fit-cover">
   <img src="../assets/media/dream-in-graphs/method.jpg" alt="" loading="lazy" decoding="async">
 </div>
 
 </div>
 
 <div class="wrap">
-  <div class="prose">
+  <article class="prose blog">
+
     <h2>The problem</h2>
+    <figure class="fig-side right">
+  <div class="frame  fit-cover">
+  <img src="../assets/media/dream-in-graphs/cswm.jpg" alt="" loading="lazy" decoding="async">
+</div>
+
+  <figcaption>The contrastive structured world model baseline. It encodes observations and predicts transitions with a GNN, but has no decoder, so its rollouts cannot be turned back into images.</figcaption>
+</figure>
+
     <p>Latent world models optimize their transition function for predictability, not for reconstructability. The result is a latent that predicts well but cannot be decoded: the model&#39;s imagined rollouts do not turn back into anything you can inspect. The obvious fix, freezing a reconstruction-optimized latent and learning dynamics inside it, makes the transition problem much harder, because a latent chosen for image quality is not shaped for easy prediction.</p>
 
     <h2>What I built</h2>
+    <figure class="fig-side left">
+  <div class="frame  fit-contain">
+  <img src="../assets/media/dream-in-graphs/results.jpg" alt="" loading="lazy" decoding="async">
+</div>
+
+  <figcaption>Quantitative comparison across environments.</figcaption>
+</figure>
+
     <ul><li>Froze a variational autoencoder first, guaranteeing the latent is decodable, then learned <em>p(z<sub>t+1</sub> | z<sub>t</sub>, a<sub>t</sub>)</em> entirely inside that fixed latent with a DDPM.</li><li>Noise prediction network: a fully convolutional UNet with Mish activations, FiLM conditioning on the previous latent and a one-hot action, and a squared-cosine noise schedule. Trained with AdamW, a cosine schedule with warm restarts, and an EMA weight copy used at inference.</li><li>Two baselines: a contrastive structured world model (CNN encoder, GNN transition, contrastive loss) and an autoencoder with a GNN transition model, evaluated on Space Invaders, a three-body problem, and a 2D block-pushing environment.</li><li>Measured latent MSE, reconstruction MSE, Hits@1 and mean reciprocal rank, so latent-space prediction quality and image quality are reported separately rather than conflated.</li></ul>
 
 
@@ -90,34 +107,20 @@
     </div>
 
     <h2>What worked</h2>
+    
     <ul class="ticks"><li>Normalizing the VAE latents was the difference between working and not. Diffusion sampling clips to [-1, 1] and raw VAE latents are not in that range; without normalization the model produced nothing usable.</li><li>FiLM conditioning on the previous latent, plus one-hot action labels. Feeding action class indices directly was consistently worse.</li><li>Separating the two objectives is what buys interpretability. Because the VAE was never asked to make transitions easy, its latent stayed decodable, and a sufficiently expressive transition model absorbed the extra difficulty.</li></ul>
 
     <h2>What didn't</h2>
+    
     <ul class="crosses"><li>Not a clean win. The contrastive baseline scored 0.9995 Hits@1 against 0.346 for the diffusion model: its latent is far easier to predict in. It also has no reconstruction objective, so its dreams cannot be decoded at all, which is the tradeoff the project is about rather than a result that settles it.</li><li>Failure modes were specific and visible: blocks disappearing mid-rollout, a block changing color between steps, and occasional non-sharp reconstructions. More training would likely help; diffusion models are data and compute hungry.</li><li>Freezing a trained VAE and training only the GNN transition against a reconstruction objective diverged: latent-space loss climbed while reconstruction loss fell. Optimizing latents indirectly through pixels does not work.</li></ul>
-  </div>
+
+  </article>
 </div>
 
-<div class="wrap" style="margin-top:clamp(2.5rem,5vw,3.5rem)">
-  <div class="figs">
-    <figure class="fig" style="margin:0">
-      <div class="frame tall fit-cover">
-  <img src="../assets/media/dream-in-graphs/cswm.jpg" alt="" loading="lazy" decoding="async">
-</div>
 
-      <figcaption>The contrastive structured world model baseline. It encodes observations and predicts transitions with a GNN, but has no decoder, so its rollouts cannot be turned back into images.</figcaption>
-    </figure>
-    <figure class="fig" style="margin:0">
-      <div class="frame tall fit-contain">
-  <img src="../assets/media/dream-in-graphs/results.jpg" alt="" loading="lazy" decoding="async">
-</div>
 
-      <figcaption>Quantitative comparison across environments.</figcaption>
-    </figure>
-  </div>
-</div>
-
-<div class="wrap" style="margin-top:clamp(2.5rem,5vw,3.5rem);padding-bottom:clamp(2.5rem,6vw,4rem)">
-  <div class="sec-head"><span class="num">[ → ]</span><h2>Links</h2></div>
+<div class="wrap proj-foot">
+  <div class="sec-head"><span class="num">[ &rarr; ]</span><h2>Links</h2></div>
   <div class="linkrow">
   <a href="../assets/docs/dream-in-graphs.pdf"
 >Report</a>
@@ -134,8 +137,8 @@ Project report (dream_in_graphs.pdf)      </li>
   </div>
 
   <div class="projnav">
-<a href="sailor.html">← SAILOR</a>    <span class="spacer"></span>
-<a href="lunar-x.html">LunAR-X →</a>  </div>
+<a href="sailor.html">&larr; SAILOR</a>    <span class="spacer"></span>
+<a href="lunar-x.html">LunAR-X &rarr;</a>  </div>
 </div>
 
 </main>

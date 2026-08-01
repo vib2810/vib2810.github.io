@@ -69,7 +69,7 @@
 </div>
 
 <div class="wrap proj-hero">
-  <div class="frame tall fit-cover">
+  <div class="frame  fit-cover">
   <video poster="../assets/media/path-tracking/hero.jpg"         muted loop playsinline preload="none"
 data-lazyvideo>
     <source src="../assets/media/path-tracking/hero.mp4" type="video/mp4">
@@ -79,11 +79,14 @@ data-lazyvideo>
 </div>
 
 <div class="wrap">
-  <div class="prose">
+  <article class="prose blog">
+
     <h2>The problem</h2>
+    
     <p>Every autonomy stack picks a path tracker, and the choice is usually made by folklore. Published comparisons are hard to use because they vary the vehicle model, the reference paths and the tuning effort all at once, so nothing transfers to your vehicle. Making the comparison mean anything requires holding all three fixed, and then repeating it on hardware, where the assumptions in the model start to matter.</p>
 
     <h2>What I built</h2>
+    
     <ul><li>Implemented pure pursuit, PID, Stanley, LQR and MPC against a common Ackermann vehicle model, with comparable tuning effort spent on each.</li><li>Benchmarked all five in Gazebo on lane-shift and sinusoidal courses at matched speeds up to 30 km/h.</li><li>Validated on a Mahindra e2o electric vehicle, so the comparison is not simulation-only.</li></ul>
 
 
@@ -93,21 +96,37 @@ data-lazyvideo>
     </div>
 
     <h2>What worked</h2>
+    
     <ul class="ticks"><li>Holding the vehicle model, the courses and the speed fixed is the whole point of the exercise. It is the only way a reader can attribute a difference in tracking error to the controller rather than to the setup.</li><li>The two course types probe different things: the lane shift is a step response, the sinusoid is sustained curvature tracking. Controllers that look equivalent on one separate on the other.</li></ul>
 
     <h2>What didn't</h2>
+    
     <ul class="crosses"><li>The comparison rests on a kinematic Ackermann model. It says nothing about tire slip or actuator dynamics, so the ranking should not be read as holding near the limits of handling.</li><li>Every controller's numbers are only as good as its tuning, and MPC has considerably more knobs than pure pursuit. Comparable effort is not the same as comparable tuning quality, and that caveat applies to any benchmark of this kind, including this one.</li></ul>
-  </div>
+
+  </article>
 </div>
 
 
-<div class="wrap" style="margin-top:clamp(2.5rem,5vw,3.5rem);padding-bottom:clamp(2.5rem,6vw,4rem)">
-  <div class="sec-head"><span class="num">[ → ]</span><h2>Links</h2></div>
+<div class="wrap videos-wrap">
+  <div class="sec-head"><span class="num">[ &#9654; ]</span><h2>Watch</h2></div>
+  <div class="video-cards">
+    <a class="video-card" href="https://www.youtube.com/watch?v=O4yM6Skd_dY" target="_blank" rel="noopener">
+      <span class="vthumb">
+        <img src="../assets/media/path-tracking/yt_O4yM6Skd_dY.jpg" alt="" loading="lazy" decoding="async">
+        <span class="play" aria-hidden="true">
+          <svg viewBox="0 0 68 48"><path class="bg" d="M66.5 7.7a8.6 8.6 0 0 0-6-6C55.2 0 34 0 34 0S12.8 0 7.5 1.6a8.6 8.6 0 0 0-6 6A90 90 0 0 0 0 24a90 90 0 0 0 1.5 16.3 8.6 8.6 0 0 0 6 6C12.8 48 34 48 34 48s21.2 0 26.5-1.6a8.6 8.6 0 0 0 6-6A90 90 0 0 0 68 24a90 90 0 0 0-1.5-16.3z"/><path class="arrow" d="M27 34V14l18 10z"/></svg>
+        </span>
+      </span>
+      <span class="vlabel">Video</span>
+    </a>
+  </div>
+</div>
+
+<div class="wrap proj-foot">
+  <div class="sec-head"><span class="num">[ &rarr; ]</span><h2>Links</h2></div>
   <div class="linkrow">
   <a href="https://arxiv.org/abs/2012.02978"
 target="_blank" rel="noopener">Paper</a>
-  <a href="https://www.youtube.com/watch?v=O4yM6Skd_dY"
-target="_blank" rel="noopener">Video</a>
 </div>
 
   <div class="sources">
@@ -121,8 +140,8 @@ target="_blank" rel="noopener">Video</a>
   </div>
 
   <div class="projnav">
-<a href="flipkart-grid.html">← Intelligent Pickers</a>    <span class="spacer"></span>
-<a href="lane-detection.html">Lane detection for unstructured roads →</a>  </div>
+<a href="flipkart-grid.html">&larr; Intelligent Pickers</a>    <span class="spacer"></span>
+<a href="lane-detection.html">Lane detection for unstructured roads &rarr;</a>  </div>
 </div>
 
 </main>

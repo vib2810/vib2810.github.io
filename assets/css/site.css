@@ -497,7 +497,8 @@ a.chip:hover { border-color: var(--accent); color: var(--accent-ink); text-decor
 
 .proj-hero { margin-block: clamp(1.25rem, 3vw, 2rem); }
 .proj-hero .frame { border: 1px solid var(--rule); }
-.proj-hero .frame > img, .proj-hero .frame > video { aspect-ratio: auto; max-height: 68vh; object-fit: contain; background: var(--paper-2); }
+.proj-hero { max-width: 900px; }
+.proj-hero .frame > img, .proj-hero .frame > video { aspect-ratio: auto; max-height: 46vh; object-fit: contain; background: var(--paper-2); }
 
 .prose { max-width: 68ch; }
 .prose h2 {
@@ -799,4 +800,72 @@ a.chip:hover { border-color: var(--accent); color: var(--accent-ink); text-decor
   .about-portrait { width: 116px; height: 116px; }
   .about-block p { font-size: 1rem; line-height: 1.6; }
   .about-block h2 { font-size: .78rem; }
+}
+
+/* ==========================================================================
+   blog-style project body: figures sit beside the text, alternating sides
+   ========================================================================== */
+
+.prose.blog { max-width: 900px; }
+.prose.blog::after { content: ""; display: block; clear: both; }
+
+.fig-side { margin: .2rem 0 1.1rem; }
+.fig-side .frame { border: 1px solid var(--rule); }
+.fig-side figcaption {
+  font-family: var(--mono); font-size: .69rem; line-height: 1.55;
+  color: var(--ink-3); margin-top: .45rem; text-transform: none; letter-spacing: .01em;
+}
+
+@media (min-width: 860px) {
+  .fig-side { width: 44%; }
+  .fig-side.right { float: right; margin-left: 2rem; }
+  .fig-side.left  { float: left;  margin-right: 2rem; }
+  /* a heading must not wrap around the image above it */
+  .prose.blog h2 { clear: both; }
+}
+
+.figs-rest { margin-top: clamp(2rem, 4vw, 3rem); }
+
+/* ==========================================================================
+   video cards: a large clickable block per YouTube link
+   ========================================================================== */
+
+.videos-wrap { margin-top: clamp(2.25rem, 5vw, 3.25rem); }
+.video-cards {
+  display: grid; gap: clamp(1rem, 2.2vw, 1.5rem);
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+.video-card {
+  display: block; text-decoration: none; overflow: hidden;
+  border: 1px solid var(--rule); border-radius: var(--radius);
+  background: var(--card);
+  transition: border-color var(--t), transform var(--t), box-shadow var(--t);
+}
+.video-card:hover {
+  border-color: var(--accent); text-decoration: none;
+  transform: translateY(-3px); box-shadow: 0 10px 28px -18px rgba(20,22,26,.4);
+}
+.video-card .vthumb { position: relative; display: block; background: #000; }
+.video-card img { width: 100%; aspect-ratio: 16/9; object-fit: cover; display: block; }
+.video-card .play {
+  position: absolute; inset: 0; display: grid; place-items: center;
+}
+.video-card .play svg { width: 68px; height: 48px; filter: drop-shadow(0 2px 6px rgba(0,0,0,.4)); }
+.video-card .play .bg    { fill: rgba(20,22,26,.72); transition: fill var(--t); }
+.video-card .play .arrow { fill: #fff; }
+.video-card:hover .play .bg { fill: var(--accent); }
+.video-card .vlabel {
+  display: block; padding: .8rem 1rem .9rem;
+  font-family: var(--mono); font-size: .78rem; letter-spacing: .06em;
+  text-transform: uppercase; color: var(--ink-2);
+}
+.video-card:hover .vlabel { color: var(--accent-ink); }
+
+.proj-foot { margin-top: clamp(2.25rem, 5vw, 3.25rem); padding-bottom: clamp(2.5rem, 6vw, 4rem); }
+
+@media (max-width: 720px) {
+  .proj-hero .frame > img, .proj-hero .frame > video { max-height: 40vh; }
+  .fig-side figcaption { font-size: .66rem; }
+  .video-card .play svg { width: 54px; height: 38px; }
+  .video-card .vlabel { font-size: .7rem; padding: .65rem .8rem .75rem; }
 }

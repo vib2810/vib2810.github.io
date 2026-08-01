@@ -71,7 +71,7 @@
 </div>
 
 <div class="wrap proj-hero">
-  <div class="frame tall fit-cover">
+  <div class="frame  fit-cover">
   <video poster="../assets/media/physical-ai-hack/hero.jpg"         muted loop playsinline preload="none"
 data-lazyvideo>
     <source src="../assets/media/physical-ai-hack/hero.mp4" type="video/mp4">
@@ -81,11 +81,14 @@ data-lazyvideo>
 </div>
 
 <div class="wrap">
-  <div class="prose">
+  <article class="prose blog">
+
     <h2>The problem</h2>
+    
     <p>Visuomotor policies are good at short, well-defined skills and fall apart over long horizons. Episodes get long, sub-tasks fail in ways the policy cannot represent, and nothing in the system has any notion that it should stop, back up and try something else. Collecting enough demonstrations to cover a whole long-horizon task, including all the ways it goes wrong partway through, is not practical.</p>
 
     <h2>What I built</h2>
+    
     <ul><li>Individual short-horizon specialist policies trained with <strong>ACT</strong>: 60 demonstrations each with location randomization, 70k training steps at batch size 64.</li><li>An <strong>LLM judge</strong> on top that reads the scene, chooses which specialist to invoke next, and decides when the current one has finished or failed. The slow deliberative layer over the fast learned skills.</li><li>Framed the system as decisions over specialists rather than over raw actions, so long-horizon structure is something the system reasons about explicitly instead of something a single policy has to absorb.</li><li>Demonstrated on stacking a red cup onto a blue cup, built over a single hackathon weekend.</li></ul>
 
 
@@ -95,21 +98,44 @@ data-lazyvideo>
     </div>
 
     <h2>What worked</h2>
+    
     <ul class="ticks"><li>Decomposition is what made the data budget work. Each specialist only has to cover a few seconds of behavior, so 60 demonstrations per skill was enough; the long-horizon burden moved out of the policy and onto the LLM.</li><li>Location randomization in those 60 demonstrations is what let each specialist tolerate whatever state the previous one left behind. Without it, the handoff between skills is the thing that breaks.</li><li>Making failure a first-class transition. The LLM can decide a skill has failed and re-invoke it, which is behavior a monolithic policy has no way to express at all.</li></ul>
 
     <h2>What didn't</h2>
+    
     <ul class="crosses"><li>"Can an LLM be a good judge?" was an open question on our own slides, and the weekend did not answer it. The judge's success and failure calls were never checked against ground truth, so we have no idea how often it was wrong in either direction.</li><li>20 rollouts of one task in one setup is a demo, not an evaluation. Nothing here says how the hierarchy behaves as the number of specialists or the horizon grows.</li></ul>
-  </div>
+
+  </article>
 </div>
 
 
-<div class="wrap" style="margin-top:clamp(2.5rem,5vw,3.5rem);padding-bottom:clamp(2.5rem,6vw,4rem)">
-  <div class="sec-head"><span class="num">[ → ]</span><h2>Links</h2></div>
+<div class="wrap videos-wrap">
+  <div class="sec-head"><span class="num">[ &#9654; ]</span><h2>Watch</h2></div>
+  <div class="video-cards">
+    <a class="video-card" href="https://www.youtube.com/watch?v=REelDy-2BHk" target="_blank" rel="noopener">
+      <span class="vthumb">
+        <img src="../assets/media/physical-ai-hack/yt_REelDy-2BHk.jpg" alt="" loading="lazy" decoding="async">
+        <span class="play" aria-hidden="true">
+          <svg viewBox="0 0 68 48"><path class="bg" d="M66.5 7.7a8.6 8.6 0 0 0-6-6C55.2 0 34 0 34 0S12.8 0 7.5 1.6a8.6 8.6 0 0 0-6 6A90 90 0 0 0 0 24a90 90 0 0 0 1.5 16.3 8.6 8.6 0 0 0 6 6C12.8 48 34 48 34 48s21.2 0 26.5-1.6a8.6 8.6 0 0 0 6-6A90 90 0 0 0 68 24a90 90 0 0 0-1.5-16.3z"/><path class="arrow" d="M27 34V14l18 10z"/></svg>
+        </span>
+      </span>
+      <span class="vlabel">Demo video</span>
+    </a>
+    <a class="video-card" href="https://www.youtube.com/watch?v=GDnfMwnFuWI" target="_blank" rel="noopener">
+      <span class="vthumb">
+        <img src="../assets/media/physical-ai-hack/yt_GDnfMwnFuWI.jpg" alt="" loading="lazy" decoding="async">
+        <span class="play" aria-hidden="true">
+          <svg viewBox="0 0 68 48"><path class="bg" d="M66.5 7.7a8.6 8.6 0 0 0-6-6C55.2 0 34 0 34 0S12.8 0 7.5 1.6a8.6 8.6 0 0 0-6 6A90 90 0 0 0 0 24a90 90 0 0 0 1.5 16.3 8.6 8.6 0 0 0 6 6C12.8 48 34 48 34 48s21.2 0 26.5-1.6a8.6 8.6 0 0 0 6-6A90 90 0 0 0 68 24a90 90 0 0 0-1.5-16.3z"/><path class="arrow" d="M27 34V14l18 10z"/></svg>
+        </span>
+      </span>
+      <span class="vlabel">Pitch video</span>
+    </a>
+  </div>
+</div>
+
+<div class="wrap proj-foot">
+  <div class="sec-head"><span class="num">[ &rarr; ]</span><h2>Links</h2></div>
   <div class="linkrow">
-  <a href="https://www.youtube.com/watch?v=REelDy-2BHk"
-target="_blank" rel="noopener">Demo video</a>
-  <a href="https://www.youtube.com/watch?v=GDnfMwnFuWI"
-target="_blank" rel="noopener">Pitch video</a>
   <a href="https://www.linkedin.com/posts/vibhakarmohta_we-secured-the-runners-up-position-at-physical-ugcPost-7423991002866307072-a57I"
 target="_blank" rel="noopener">Post</a>
   <a href="https://luma.com/8ca2z1rr"
@@ -128,7 +154,7 @@ target="_blank" rel="noopener">Founders Inc</a>
 
   <div class="projnav">
 <span></span>    <span class="spacer"></span>
-<a href="weavehacks.html">ReviveAgent →</a>  </div>
+<a href="weavehacks.html">ReviveAgent &rarr;</a>  </div>
 </div>
 
 </main>

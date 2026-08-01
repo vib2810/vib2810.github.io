@@ -69,7 +69,7 @@
 </div>
 
 <div class="wrap proj-hero">
-  <div class="frame tall fit-contain">
+  <div class="frame  fit-contain">
   <video poster="../assets/media/berm-planning/hero.jpg"         muted loop playsinline preload="none"
 data-lazyvideo>
     <source src="../assets/media/berm-planning/hero.mp4" type="video/mp4">
@@ -79,11 +79,14 @@ data-lazyvideo>
 </div>
 
 <div class="wrap">
-  <div class="prose">
+  <article class="prose blog">
+
     <h2>The problem</h2>
+    
     <p>Building a berm is not one excavation, it is dozens, and the order matters. Every pass changes the terrain the next one starts from, and driving between distant excavation and deposition sites is the dominant cost on a rover with a fixed power budget. The space of orderings is combinatorial, so uninformed search does not finish.</p>
 
     <h2>What I built</h2>
+    
     <ul><li>Formulated construction as a search over which excavation zone to dig, which berm section to deposit into, and in what order, minimizing <strong>total distance traveled</strong> by the rover.</li><li>Used a <strong>hybrid A*</strong> planner to compute edge costs, so every transition is a path the rover can actually drive over traversable terrain rather than a straight-line estimate.</li><li>Built the heuristic by relaxing the problem to a collision-free <strong>TSP over deposition poses</strong> and solving it with Google OR-Tools.</li><li>Ran weighted A* at several inflation factors to trade optimality against search time.</li><li>Implemented in C++ on ROS 2 as a task optimizer node, with worksites specified in YAML and the resulting sequence rendered as an animation for inspection.</li></ul>
 
 
@@ -93,16 +96,20 @@ data-lazyvideo>
     </div>
 
     <h2>What worked</h2>
+    
     <ul class="ticks"><li>The TSP relaxation is the whole result. It is cheap to compute and tight enough that it turns an intractable search into one that finishes, which is the difference between the planner existing and not.</li><li>Weighted A* was a very good trade here. A 2.6x speedup for a 1.3 percent worse plan is worth taking on a rover where planning time is idle time.</li><li>Computing edge costs with hybrid A* rather than Euclidean distance meant the plan did not fall apart when handed to the controller.</li></ul>
 
     <h2>What didn't</h2>
+    
     <ul class="crosses"><li>The terrain update model is assumed rather than measured. Each excavation is treated as changing the worksite in a known way, which is optimistic on real regolith.</li><li>Everything is evaluated in plan cost and search time. No energy was measured on hardware, so the claim is about distance driven, not joules.</li></ul>
-  </div>
+
+  </article>
 </div>
 
 
-<div class="wrap" style="margin-top:clamp(2.5rem,5vw,3.5rem);padding-bottom:clamp(2.5rem,6vw,4rem)">
-  <div class="sec-head"><span class="num">[ → ]</span><h2>Links</h2></div>
+
+<div class="wrap proj-foot">
+  <div class="sec-head"><span class="num">[ &rarr; ]</span><h2>Links</h2></div>
   <div class="linkrow">
   <a href="https://github.com/vib2810/planning_for_berm_construction"
 target="_blank" rel="noopener">Code</a>
@@ -119,8 +126,8 @@ target="_blank" rel="noopener">Code</a>
   </div>
 
   <div class="projnav">
-<a href="diffusion-policies.html">← Seeing with your ears</a>    <span class="spacer"></span>
-<a href="auto-jenga.html">Autonomous Jenga →</a>  </div>
+<a href="diffusion-policies.html">&larr; Seeing with your ears</a>    <span class="spacer"></span>
+<a href="auto-jenga.html">Autonomous Jenga &rarr;</a>  </div>
 </div>
 
 </main>

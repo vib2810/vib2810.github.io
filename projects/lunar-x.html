@@ -69,7 +69,7 @@
 </div>
 
 <div class="wrap proj-hero">
-  <div class="frame tall fit-cover">
+  <div class="frame  fit-cover">
   <video poster="../assets/media/lunar-x/hero.jpg"         muted loop playsinline preload="none"
 data-lazyvideo>
     <source src="../assets/media/lunar-x/hero.mp4" type="video/mp4">
@@ -79,11 +79,31 @@ data-lazyvideo>
 </div>
 
 <div class="wrap">
-  <div class="prose">
+  <article class="prose blog">
+
     <h2>The problem</h2>
+    <figure class="fig-side right">
+  <div class="frame  fit-cover">
+  <video poster="../assets/media/lunar-x/berm.jpg"         muted loop playsinline preload="none"
+data-lazyvideo>
+    <source src="../assets/media/lunar-x/berm.mp4" type="video/mp4">
+  </video>
+</div>
+
+  <figcaption>Building a curved berm, successive continuous excavation passes.</figcaption>
+</figure>
+
     <p>At one sixth of Earth gravity, reaction force is the binding constraint: an excavator that digs in discrete bites can push itself off the ground, so the tool has to stay engaged and shave. That propagates into the planning. Each pass changes the terrain the next one starts from, driving between sites is the dominant cost, and point turns carve grooves that make the worksite untraversable later. The naive search over dig orderings has (2·D·N + E)! states, and nobody is teleoperating this in real time.</p>
 
     <h2>What I built</h2>
+    <figure class="fig-side left">
+  <div class="frame  fit-cover">
+  <img src="../assets/media/lunar-x/robot.jpg" alt="" loading="lazy" decoding="async">
+</div>
+
+  <figcaption>The platform and its excavation tool.</figcaption>
+</figure>
+
     <ul><li>A full autonomous excavation stack on ROS 2, on a Clearpath Husky A200 skid-steer base with a custom <strong>bucket drum</strong> tool that excavates in one rotation direction and dumps in reverse, on a linear mechanism that lifts it 0.5 m to deposit the berm.</li><li><strong>Continuous excavation</strong> instead of discrete bites: the tool stays engaged and shaves material through the pass, holding ground reaction forces low throughout rather than spiking at each bite.</li><li>Localization fusing wheel encoders, IMU, ground-facing visual odometry for slip, and beacons; dual RGBD cameras for ground-plane fitting and berm profile estimation, updating the worksite map at 1 Hz.</li><li>Dig sequencing came from a separate planner built for 16-782, which searches over excavation and deposition order to minimize rover travel. Write-up: <a href="berm-planning.html">Planning for berm construction</a>.</li></ul>
 
 
@@ -93,54 +113,49 @@ data-lazyvideo>
     </div>
 
     <h2>What worked</h2>
-    <ul class="ticks"><li><strong>The heuristic is what made the planner exist.</strong> With no heuristic, the top-level search produced no plan at all in 10 minutes on a 16-section berm. Relaxing to a collision-free 2D TSP and solving it with OR-Tools cut that to 70 s at optimal weight, and 27 s at weight 5 for 1.3% higher plan cost.</li><li><strong>Banning point turns is a planning decision, not a control one.</strong> The base is differential drive and can rotate in place perfectly well. The reason not to is that spinning in loose simulant digs a groove that strands you later, so the constraint belongs in the path planner as a minimum turn radius, not in the controller as a preference.</li><li>Localization came in at 2 cm against a 30 cm requirement. That margin is what the berm shaping fed on: the height tolerance actually achieved was 2.1 cm.</li></ul>
-
-    <h2>What didn't</h2>
-    <ul class="crosses"><li>The whole demonstration ran in Earth gravity on a simulant testbed. The low-reaction-force case for continuous excavation is a design rationale carried over from the lunar setting, not something the testbed measured.</li><li>The capstone ran a simplified version of the sequencing planner. The full bilevel search with the TSP heuristic was evaluated separately in simulation, on berms of up to 16 sections.</li></ul>
-  </div>
-</div>
-
-<div class="wrap" style="margin-top:clamp(2.5rem,5vw,3.5rem)">
-  <div class="figs">
-    <figure class="fig" style="margin:0">
-      <div class="frame tall fit-cover">
-  <video poster="../assets/media/lunar-x/berm.jpg"         muted loop playsinline preload="none"
-data-lazyvideo>
-    <source src="../assets/media/lunar-x/berm.mp4" type="video/mp4">
-  </video>
-</div>
-
-      <figcaption>Building a curved berm, successive continuous excavation passes.</figcaption>
-    </figure>
-    <figure class="fig" style="margin:0">
-      <div class="frame tall fit-cover">
-  <img src="../assets/media/lunar-x/robot.jpg" alt="" loading="lazy" decoding="async">
-</div>
-
-      <figcaption>The platform and its excavation tool.</figcaption>
-    </figure>
-    <figure class="fig" style="margin:0">
-      <div class="frame tall fit-cover">
+    <figure class="fig-side right">
+  <div class="frame  fit-cover">
   <video poster="../assets/media/lunar-x/video.jpg"         muted loop playsinline preload="none"
 data-lazyvideo>
     <source src="../assets/media/lunar-x/video.mp4" type="video/mp4">
   </video>
 </div>
 
-      <figcaption>From the team&#39;s project video.</figcaption>
-    </figure>
+  <figcaption>From the team&#39;s project video.</figcaption>
+</figure>
+
+    <ul class="ticks"><li><strong>The heuristic is what made the planner exist.</strong> With no heuristic, the top-level search produced no plan at all in 10 minutes on a 16-section berm. Relaxing to a collision-free 2D TSP and solving it with OR-Tools cut that to 70 s at optimal weight, and 27 s at weight 5 for 1.3% higher plan cost.</li><li><strong>Banning point turns is a planning decision, not a control one.</strong> The base is differential drive and can rotate in place perfectly well. The reason not to is that spinning in loose simulant digs a groove that strands you later, so the constraint belongs in the path planner as a minimum turn radius, not in the controller as a preference.</li><li>Localization came in at 2 cm against a 30 cm requirement. That margin is what the berm shaping fed on: the height tolerance actually achieved was 2.1 cm.</li></ul>
+
+    <h2>What didn't</h2>
+    
+    <ul class="crosses"><li>The whole demonstration ran in Earth gravity on a simulant testbed. The low-reaction-force case for continuous excavation is a design rationale carried over from the lunar setting, not something the testbed measured.</li><li>The capstone ran a simplified version of the sequencing planner. The full bilevel search with the TSP heuristic was evaluated separately in simulation, on berms of up to 16 sections.</li></ul>
+
+  </article>
+</div>
+
+
+<div class="wrap videos-wrap">
+  <div class="sec-head"><span class="num">[ &#9654; ]</span><h2>Watch</h2></div>
+  <div class="video-cards">
+    <a class="video-card" href="https://youtu.be/YWWGcqENcMo" target="_blank" rel="noopener">
+      <span class="vthumb">
+        <img src="../assets/media/lunar-x/yt_YWWGcqENcMo.jpg" alt="" loading="lazy" decoding="async">
+        <span class="play" aria-hidden="true">
+          <svg viewBox="0 0 68 48"><path class="bg" d="M66.5 7.7a8.6 8.6 0 0 0-6-6C55.2 0 34 0 34 0S12.8 0 7.5 1.6a8.6 8.6 0 0 0-6 6A90 90 0 0 0 0 24a90 90 0 0 0 1.5 16.3 8.6 8.6 0 0 0 6 6C12.8 48 34 48 34 48s21.2 0 26.5-1.6a8.6 8.6 0 0 0 6-6A90 90 0 0 0 68 24a90 90 0 0 0-1.5-16.3z"/><path class="arrow" d="M27 34V14l18 10z"/></svg>
+        </span>
+      </span>
+      <span class="vlabel">Video</span>
+    </a>
   </div>
 </div>
 
-<div class="wrap" style="margin-top:clamp(2.5rem,5vw,3.5rem);padding-bottom:clamp(2.5rem,6vw,4rem)">
-  <div class="sec-head"><span class="num">[ → ]</span><h2>Links</h2></div>
+<div class="wrap proj-foot">
+  <div class="sec-head"><span class="num">[ &rarr; ]</span><h2>Links</h2></div>
   <div class="linkrow">
   <a href="https://mrsdprojects.ri.cmu.edu/2023teamc/"
 target="_blank" rel="noopener">Project website</a>
   <a href="https://github.com/Lunar-Autonomous-Regolith-Excavator/LunAR-X"
 target="_blank" rel="noopener">Code</a>
-  <a href="https://youtu.be/YWWGcqENcMo"
-target="_blank" rel="noopener">Video</a>
   <a href="https://drive.google.com/open?id=1E1d_Ks4znFoPX9TVhLTD4QVd8uxXk2M8"
 target="_blank" rel="noopener">Report</a>
   <a href="https://lsic.jhuapl.edu/"
@@ -162,8 +177,8 @@ target="_blank" rel="noopener">NASA LSIC</a>
   </div>
 
   <div class="projnav">
-<a href="dream-in-graphs.html">← Dream in Graphs</a>    <span class="spacer"></span>
-<a href="diffusion-policies.html">Seeing with your ears →</a>  </div>
+<a href="dream-in-graphs.html">&larr; Dream in Graphs</a>    <span class="spacer"></span>
+<a href="diffusion-policies.html">Seeing with your ears &rarr;</a>  </div>
 </div>
 
 </main>

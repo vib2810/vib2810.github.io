@@ -68,7 +68,7 @@
 </div>
 
 <div class="wrap proj-hero">
-  <div class="frame tall fit-cover">
+  <div class="frame  fit-cover">
   <video poster="../assets/media/aarohi/hero.jpg"         muted loop playsinline preload="none"
 data-lazyvideo>
     <source src="../assets/media/aarohi/hero.mp4" type="video/mp4">
@@ -78,11 +78,34 @@ data-lazyvideo>
 </div>
 
 <div class="wrap">
-  <div class="prose">
+  <article class="prose blog">
+
     <h2>The problem</h2>
+    <figure class="fig-side right">
+  <div class="frame  fit-cover">
+  <video poster="../assets/media/aarohi/climb.jpg"         muted loop playsinline preload="none"
+data-lazyvideo>
+    <source src="../assets/media/aarohi/climb.mp4" type="video/mp4">
+  </video>
+</div>
+
+  <figcaption>Negotiating the terrace step.</figcaption>
+</figure>
+
     <p>Terrace steps on Indian hill farms reach 40 cm, on terraces 60 to 80 m long and only a few meters wide. That rules out tractors and it rules out most stair-climbing mechanisms with it: star-wheel designs need a wheel radius well above the step height and turn bulky, tracked and legged designs are large, unstable under payload, or too expensive to put in a field. A single misjudged step dimension drops the robot off a terrace edge. And whatever climbs up has to carry real agricultural payload and then do real work.</p>
 
     <h2>What I built</h2>
+    <figure class="fig-side left">
+  <div class="frame  fit-cover">
+  <video poster="../assets/media/aarohi/farm.jpg"         muted loop playsinline preload="none"
+data-lazyvideo>
+    <source src="../assets/media/aarohi/farm.mp4" type="video/mp4">
+  </video>
+</div>
+
+  <figcaption>Tool head actuating on the upper terrace.</figcaption>
+</figure>
+
     <ul><li>A four-wheel differential drive chassis in V-slot aluminum extrusion, with front and rear <strong>scissor lifts</strong> actuated independently by one linear actuator each, plus four pairs of unpowered dummy wheels that carry the robot across the step edge mid-climb.</li><li>Sized the lift by <strong>multi-objective optimization</strong> rather than by catalog. Derived closed-form expressions for peak actuator force and stroke length in terms of the linkage geometry, then solved for the Pareto front with a genetic algorithm over attachment points, minimum link angle, link length and number of stages. Picked a 1000 N, 25 cm-stroke actuator off that front (factor of safety about 1.74) and set 3 mm steel links from an ANSYS stress and deflection study.</li><li>A six-stage climb algorithm driven entirely by 1D LiDAR: align yaw against the terrace wall, extend both lifts to step height, advance on the dummy wheels, lift the front wheel pair, advance, lift the rear pair, advance. The center of mass stays inside the wheel contact polygon at every stage.</li><li>A plow-sow-roll module in series (disc plow at 45° disc angle and 15° tilt with alternating disc orientation to cancel side thrust, primary roller, V-furrower, stepper-driven seed metering, secondary roller), plus a two-tank pump and five-nozzle sprayer switching between water and pesticide on solenoid valves.</li><li>A ROS stack: EKF localization, terrace edge detection by vertical gradient filtering and probabilistic Hough transform, terrace width estimation from a pair of 45° downward LiDARs, adaptive pure pursuit for row traversal, and adaptive PID for lift pitch.</li></ul>
 
 
@@ -92,49 +115,48 @@ data-lazyvideo>
     </div>
 
     <h2>What worked</h2>
+    
     <ul class="ticks"><li><strong>Actuator selection as a two-objective problem.</strong> Peak force and stroke length trade against each other directly through the linkage geometry, so there is no single best design. Solving for the Pareto front turned the choice into a shopping list you could match against actuators actually purchasable at a price a farming household could bear, which is the real constraint here.</li><li><strong>Two independently actuated lifts, not one.</strong> Only one wheel pair leaves the ground at a time, so the support polygon never collapses during a climb. The same mechanism doubles as continuous height adjustment for watering, spraying and harvesting crops of different heights.</li><li><strong>1D LiDARs, used generously.</strong> Eighteen of them (eight at the corners, four downward, two for width estimation, four angled failsafes) did work a depth camera would normally be asked for, at a fraction of the cost and with clean failure semantics: a sudden jump in any failsafe beam means an edge is under the robot, and that triggers an immediate stop.</li></ul>
 
     <h2>What didn't</h2>
+    
     <ul class="crosses"><li>GPS was effectively useless. Roughly a meter of error on terraces a few meters wide meant the EKF had to lean on wheel odometry, IMU and LiDAR instead.</li><li>A standard PID could not hold the chassis level. Under added payload the pitch error settled at a nonzero value, which is a stability problem when half the robot is over a step edge. It took an adaptive PID with MIT-rule gain updates to close that out.</li><li>This is a prototype validated in a test arena, not a season on a hillside. The design also assumes flat, unramped steps and no high wind.</li></ul>
+
+  </article>
+</div>
+
+
+<div class="wrap videos-wrap">
+  <div class="sec-head"><span class="num">[ &#9654; ]</span><h2>Watch</h2></div>
+  <div class="video-cards">
+    <a class="video-card" href="https://www.youtube.com/watch?v=YAetBlpEgMw" target="_blank" rel="noopener">
+      <span class="vthumb">
+        <img src="../assets/media/aarohi/yt_YAetBlpEgMw.jpg" alt="" loading="lazy" decoding="async">
+        <span class="play" aria-hidden="true">
+          <svg viewBox="0 0 68 48"><path class="bg" d="M66.5 7.7a8.6 8.6 0 0 0-6-6C55.2 0 34 0 34 0S12.8 0 7.5 1.6a8.6 8.6 0 0 0-6 6A90 90 0 0 0 0 24a90 90 0 0 0 1.5 16.3 8.6 8.6 0 0 0 6 6C12.8 48 34 48 34 48s21.2 0 26.5-1.6a8.6 8.6 0 0 0 6-6A90 90 0 0 0 68 24a90 90 0 0 0-1.5-16.3z"/><path class="arrow" d="M27 34V14l18 10z"/></svg>
+        </span>
+      </span>
+      <span class="vlabel">Video</span>
+    </a>
+    <a class="video-card" href="https://www.youtube.com/watch?v=T4Ktph3kpYc" target="_blank" rel="noopener">
+      <span class="vthumb">
+        <img src="../assets/media/aarohi/yt_T4Ktph3kpYc.jpg" alt="" loading="lazy" decoding="async">
+        <span class="play" aria-hidden="true">
+          <svg viewBox="0 0 68 48"><path class="bg" d="M66.5 7.7a8.6 8.6 0 0 0-6-6C55.2 0 34 0 34 0S12.8 0 7.5 1.6a8.6 8.6 0 0 0-6 6A90 90 0 0 0 0 24a90 90 0 0 0 1.5 16.3 8.6 8.6 0 0 0 6 6C12.8 48 34 48 34 48s21.2 0 26.5-1.6a8.6 8.6 0 0 0 6-6A90 90 0 0 0 68 24a90 90 0 0 0-1.5-16.3z"/><path class="arrow" d="M27 34V14l18 10z"/></svg>
+        </span>
+      </span>
+      <span class="vlabel">Cover video</span>
+    </a>
   </div>
 </div>
 
-<div class="wrap" style="margin-top:clamp(2.5rem,5vw,3.5rem)">
-  <div class="figs">
-    <figure class="fig" style="margin:0">
-      <div class="frame tall fit-cover">
-  <video poster="../assets/media/aarohi/climb.jpg"         muted loop playsinline preload="none"
-data-lazyvideo>
-    <source src="../assets/media/aarohi/climb.mp4" type="video/mp4">
-  </video>
-</div>
-
-      <figcaption>Negotiating the terrace step.</figcaption>
-    </figure>
-    <figure class="fig" style="margin:0">
-      <div class="frame tall fit-cover">
-  <video poster="../assets/media/aarohi/farm.jpg"         muted loop playsinline preload="none"
-data-lazyvideo>
-    <source src="../assets/media/aarohi/farm.mp4" type="video/mp4">
-  </video>
-</div>
-
-      <figcaption>Tool head actuating on the upper terrace.</figcaption>
-    </figure>
-  </div>
-</div>
-
-<div class="wrap" style="margin-top:clamp(2.5rem,5vw,3.5rem);padding-bottom:clamp(2.5rem,6vw,4rem)">
-  <div class="sec-head"><span class="num">[ → ]</span><h2>Links</h2></div>
+<div class="wrap proj-foot">
+  <div class="sec-head"><span class="num">[ &rarr; ]</span><h2>Links</h2></div>
   <div class="linkrow">
   <a href="https://ieeexplore.ieee.org/document/10004400"
 target="_blank" rel="noopener">Paper</a>
-  <a href="https://www.youtube.com/watch?v=YAetBlpEgMw"
-target="_blank" rel="noopener">Video</a>
   <a href="https://www.linkedin.com/feed/update/urn:li:activity:6632530677382381569/"
 target="_blank" rel="noopener">IIT KGP feature</a>
-  <a href="https://www.youtube.com/watch?v=T4Ktph3kpYc"
-target="_blank" rel="noopener">Cover video</a>
 </div>
 
   <div class="sources">
@@ -146,8 +168,8 @@ target="_blank" rel="noopener">Cover video</a>
   </div>
 
   <div class="projnav">
-<a href="auto-jenga.html">← Autonomous Jenga</a>    <span class="spacer"></span>
-<a href="flipkart-grid.html">Intelligent Pickers →</a>  </div>
+<a href="auto-jenga.html">&larr; Autonomous Jenga</a>    <span class="spacer"></span>
+<a href="flipkart-grid.html">Intelligent Pickers &rarr;</a>  </div>
 </div>
 
 </main>
