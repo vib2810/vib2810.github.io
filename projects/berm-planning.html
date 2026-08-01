@@ -81,7 +81,16 @@
   <article class="prose blog">
 
     <h2>The problem</h2>
-    
+    <figure class="fig-side right">
+  <div class="frame  fit-cover">
+  <video poster="../assets/media/berm-planning/sequence.jpg"         muted loop playsinline preload="none" data-lazyvideo>
+    <source src="../assets/media/berm-planning/sequence.mp4" type="video/mp4">
+  </video>
+</div>
+
+  <figcaption>One worksite, planned and animated. The rover drives between the excavation zones and the berm sections it is filling, in the order the upper level chose, with every leg a path hybrid A* said it could actually drive.</figcaption>
+</figure>
+
     <p>Building a berm is not one excavation, it is dozens, and the order matters. Every pass changes the terrain the next one starts from, and driving between distant excavation and deposition sites is the dominant cost on a rover with a fixed power budget. The space of orderings is combinatorial, so uninformed search does not finish.</p>
 
     <h2>What I built</h2>
@@ -118,6 +127,8 @@ target="_blank" rel="noopener">Code</a>
     <ul>
       <li><b>hero</b> &middot;
 Local file (berm_env16_padded.mp4)      </li>
+      <li><b>sequence</b> &middot;
+Local file (animation_env_5_10.mp4)      </li>
     </ul>
   </div>
 

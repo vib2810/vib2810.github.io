@@ -83,7 +83,16 @@
   <article class="prose blog">
 
     <h2>The problem</h2>
-    
+    <figure class="fig-side right">
+  <div class="frame  fit-cover">
+  <video poster="../assets/media/physical-ai-hack/recover.jpg"         muted loop playsinline preload="none" data-lazyvideo>
+    <source src="../assets/media/physical-ai-hack/recover.mp4" type="video/mp4">
+  </video>
+</div>
+
+  <figcaption>Stacking the red cup onto the blue one. The run carries on through a failed attempt rather than ending at it.</figcaption>
+</figure>
+
     <p>Visuomotor policies are good at short, well-defined skills and degrade over long horizons. Errors compound from one sub-task into the next, and a policy trained to imitate successful trajectories has no way to represent the decision to stop, back up and try again. Covering a whole long-horizon task with demonstrations, including every way it can go wrong partway through, is not a data budget anyone can afford.</p>
 
     <h2>What I built</h2>

@@ -81,14 +81,24 @@
   <article class="prose blog">
 
     <h2>The problem</h2>
-    
+    <figure class="fig-side right">
+  <div class="frame  fit-cover">
+  <video poster="../assets/media/lane-detection/detect.jpg"         muted loop playsinline preload="none" data-lazyvideo>
+    <source src="../assets/media/lane-detection/detect.mp4" type="video/mp4">
+  </video>
+</div>
+
+  <figcaption>Running live on the vehicle: the fitted lane curves tracked frame to frame, the intermediate detection stages, and the filter state, all inside the onboard compute budget.</figcaption>
+</figure>
+
     <p>Lane detection methods assume a highway: high-contrast paint on dark tarmac, roughly straight, consistently lit. IGVC provides the opposite. Hand-painted lines on a grass field under moving sun, no consistent lane structure, and frequent gaps where the paint has worn away. Every assumption the standard pipeline rests on fails simultaneously, and the result still has to run at frame rate on the vehicle&#39;s onboard compute.</p>
 
     <h2>What I built</h2>
     
     <ul><li>Perspective transformation into a bird's-eye view, so lane geometry becomes metric and roughly parallel instead of projective and converging.</li><li>Principal component analysis with lateral clustering over candidate lane pixels, fitting lane curves and separating stop lines from lane markings by their orientation.</li><li>An unscented Kalman filter tracking the fitted lane parameters across frames, carrying the estimate through gaps and detection dropouts.</li><li>Integrated as the perception front end of the EKLAVYA IGVC autonomy stack, feeding the vehicle's navigation.</li></ul>
 
-<p class="note">Ran onboard at frame rate as part of the IGVC autonomy stack, and was published at IVPAI 2019 (SPIE).</p>
+
+    <blockquote class="result">The method was published at IVPAI 2019 (SPIE) and ran at frame rate on the vehicle&#39;s onboard compute as the perception front end of the EKLAVYA IGVC stack. It recovers lane curves and stop lines from hand-painted markings on grass, separating the two by orientation alone with no classifier, and holds the estimate through the frames where the paint disappears.</blockquote>
 
     <h2>What worked</h2>
     

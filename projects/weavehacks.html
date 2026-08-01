@@ -4,12 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>ReviveAgent, Vibhakar Mohta</title>
-<meta name="description" content="Point it at a research repository that stopped working years ago and it works out what rotted and fixes it, which is most of what reproducing anything actually costs.">
+<meta name="description" content="Point it at a research repository that stopped working years ago and it reconciles that repo with a current one, then rewrites its own playbook from the mistakes it made doing it.">
 <meta name="author" content="Vibhakar Mohta">
 <link rel="canonical" href="https://vib2810.github.io/projects/weavehacks.html">
 <meta property="og:site_name" content="Vibhakar Mohta">
 <meta property="og:title" content="ReviveAgent, Vibhakar Mohta">
-<meta property="og:description" content="Point it at a research repository that stopped working years ago and it works out what rotted and fixes it, which is most of what reproducing anything actually costs.">
+<meta property="og:description" content="Point it at a research repository that stopped working years ago and it reconciles that repo with a current one, then rewrites its own playbook from the mistakes it made doing it.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://vib2810.github.io/projects/weavehacks.html">
 <meta property="og:locale" content="en_US">
@@ -21,7 +21,7 @@
 <meta property="og:image:alt" content="Vibhakar Mohta, Research Scientist, Nuro">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="ReviveAgent, Vibhakar Mohta">
-<meta name="twitter:description" content="Point it at a research repository that stopped working years ago and it works out what rotted and fixes it, which is most of what reproducing anything actually costs.">
+<meta name="twitter:description" content="Point it at a research repository that stopped working years ago and it reconciles that repo with a current one, then rewrites its own playbook from the mistakes it made doing it.">
 <meta name="twitter:image" content="https://vib2810.github.io/assets/img/og.jpg?v=e94b4663">
 <meta name="theme-color" content="#E8721C">
 <link rel="stylesheet" href="../assets/css/site.css">
@@ -60,7 +60,7 @@
 <div class="wrap proj-head">
   <a class="backlink" href="../projects/index.html">← All projects</a>
   <h1>ReviveAgent</h1>
-  <p class="sub">An agent that brings dead repositories back to life</p>
+  <p class="sub">An agent that integrates dead repositories with live ones</p>
   <span class="meta">Oct 2025 · Weavehacks 2 · Weights &amp; Biases × Google Cloud · SF Hack Week</span>
 <div class="venue">Best Self-Improving Agent · 67 teams</div>  <div class="chips">
 <a class="chip" href="../projects/index.html?tag=generative">Generative &amp; foundation models</a>
@@ -81,22 +81,37 @@
   <article class="prose blog">
 
     <h2>The problem</h2>
-    
-    <p>The reference implementation for a method you want to build on is four years old, its dependencies no longer resolve, and the APIs it calls have moved underneath it. Reproducing the original result turns into archaeology, which is one of the most common reasons a good idea never gets built on. It is also a poor fit for a one-shot code model, because whether a fix worked is not visible in the diff. You have to run it.</p>
+    <figure class="fig-side right">
+  <div class="frame  fit-contain">
+  <img src="../assets/media/weavehacks/arch.jpg" alt="" loading="lazy" decoding="async">
+</div>
+
+  <figcaption>What the agent is handed and what it is allowed to touch: an unmaintained repository and a current base repository whose dependencies conflict, plus a workspace and environment it can edit freely. The self-improvement module sits alongside the cli and search tools, and every tool call is logged through Weave.</figcaption>
+</figure>
+
+    <p>The reference implementation you want to build on is four years old and its dependencies no longer resolve against anything current. Reproducing the original result turns into archaeology, which is one of the most common reasons a good idea never gets built on. It is also a poor fit for a one-shot code model: whether a fix worked is not visible in the diff, only in whether the thing runs, and the failures arrive one import error at a time.</p>
 
     <h2>What I built</h2>
-    
-    <ul><li>An agent that takes a repository URL, diagnoses why it no longer runs (unresolvable dependencies, moved or deleted APIs, changed environment assumptions), and iterates on fixes.</li><li>A self-improving loop: the agent runs its own attempts, reads what broke, and revises, rather than emitting one patch and stopping. That loop is what the category award was for.</li><li>Demonstrated on a reinforcement learning environment roughly four years stale: diagnosed, restored to a running state, and benchmarked against a current RL environment.</li></ul>
+    <figure class="fig-side left">
+  <div class="frame  fit-contain">
+  <img src="../assets/media/weavehacks/toolcalls.jpg" alt="" loading="lazy" decoding="async">
+</div>
+
+  <figcaption>The same integration task, before and after the agent rewrote its own playbook from the previous run&#39;s mistakes: 159 tool calls down to 123.</figcaption>
+</figure>
+
+    <ul><li>An agent that takes an unmaintained repository and a current base repository and reconciles the two, resolving the dependency and version conflicts between them. It works in a scratch workspace with cli and search tools, editing both checkouts and the environment until the combined thing runs.</li><li>A <strong>self-improvement loop that spans runs</strong>, not just steps within one. The agent keeps a mistake log from its own attempts and distills it into a ranked playbook for the next run: diff the dependencies before installing rather than discovering conflicts at runtime, batch a symbol rename into one pass instead of editing file by file, audit for the NumPy 2.x migration up front whenever NumPy 2 is present in the environment.</li><li>Instrumented end to end with <strong>W&amp;B Weave</strong>, so every tool call is logged and the before-and-after is measured rather than asserted.</li><li>Demonstrated by integrating <strong>racecar_gym</strong>, roughly four years stale, against the current <strong>Farama Gymnasium</strong> API.</li></ul>
 
 
+    <blockquote class="result">Rewriting its own playbook from the previous run&#39;s mistakes cut the same integration task from 159 tool calls to 123, a 23% reduction, bringing a four-year-stale racecar_gym up against the current Gymnasium API. It won Best Self-Improving Agent among 67 teams at Weavehacks 2, run by Weights &amp; Biases and Google Cloud during SF Hack Week.</blockquote>
 
     <h2>What worked</h2>
     
-    <ul class="ticks"><li>Bit rot comes with a free reward function. The code either imports and executes or it does not, so the agent can score its own attempts without a human in the loop, which is exactly the condition a self-improving loop needs.</li><li>Scoping to revival rather than general repair. The target behavior already exists and is described in the repository, so the agent has a specification to work toward instead of having to infer intent.</li></ul>
+    <ul class="ticks"><li>Bit rot comes with a free reward function. The code either imports and executes or it does not, so the agent can score its own attempts without a human in the loop, which is exactly the condition a self-improving loop needs.</li><li><strong>The self-improvement is legible.</strong> What the loop produces is not a better set of weights but a written playbook you can read, disagree with and reuse. That is also why the improvement could be counted in tool calls at all.</li><li>Scoping to reconciling two repositories rather than general repair. The target behavior already exists and is described in both codebases, so the agent has a specification to work toward instead of having to infer intent.</li></ul>
 
     <h2>What didn't</h2>
     
-    <ul class="crosses"><li>One repository, one weekend. There is no measurement across the range of decay that actually occurs: an unpinned dependency, a deleted API and a missing dataset are very different failures with very different fix rates.</li><li>The loop verifies that the code runs, not that it reproduces the original numbers. For research repositories that is the harder and more useful half of the problem, and it is untouched.</li></ul>
+    <ul class="crosses"><li>One repository pair, one weekend. There is no measurement across the range of decay that actually occurs: an unpinned dependency, a deleted API and a missing dataset are very different failures with very different fix rates.</li><li>159 against 123 tool calls is a single before-and-after on a single task. Nothing here controls for run-to-run variance in an agent that samples, so treat it as a direction, not an effect size.</li><li>The loop verifies that the code runs, not that it reproduces the original numbers. For research repositories that is the harder and more useful half of the problem, and it is untouched.</li></ul>
 
   </article>
 </div>
@@ -120,6 +135,8 @@
 <div class="wrap proj-foot">
   <div class="sec-head"><span class="num">[ &rarr; ]</span><h2>Links</h2></div>
   <div class="linkrow">
+  <a href="https://docs.google.com/presentation/d/e/2PACX-1vRlBL0eidAJPc1CV8eg3o_kXoOK-TGaVvrZ-974O1_04nJq10b_r5xAEzbJlnnBrFqydJST7L3JNbz7/pub"
+target="_blank" rel="noopener">Slides</a>
   <a href="https://www.linkedin.com/posts/vibhakarmohta_excited-to-announce-that-my-team-won-the-activity-7383437922089263104-6TNN"
 target="_blank" rel="noopener">Post</a>
   <a href="https://luma.com/weavehacks2"
@@ -131,6 +148,10 @@ target="_blank" rel="noopener">Event</a>
     <ul>
       <li><b>hero</b> &middot;
 <a href="https://www.youtube.com/watch?v=GzqFLpUFegk" target="_blank" rel="noopener">YouTube</a>      </li>
+      <li><b>arch</b> &middot;
+Local file (revive_arch.png)      </li>
+      <li><b>toolcalls</b> &middot;
+Local file (revive_toolcalls.png)      </li>
     </ul>
   </div>
 

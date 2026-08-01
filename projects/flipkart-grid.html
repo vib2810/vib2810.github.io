@@ -81,18 +81,39 @@
   <article class="prose blog">
 
     <h2>The problem</h2>
-    
+    <figure class="fig-side right">
+  <div class="frame  fit-contain">
+  <img src="../assets/media/flipkart-grid/cad.jpg" alt="" loading="lazy" decoding="async">
+</div>
+
+  <figcaption>The 6-DOF manipulator, designed in CAD against the challenge&#39;s reach and payload envelope before anything was fabricated.</figcaption>
+</figure>
+
     <p>Picking a named item out of a bin of retail products is not clean pick and place. The products are jumbled, many are deformable or shiny, and several look alike from above, so the grasp has to be chosen from a point cloud of a pile rather than from a known object pose. The competition added its own constraint: the whole thing had to be demonstrable end to end under elimination-round deadlines.</p>
 
     <h2>What I built</h2>
-    
+    <figure class="fig-side left">
+  <div class="frame  fit-cover">
+  <img src="../assets/media/flipkart-grid/segmentation.jpg" alt="" loading="lazy" decoding="async">
+</div>
+
+  <figcaption>Segmenting the picking area. RGB views of the product pile, the instance masks over them, and the segmented point cloud the grasp planner actually works on.</figcaption>
+</figure>
+
     <ul><li>Motion planning for a 6-DOF manipulator across the full reach, grasp, lift and place cycle, demonstrated on the challenge's own retail product mix.</li><li>A gripper designed around that product mix rather than as a general-purpose end effector.</li><li>A mobile base that builds a point cloud of the picking area as it is driven across the shelf, so the grasp planner works from a reconstruction of the actual bin instead of one fixed camera view.</li><li>Grasp planning directly on that point cloud, selecting a grasp on one product in clutter with no object model and no known pose.</li></ul>
 
 
     <blockquote class="result">The stack placed second in the country out of more than 6500 teams in the Flipkart GRID 2.0 Intelligent Picking Challenge, with the full drive, map, grasp-plan and pick cycle running on real retail products through the national elimination rounds.</blockquote>
 
     <h2>What worked</h2>
-    
+    <figure class="fig-side right">
+  <div class="frame  fit-cover">
+  <img src="../assets/media/flipkart-grid/grasps.jpg" alt="" loading="lazy" decoding="async">
+</div>
+
+  <figcaption>Grasp candidates scored on individual objects. The grasp rectangle&#39;s position, orientation and width come out of the point cloud, not from a known object pose.</figcaption>
+</figure>
+
     <ul class="ticks"><li>Splitting the system into stages that stand alone (drive and map, plan a grasp against the point cloud, execute with the arm) meant each piece could be shown working independently. Under a competition deadline, that is worth more than a tighter but all-or-nothing loop.</li><li>Building the gripper for the specific product mix removed a large amount of grasp-planning difficulty at the hardware level, which is usually the cheaper place to solve it.</li></ul>
 
     <h2>What didn't</h2>
@@ -109,6 +130,8 @@
   <div class="linkrow">
   <a href="https://drive.google.com/file/d/1I6-ZsFM6QG6BtJ0fDwtklsUrD6mtUYtU/view"
 target="_blank" rel="noopener">Certificate</a>
+  <a href="https://docs.google.com/presentation/d/e/2PACX-1vRCiBqqbuXS836Qa_K_3nbr9X8HBxuBTEzGYu8e4UVBwbsiZkFfvCMJF2X9pNzX6WghAZmZ8D_yXXHL/pub"
+target="_blank" rel="noopener">Finals deck</a>
   <a href="https://unstop.com/o/flipkart-grid-20-robotics-challenge-flipkart-grid-20-flipkart-113687"
 target="_blank" rel="noopener">Challenge</a>
   <a href="https://www.linkedin.com/feed/update/urn:li:activity:6756912875538931712/"
@@ -120,6 +143,12 @@ target="_blank" rel="noopener">Feature</a>
     <ul>
       <li><b>hero</b> &middot;
 Local file (drive_flipkart.mp4)      </li>
+      <li><b>cad</b> &middot;
+Local file (flipkart_cad.png)      </li>
+      <li><b>segmentation</b> &middot;
+Local file (flipkart_segmentation.png)      </li>
+      <li><b>grasps</b> &middot;
+Local file (flipkart_grasps.png)      </li>
     </ul>
   </div>
 

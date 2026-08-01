@@ -5,6 +5,8 @@ Regenerate with:  `python3 tools/make_media.py --slug weavehacks`
 | file | source | clip |
 |---|---|---|
 | `hero` | https://youtu.be/GzqFLpUFegk | 126s +8s |
+| `arch` | local:raw/revive_arch.png | ,  |
+| `toolcalls` | local:raw/revive_toolcalls.png | ,  |
 
 Replace any file in this folder with your own and keep the filename , 
 the site picks it up with no other change.

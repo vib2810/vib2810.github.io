@@ -81,7 +81,16 @@
   <article class="prose blog">
 
     <h2>The problem</h2>
-    
+    <figure class="fig-side right">
+  <div class="frame  fit-cover">
+  <video poster="../assets/media/auto-jenga/recovery.jpg"         muted loop playsinline preload="none" data-lazyvideo>
+    <source src="../assets/media/auto-jenga/recovery.mp4" type="video/mp4">
+  </video>
+</div>
+
+  <figcaption>The recovery behavior, mid-build. A grasp goes wrong, the arm backs off and retries from a known pose instead of placing on top of the mistake. The monitor shows the YOLOv8 instance masks the grasp scorer chooses from.</figcaption>
+</figure>
+
     <p>Stacking looks like solved pick and place right up until a grasp slips. Jenga blocks are near-identical, they lie in a pile at arbitrary orientations, and a single bad pickup either drops a block or topples what is already built. The hard part is not the nominal pipeline; it is that the nominal pipeline has no notion of its own failure, so every error compounds into the next placement.</p>
 
     <h2>What I built</h2>

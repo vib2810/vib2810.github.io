@@ -104,7 +104,8 @@
 
     <ul><li>Adapted DreamerV3 to the F1Tenth platform. Observations are 1080 LiDAR range measurements over a 270° field of view, <strong>rendered as an image</strong> so DreamerV3's convolutional encoder and reconstruction loss get spatial structure to work with instead of a flat vector. Actions are target longitudinal speed and steering angle.</li><li>Trained in Racecar Gym (PyBullet) rather than the standard F1Tenth Gym, for a physics model closer to the real vehicle.</li><li>Shaped the reward as track progress from a 5 cm-resolution distance transform of the track, plus a speed term, plus <em>quadratic penalties on steering angle and steering rate</em> (an LQR-style action cost), plus a large negative terminal reward on contact with the boundary.</li><li>Deployed on real hardware: Traxxas chassis, VESC 6 MkIII ESC, Hokuyo UST-10LX LiDAR, Jetson Orin Nano running ROS 2 Foxy onboard, with the Dreamer model itself executed off-board across a ros-bridge.</li></ul>
 
-<p class="note">The policy drove the physical car with no real-world fine-tuning and no retuning. In simulation, trained on Austria alone, it completed 65% of runs on Austria and 100% on the simpler unseen Columbia layout.</p>
+
+    <blockquote class="result">The policy trained on a single simulated track from raw LiDAR and then drove the physical 1/10-scale car with no real-world fine-tuning and no retuning, so DreamerV3&#39;s fixed-hyperparameter recipe held across the sim-to-real gap. In simulation, trained on Austria alone, it completed 65% of runs on Austria and 100% on the unseen Columbia layout.</blockquote>
 
     <h2>What worked</h2>
     
