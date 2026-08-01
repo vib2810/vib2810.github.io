@@ -9,6 +9,7 @@ Regenerate with:  `python3 tools/make_media.py --slug eklavya`
 | `replan` | local:raw/taros_figs/replanning_u_red.png | ,  |
 | `detection` | local:raw/taros_figs/formulation_and_cdetection.png | ,  |
 | `avoidzone` | local:raw/taros_figs/replanning_illu.png | ,  |
+| `pubthumb` | local:raw/taros_pubthumb.png | ,  |
 
 Replace any file in this folder with your own and keep the filename , 
 the site picks it up with no other change.

@@ -57,11 +57,13 @@
 
 <main id="main">
 
-<div class="wrap" style="padding-top:clamp(2.5rem,6vw,4rem)">
-  <h1>About</h1>
-  <div class="lede stack" style="margin-top:1rem">
-<p>My research question is how robots get better without a human in the loop for every mistake. Behavior cloning inherits only the states a demonstrator happened to visit, so each additional nine of reliability costs another order of magnitude of teleoperation. I am more interested in the flywheel: systems that close their own loop, notice when they have gone off distribution, and turn their own failures into the next batch of training data.</p><p>The organizing idea for me is <strong>thinking fast and slow</strong>. A reactive policy is fast, cheap and confidently wrong off distribution. Search is slow, expensive and able to recover. Most of what I build puts the two in one loop and spends compute only where the fast system is about to fail. In <a href="projects/sailor.html">SAILOR</a> (NeurIPS 2025 Spotlight) that means learning a world model, a reward model and a critic from demonstrations alone, then running MPPI over imagined latent rollouts to correct a diffusion policy mid-episode, matching diffusion policies trained on 5 to 10 times the data. In <a href="projects/physical-ai-hack.html">PIVot</a> it means short-horizon ACT specialists sitting under an LLM that decides which one to run next.</p><p>Right now I am exploring the frontier of <strong>world action models</strong>: the bet that the robotics GPT moment comes from models that predict what the world does next and what to do about it in one representation, rather than from ever larger piles of teleoperation. That is the same gap between open loop prediction and closed loop control that shows up everywhere in this field. At <a href="https://nuro.ai">Nuro</a> I work on the Core Behavior team, post-training flow-based driving policies with reinforcement learning so the vehicle drives the way a person would.</p><p>On the side I am building on an <strong>SO101 arm</strong>, mostly to keep my own hands on the data collection and evaluation loop rather than reasoning about it from a paper. Before Nuro I finished my MS at the <a href="https://www.ri.cmu.edu/">CMU Robotics Institute</a>, and before that a dual degree at IIT Kharagpur. Along the way I built a fair number of robots: a stair-climbing terrace farming robot, an autonomous lunar excavator, a self-fabricated ground vehicle that placed twice at IGVC, and a 1/10-scale racecar that learned to drive inside a model of the world.</p>  </div>
-  <div class="linkrow">
+<div class="wrap about-head">
+  <img class="about-portrait" src="assets/media/site/portrait.jpg"
+       alt="Vibhakar Mohta" width="200" height="200">
+  <div>
+    <h1>Vibhakar Mohta</h1>
+    <p class="about-role">Research Scientist, Nuro</p>
+    <div class="linkrow">
   <a href="mailto:vib2810@gmail.com"
 >
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 6 10-6"/></svg>
@@ -88,6 +90,22 @@ LinkedIn
 Résumé
   </a>
 </div>
+  </div>
+</div>
+
+<div class="wrap about-body">
+  <section class="about-block">
+    <h2>What I am after</h2>
+    <p>I want robots that get better without a human correcting every mistake. Imitation learning only teaches a policy the states a demonstrator happened to visit, so every additional nine of reliability costs another order of magnitude of teleoperation. The way out is a flywheel: systems that close their own loop, notice when they have drifted off distribution, and turn their own failures into the next batch of training data. My organizing idea is <strong>thinking fast and slow</strong>. A reactive policy is fast, cheap and confidently wrong off distribution; search is slow, expensive and able to recover. Nearly everything I build puts both in one loop and spends compute only where the fast system is about to fail.</p>
+  </section>
+  <section class="about-block">
+    <h2>Background</h2>
+    <p>M.S. in Robotic Systems Development from the <a href="https://www.ri.cmu.edu/">CMU Robotics Institute</a> (GPA 4.08/4.0), and a dual degree in Mechanical Engineering and Systems Design with a Computer Science minor from IIT Kharagpur (GPA 9.22/10), where I received the <strong>Institute Order of Merit</strong>, given to roughly 8 of 1500 graduating students. <a href="projects/sailor.html">SAILOR</a> was a <strong>Spotlight at NeurIPS 2025</strong>, the top 3 percent of submissions, and I have five other peer-reviewed papers across robotics and vision. Before Nuro I worked on prediction at Plus AI and motion planning at Aurora. Along the way I built a fair number of machines: a terrace farming robot that climbs 40 cm steps, an autonomous lunar excavator, a ground vehicle fabricated from scratch that placed twice at IGVC, and a 1/10 scale racecar that learned to drive inside a model of the world.</p>
+  </section>
+  <section class="about-block">
+    <h2>Right now</h2>
+    <p>I am a research scientist on the <strong>Core Behavior</strong> team at <a href="https://nuro.ai">Nuro</a>, post-training flow-based driving policies with reinforcement learning so the vehicle drives the way a person would. Outside of that I am exploring <strong>world action models</strong>: the bet that the robotics GPT moment comes from models that predict what the world does next and what to do about it in one representation, rather than from ever larger piles of teleoperation. I am also building on an <strong>SO101 arm</strong> at home, mostly to keep my own hands on the data collection and evaluation loop rather than reasoning about it from a paper.</p>
+  </section>
 </div>
 
 <section>
