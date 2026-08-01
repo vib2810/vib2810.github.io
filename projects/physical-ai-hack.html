@@ -13,8 +13,8 @@
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://vib2810.github.io/projects/physical-ai-hack.html">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://vib2810.github.io/assets/img/og.jpg">
-<meta property="og:image:secure_url" content="https://vib2810.github.io/assets/img/og.jpg">
+<meta property="og:image" content="https://vib2810.github.io/assets/img/og.jpg?v=e94b4663">
+<meta property="og:image:secure_url" content="https://vib2810.github.io/assets/img/og.jpg?v=e94b4663">
 <meta property="og:image:type" content="image/jpeg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -22,7 +22,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="PIVot, Vibhakar Mohta">
 <meta name="twitter:description" content="A two-level system: short-horizon visuomotor specialists trained with ACT, and an LLM above them deciding which one to run next and when it has failed. Runners-up at the Physical AI Hack.">
-<meta name="twitter:image" content="https://vib2810.github.io/assets/img/og.jpg">
+<meta name="twitter:image" content="https://vib2810.github.io/assets/img/og.jpg?v=e94b4663">
 <meta name="theme-color" content="#E8721C">
 <link rel="stylesheet" href="../assets/css/site.css">
 <link rel="icon" href="../favicon.ico" sizes="any">
@@ -84,14 +84,14 @@
 
     <h2>The problem</h2>
     
-    <p>Visuomotor policies are good at short, well-defined skills and fall apart over long horizons. Episodes get long, sub-tasks fail in ways the policy cannot represent, and nothing in the system has any notion that it should stop, back up and try something else. Collecting enough demonstrations to cover a whole long-horizon task, including all the ways it goes wrong partway through, is not practical.</p>
+    <p>Visuomotor policies are good at short, well-defined skills and degrade over long horizons. Errors compound from one sub-task into the next, and a policy trained to imitate successful trajectories has no way to represent the decision to stop, back up and try again. Covering a whole long-horizon task with demonstrations, including every way it can go wrong partway through, is not a data budget anyone can afford.</p>
 
     <h2>What I built</h2>
     
-    <ul><li>Individual short-horizon specialist policies trained with <strong>ACT</strong>: 60 demonstrations each with location randomization, 70k training steps at batch size 64.</li><li>An <strong>LLM judge</strong> on top that reads the scene, chooses which specialist to invoke next, and decides when the current one has finished or failed. The slow deliberative layer over the fast learned skills.</li><li>Framed the system as decisions over specialists rather than over raw actions, so long-horizon structure is something the system reasons about explicitly instead of something a single policy has to absorb.</li><li>Demonstrated on stacking a red cup onto a blue cup, built over a single hackathon weekend.</li></ul>
+    <ul><li>Individual short-horizon specialist policies trained with <strong>ACT</strong>: 60 demonstrations each with location randomization, 70k training steps at batch size 64.</li><li>An <strong>LLM judge</strong> on top that reads the scene, chooses which specialist to invoke next, and decides when the current one has finished or failed. The slow deliberative layer over the fast learned skills.</li><li>The top level's action space is the set of specialists, not raw robot actions. Long-horizon structure becomes something the system reasons over explicitly, rather than something one policy has to absorb from data.</li><li>Demonstrated end to end on cup stacking, built over a single hackathon weekend.</li></ul>
 
 
-    <blockquote class="result">About 80% success across 20 consecutive rollouts of the demo task. Runners-up among 45+ teams and 900+ participants at the Physical AI Hack at Founders Inc.</blockquote>
+    <blockquote class="result">The full stacking task succeeded in about 80% of 20 consecutive rollouts, with the LLM catching a failed skill mid-episode and re-invoking it rather than pushing on from a broken state. The system placed runners-up among 45+ teams and 900+ participants at the Physical AI Hack at Founders Inc.</blockquote>
 
     <h2>What worked</h2>
     
@@ -99,7 +99,7 @@
 
     <h2>What didn't</h2>
     
-    <ul class="crosses"><li>"Can an LLM be a good judge?" was an open question on our own slides, and the weekend did not answer it. The judge's success and failure calls were never checked against ground truth, so we have no idea how often it was wrong in either direction.</li><li>20 rollouts of one task in one setup is a demo, not an evaluation. Nothing here says how the hierarchy behaves as the number of specialists or the horizon grows.</li></ul>
+    <ul class="crosses"><li>Whether an LLM makes a good judge was an open question on our own slides, and the weekend did not answer it. Its success and failure calls were never scored against ground truth, so the false-positive and false-negative rates are both unknown.</li><li>20 rollouts of one task in one setup is a demo, not an evaluation. Nothing here says how the hierarchy behaves as the number of specialists or the horizon grows.</li></ul>
 
   </article>
 </div>

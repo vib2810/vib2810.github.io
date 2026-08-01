@@ -30,9 +30,10 @@
   --pad:    clamp(1.15rem, 4vw, 2.5rem);
   --radius: 3px;          /* deliberately tight, instrument panel, not app UI */
   --t: 180ms cubic-bezier(.2, .7, .3, 1);
-  --head-h: 75px;         /* sticky header, content box + its 1px bottom rule.
-                             Anything that sticks below it offsets by this, so
-                             the two cannot drift apart and clip each other. */
+  --head-h: 75px;         /* sticky header height. site.js overwrites this with
+                             the measured value on load; this is the no-JS
+                             fallback, and matches the desktop header's 74px
+                             content box plus its 1px bottom rule. */
 }
 
 @media (prefers-color-scheme: dark) {
@@ -124,7 +125,11 @@ p  { margin: 0 0 1.05em; }
 }
 .site-head .wrap {
   display: flex; align-items: center; gap: 1.5rem;
-  min-height: calc(var(--head-h) - 1px);   /* the 1px is the border below */
+  /* Deliberately a literal, not --head-h. site.js measures the header and
+     writes that token, so reading it back here would make the header's height
+     depend on its own measurement, and the ResizeObserver would be observing an
+     element it resizes. --head-h is an output of this box, never an input. */
+  min-height: 74px;
 }
 .brand {
   font-family: var(--mono); font-weight: 700; font-size: 1rem;
@@ -417,10 +422,12 @@ section + section { border-top: 1px solid var(--rule); }
 a.chip:hover { border-color: var(--accent); color: var(--accent-ink); text-decoration: none; }
 
 .filterbar {
-  /* Sticks directly under the header. Using the same token means the chips can
-     never end up tucked behind it, which cost the top few pixels of every
-     button when this was a hardcoded 58px against a 75px header. */
-  position: sticky; top: var(--head-h); z-index: 30;
+  /* Sticks directly under the header, which measures itself into --head-h (see
+     site.js). The 1px back-off is deliberate: overlapping the header by a hair
+     is invisible, since the .85rem padding below absorbs it and the header
+     paints on top at a higher z-index, whereas falling a hair short leaves a
+     slit that project cards visibly scroll through. Round toward overlap. */
+  position: sticky; top: calc(var(--head-h) - 1px); z-index: 30;
   background: color-mix(in srgb, var(--paper) 92%, transparent);
   backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--rule);

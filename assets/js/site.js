@@ -1,5 +1,5 @@
-/* Site behavior. Three small things: theme, tag filtering, lazy video.
-   No dependencies, no build step. */
+/* Site behavior. Four small things: theme, header height, tag filtering,
+   lazy video. No dependencies, no build step. */
 
 (function () {
   'use strict';
@@ -19,6 +19,21 @@
       try { localStorage.setItem('theme', next); } catch (e) {}
     });
   });
+
+  /* ------------------------------------------------------- header height */
+  /* Anything sticking below the header offsets by --head-h. The CSS value is a
+     static guess, and being wrong in either direction shows: too small clips the
+     filter chips, too large opens a slit that cards scroll through. Measure the
+     real thing instead, and keep it current when the nav rewraps. */
+  var head = document.querySelector('.site-head');
+  if (head) {
+    var setHeadH = function () {
+      root.style.setProperty('--head-h', head.getBoundingClientRect().height + 'px');
+    };
+    setHeadH();
+    if ('ResizeObserver' in window) new ResizeObserver(setHeadH).observe(head);
+    else window.addEventListener('resize', setHeadH);
+  }
 
   /* -------------------------------------------------------------- updates */
   var showmore = document.querySelector('[data-showmore]');

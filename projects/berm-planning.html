@@ -3,26 +3,26 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Planning for berm construction, Vibhakar Mohta</title>
-<meta name="description" content="The planner behind LunAR-X: given a set of excavation zones and a berm to build, decide what to dig, where to dump it, and in what order, so the rover drives as little as possible.">
+<title>BiLevel Planner for Energy-Efficient Berm Construction, Vibhakar Mohta</title>
+<meta name="description" content="The planner behind LunAR-X: given a set of excavation zones and a berm to build, decide what to dig, where to dump it, and in what order. Two levels, task sequencing above and hybrid A* motion planning below, minimizing the energy a lunar rover spends driving.">
 <meta name="author" content="Vibhakar Mohta">
 <link rel="canonical" href="https://vib2810.github.io/projects/berm-planning.html">
 <meta property="og:site_name" content="Vibhakar Mohta">
-<meta property="og:title" content="Planning for berm construction, Vibhakar Mohta">
-<meta property="og:description" content="The planner behind LunAR-X: given a set of excavation zones and a berm to build, decide what to dig, where to dump it, and in what order, so the rover drives as little as possible.">
+<meta property="og:title" content="BiLevel Planner for Energy-Efficient Berm Construction, Vibhakar Mohta">
+<meta property="og:description" content="The planner behind LunAR-X: given a set of excavation zones and a berm to build, decide what to dig, where to dump it, and in what order. Two levels, task sequencing above and hybrid A* motion planning below, minimizing the energy a lunar rover spends driving.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://vib2810.github.io/projects/berm-planning.html">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://vib2810.github.io/assets/img/og.jpg">
-<meta property="og:image:secure_url" content="https://vib2810.github.io/assets/img/og.jpg">
+<meta property="og:image" content="https://vib2810.github.io/assets/img/og.jpg?v=e94b4663">
+<meta property="og:image:secure_url" content="https://vib2810.github.io/assets/img/og.jpg?v=e94b4663">
 <meta property="og:image:type" content="image/jpeg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Vibhakar Mohta, Research Scientist, Nuro">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Planning for berm construction, Vibhakar Mohta">
-<meta name="twitter:description" content="The planner behind LunAR-X: given a set of excavation zones and a berm to build, decide what to dig, where to dump it, and in what order, so the rover drives as little as possible.">
-<meta name="twitter:image" content="https://vib2810.github.io/assets/img/og.jpg">
+<meta name="twitter:title" content="BiLevel Planner for Energy-Efficient Berm Construction, Vibhakar Mohta">
+<meta name="twitter:description" content="The planner behind LunAR-X: given a set of excavation zones and a berm to build, decide what to dig, where to dump it, and in what order. Two levels, task sequencing above and hybrid A* motion planning below, minimizing the energy a lunar rover spends driving.">
+<meta name="twitter:image" content="https://vib2810.github.io/assets/img/og.jpg?v=e94b4663">
 <meta name="theme-color" content="#E8721C">
 <link rel="stylesheet" href="../assets/css/site.css">
 <link rel="icon" href="../favicon.ico" sizes="any">
@@ -59,8 +59,8 @@
 
 <div class="wrap proj-head">
   <a class="backlink" href="../projects/index.html">← All projects</a>
-  <h1>Planning for berm construction</h1>
-  <p class="sub">Energy-optimal excavation sequencing</p>
+  <h1>BiLevel Planner for Energy-Efficient Berm Construction</h1>
+  <p class="sub">Excavation sequencing for a lunar rover on a fixed power budget</p>
   <span class="meta">Fall 2023 · CMU · Planning and Decision-making in Robotics (16-782) · with Hariharan Ravichandran</span>
 <div class="venue">Course project</div>  <div class="chips">
 <a class="chip" href="../projects/index.html?tag=field-robotics">Field robotics</a>
@@ -86,10 +86,10 @@
 
     <h2>What I built</h2>
     
-    <ul><li>Formulated construction as a search over which excavation zone to dig, which berm section to deposit into, and in what order, minimizing <strong>total distance traveled</strong> by the rover.</li><li>Used a <strong>hybrid A*</strong> planner to compute edge costs, so every transition is a path the rover can actually drive over traversable terrain rather than a straight-line estimate.</li><li>Built the heuristic by relaxing the problem to a collision-free <strong>TSP over deposition poses</strong> and solving it with Google OR-Tools.</li><li>Ran weighted A* at several inflation factors to trade optimality against search time.</li><li>Implemented in C++ on ROS 2 as a task optimizer node, with worksites specified in YAML and the resulting sequence rendered as an animation for inspection.</li></ul>
+    <ul><li>A <strong>bilevel formulation</strong>. The upper level searches over which excavation zone to dig, which berm section to deposit into, and in what order; the lower level plans the actual drive between any two of those poses, and hands its cost back up as the edge weight.</li><li>Since <strong>energy spent is proportional to distance traveled</strong> for an electric rover at steady speed, where drive force is dominated by rolling resistance, this turns an energy objective into a distance objective the search can optimize directly.</li><li>Used a <strong>hybrid A*</strong> planner for the lower level, so every transition is a path the rover can actually drive over traversable terrain rather than a straight-line estimate.</li><li>Built the heuristic by relaxing the problem to a collision-free <strong>TSP over deposition poses</strong> and solving it with Google OR-Tools.</li><li>Ran weighted A* at several inflation factors to trade optimality against search time.</li><li>Implemented in C++ on ROS 2 as a task optimizer node, with worksites specified in YAML and the resulting sequence rendered as an animation for inspection.</li></ul>
 
 
-    <blockquote class="result">On the hardest of three worksites, uninformed search produced no plan in ten minutes. The TSP heuristic solved it in 70 seconds, and inflating the heuristic to eps=5 cut that to 27 seconds while costing 1.3 percent more plan cost (174.6 against 172.3).</blockquote>
+    <blockquote class="result">The TSP relaxation is what makes the search finish at all. On the hardest of three worksites, uninformed search returned no plan in ten minutes, while the heuristic solved it in 70 seconds. Inflating to eps=5 cut that to 27 seconds for 1.3 percent more plan cost, 174.6 against 172.3.</blockquote>
 
     <h2>What worked</h2>
     
@@ -97,7 +97,7 @@
 
     <h2>What didn't</h2>
     
-    <ul class="crosses"><li>The terrain update model is assumed rather than measured. Each excavation is treated as changing the worksite in a known way, which is optimistic on real regolith.</li><li>Everything is evaluated in plan cost and search time. No energy was measured on hardware, so the claim is about distance driven, not joules.</li></ul>
+    <ul class="crosses"><li>The terrain update model is assumed rather than measured. Each excavation is treated as changing the worksite in a known way, which is optimistic on real regolith.</li><li>Energy enters only through the proportionality to distance. That assumption drops the part that is not uniform: the rover hauls a full bucket out and drives back empty, so the loaded legs cost more per meter than the model charges them, and grade is ignored entirely. Everything is evaluated in plan cost and search time, and no joules were measured on hardware.</li></ul>
 
   </article>
 </div>

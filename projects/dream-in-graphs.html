@@ -13,8 +13,8 @@
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://vib2810.github.io/projects/dream-in-graphs.html">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://vib2810.github.io/assets/img/og.jpg">
-<meta property="og:image:secure_url" content="https://vib2810.github.io/assets/img/og.jpg">
+<meta property="og:image" content="https://vib2810.github.io/assets/img/og.jpg?v=e94b4663">
+<meta property="og:image:secure_url" content="https://vib2810.github.io/assets/img/og.jpg?v=e94b4663">
 <meta property="og:image:type" content="image/jpeg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -22,7 +22,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Dream in Graphs, Vibhakar Mohta">
 <meta name="twitter:description" content="A diffusion model used as the latent transition function of a world model, on top of a frozen VAE, so open-loop rollouts still decode into images you can actually look at.">
-<meta name="twitter:image" content="https://vib2810.github.io/assets/img/og.jpg">
+<meta name="twitter:image" content="https://vib2810.github.io/assets/img/og.jpg?v=e94b4663">
 <meta name="theme-color" content="#E8721C">
 <link rel="stylesheet" href="../assets/css/site.css">
 <link rel="icon" href="../favicon.ico" sizes="any">
@@ -87,7 +87,7 @@
   <figcaption>The contrastive structured world model baseline. It encodes observations and predicts transitions with a GNN, but has no decoder, so its rollouts cannot be turned back into images.</figcaption>
 </figure>
 
-    <p>Latent world models optimize their transition function for predictability, not for reconstructability. The result is a latent that predicts well but cannot be decoded: the model&#39;s imagined rollouts do not turn back into anything you can inspect. The obvious fix, freezing a reconstruction-optimized latent and learning dynamics inside it, makes the transition problem much harder, because a latent chosen for image quality is not shaped for easy prediction.</p>
+    <p>Latent world models train the encoder and the transition function together, so the latent drifts toward whatever is easiest to predict rather than whatever can be decoded. The imagined rollout then does not turn back into an image anyone can inspect. The obvious fix, freezing a reconstruction-optimized latent and learning dynamics inside it, moves all the difficulty into the transition model, because a latent chosen for image quality is not shaped for easy prediction.</p>
 
     <h2>What I built</h2>
     <figure class="fig-side left">
@@ -101,7 +101,7 @@
     <ul><li>Froze a variational autoencoder first, guaranteeing the latent is decodable, then learned <em>p(z<sub>t+1</sub> | z<sub>t</sub>, a<sub>t</sub>)</em> entirely inside that fixed latent with a DDPM.</li><li>Noise prediction network: a fully convolutional UNet with Mish activations, FiLM conditioning on the previous latent and a one-hot action, and a squared-cosine noise schedule. Trained with AdamW, a cosine schedule with warm restarts, and an EMA weight copy used at inference.</li><li>Two baselines: a contrastive structured world model (CNN encoder, GNN transition, contrastive loss) and an autoencoder with a GNN transition model, evaluated on Space Invaders, a three-body problem, and a 2D block-pushing environment.</li><li>Measured latent MSE, reconstruction MSE, Hits@1 and mean reciprocal rank, so latent-space prediction quality and image quality are reported separately rather than conflated.</li></ul>
 
 
-    <blockquote class="result">Latent MSE of 0.00205 on 2D block pushing against 0.0433 for the autoencoder with a GNN transition model, roughly a factor of 20. Open-loop rollouts stayed near pixel-perfect, and held together over 100 successive imagined steps.</blockquote>
+    <blockquote class="result">The diffusion transition model predicts a factor of 20 more accurately in latent space than the autoencoder with a GNN transition, 0.00205 against 0.0433 on 2D block pushing. Because the VAE stays frozen, those imagined rollouts still decode into sharp images, and they hold together over 100 successive steps of open-loop prediction.</blockquote>
 
     <h2>What worked</h2>
     <figure class="fig-side right">

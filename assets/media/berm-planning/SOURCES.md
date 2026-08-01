@@ -1,4 +1,4 @@
-# Media sources, Planning for berm construction
+# Media sources, BiLevel Planner for Energy-Efficient Berm Construction
 
 Regenerate with:  `python3 tools/make_media.py --slug berm-planning`
 

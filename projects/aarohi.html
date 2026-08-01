@@ -13,8 +13,8 @@
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://vib2810.github.io/projects/aarohi.html">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://vib2810.github.io/assets/img/og.jpg">
-<meta property="og:image:secure_url" content="https://vib2810.github.io/assets/img/og.jpg">
+<meta property="og:image" content="https://vib2810.github.io/assets/img/og.jpg?v=e94b4663">
+<meta property="og:image:secure_url" content="https://vib2810.github.io/assets/img/og.jpg?v=e94b4663">
 <meta property="og:image:type" content="image/jpeg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -22,7 +22,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="AAROHI, Vibhakar Mohta">
 <meta name="twitter:description" content="A terrace farming robot that lifts itself up 40 cm steps on a pair of scissor lifts, then plows, sows, rolls, waters and sprays the terrace it just climbed onto.">
-<meta name="twitter:image" content="https://vib2810.github.io/assets/img/og.jpg">
+<meta name="twitter:image" content="https://vib2810.github.io/assets/img/og.jpg?v=e94b4663">
 <meta name="theme-color" content="#E8721C">
 <link rel="stylesheet" href="../assets/css/site.css">
 <link rel="icon" href="../favicon.ico" sizes="any">
@@ -103,10 +103,10 @@
   <figcaption>Tool head actuating on the upper terrace.</figcaption>
 </figure>
 
-    <ul><li>A four-wheel differential drive chassis in V-slot aluminum extrusion, with front and rear <strong>scissor lifts</strong> actuated independently by one linear actuator each, plus four pairs of unpowered dummy wheels that carry the robot across the step edge mid-climb.</li><li>Sized the lift by <strong>multi-objective optimization</strong> rather than by catalog. Derived closed-form expressions for peak actuator force and stroke length in terms of the linkage geometry, then solved for the Pareto front with a genetic algorithm over attachment points, minimum link angle, link length and number of stages. Picked a 1000 N, 25 cm-stroke actuator off that front (factor of safety about 1.74) and set 3 mm steel links from an ANSYS stress and deflection study.</li><li>A six-stage climb algorithm driven entirely by 1D LiDAR: align yaw against the terrace wall, extend both lifts to step height, advance on the dummy wheels, lift the front wheel pair, advance, lift the rear pair, advance. The center of mass stays inside the wheel contact polygon at every stage.</li><li>A plow-sow-roll module in series (disc plow at 45° disc angle and 15° tilt with alternating disc orientation to cancel side thrust, primary roller, V-furrower, stepper-driven seed metering, secondary roller), plus a two-tank pump and five-nozzle sprayer switching between water and pesticide on solenoid valves.</li><li>A ROS stack: EKF localization, terrace edge detection by vertical gradient filtering and probabilistic Hough transform, terrace width estimation from a pair of 45° downward LiDARs, adaptive pure pursuit for row traversal, and adaptive PID for lift pitch.</li></ul>
+    <ul><li>A four-wheel differential drive chassis in V-slot aluminum extrusion, with front and rear <strong>scissor lifts</strong> actuated independently by one linear actuator each, plus four pairs of unpowered dummy wheels that carry the robot across the step edge mid-climb.</li><li>Sized the lift by <strong>multi-objective optimization</strong> rather than by catalog. Derived closed-form expressions for peak actuator force and stroke length in terms of the linkage geometry, then solved for the Pareto front with a genetic algorithm over attachment points, minimum link angle, link length and number of stages. Picked a 1000 N, 25 cm-stroke actuator off that front (factor of safety about 1.74) and set 3 mm steel links from an ANSYS stress and deflection study.</li><li>A six-stage climb algorithm driven entirely by 1D LiDAR: align yaw against the terrace wall, extend both lifts to step height, advance on the dummy wheels, lift the front wheel pair, advance, lift the rear pair, advance. The center of mass stays inside the wheel contact polygon at every stage.</li><li>A modular tool head running in series: a disc plow at 45° disc angle and 15° tilt, with disc orientation alternating so the side thrust cancels, then a primary roller, a V-furrower, stepper-driven seed metering and a secondary roller. A two-tank pump and five-nozzle sprayer switches between water and pesticide on solenoid valves.</li><li>A ROS stack: EKF localization, terrace edge detection by vertical gradient filtering and probabilistic Hough transform, terrace width estimation from a pair of 45° downward LiDARs, adaptive pure pursuit for row traversal, and adaptive PID for lift pitch.</li></ul>
 
 
-    <blockquote class="result">First place in the autonomous terrace farming event at the 8th Inter-IIT Tech Meet at IIT Roorkee, among 23 IITs; the contingent placed 2nd overall. The prototype climbs steps up to 40 cm and the lift is stable up to 50 kg. Design published at IEEE/ASME MESA 2022.</blockquote>
+    <blockquote class="result">The prototype climbs terrace steps up to 40 cm, carries 50 kg on the lift, and plows, sows, rolls, waters and sprays once it is up there. It took gold in the autonomous terrace farming event at the 8th Inter-IIT Tech Meet, among 23 IITs, and the design was published as first author at IEEE/ASME MESA 2022.</blockquote>
 
     <h2>What worked</h2>
     
@@ -149,6 +149,8 @@
   <div class="linkrow">
   <a href="https://ieeexplore.ieee.org/document/10004400"
 target="_blank" rel="noopener">Paper</a>
+  <a href="https://arxiv.org/abs/2212.01745"
+target="_blank" rel="noopener">Paper (arXiv)</a>
   <a href="https://www.linkedin.com/feed/update/urn:li:activity:6632530677382381569/"
 target="_blank" rel="noopener">IIT KGP feature</a>
 </div>

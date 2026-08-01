@@ -13,8 +13,8 @@
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://vib2810.github.io/projects/lunar-x.html">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://vib2810.github.io/assets/img/og.jpg">
-<meta property="og:image:secure_url" content="https://vib2810.github.io/assets/img/og.jpg">
+<meta property="og:image" content="https://vib2810.github.io/assets/img/og.jpg?v=e94b4663">
+<meta property="og:image:secure_url" content="https://vib2810.github.io/assets/img/og.jpg?v=e94b4663">
 <meta property="og:image:type" content="image/jpeg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -22,7 +22,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="LunAR-X, Vibhakar Mohta">
 <meta name="twitter:description" content="An autonomous excavator that builds berms out of lunar regolith simulant: a bucket drum that shaves material continuously to hold ground reaction forces low, and a planner that decides where to dig and in what order.">
-<meta name="twitter:image" content="https://vib2810.github.io/assets/img/og.jpg">
+<meta name="twitter:image" content="https://vib2810.github.io/assets/img/og.jpg?v=e94b4663">
 <meta name="theme-color" content="#E8721C">
 <link rel="stylesheet" href="../assets/css/site.css">
 <link rel="icon" href="../favicon.ico" sizes="any">
@@ -102,10 +102,10 @@
   <figcaption>The platform and its excavation tool.</figcaption>
 </figure>
 
-    <ul><li>A full autonomous excavation stack on ROS 2, on a Clearpath Husky A200 skid-steer base with a custom <strong>bucket drum</strong> tool that excavates in one rotation direction and dumps in reverse, on a linear mechanism that lifts it 0.5 m to deposit the berm.</li><li><strong>Continuous excavation</strong> instead of discrete bites: the tool stays engaged and shaves material through the pass, holding ground reaction forces low throughout rather than spiking at each bite.</li><li>Localization fusing wheel encoders, IMU, ground-facing visual odometry for slip, and beacons; dual RGBD cameras for ground-plane fitting and berm profile estimation, updating the worksite map at 1 Hz.</li><li>Dig sequencing came from a separate planner built for 16-782, which searches over excavation and deposition order to minimize rover travel. Write-up: <a href="berm-planning.html">Planning for berm construction</a>.</li></ul>
+    <ul><li>A full autonomous excavation stack on ROS 2, on a Clearpath Husky A200 skid-steer base with a custom <strong>bucket drum</strong> tool that excavates in one rotation direction and dumps in reverse, on a linear mechanism that lifts it 0.5 m to deposit the berm.</li><li><strong>Continuous excavation</strong> instead of discrete bites: the tool stays engaged and shaves material through the pass, holding ground reaction forces low throughout rather than spiking at each bite.</li><li>Localization fusing wheel encoders, IMU, ground-facing visual odometry for slip, and beacons; dual RGBD cameras for ground-plane fitting and berm profile estimation, updating the worksite map at 1 Hz.</li><li>Dig sequencing came from a separate planner built for 16-782, which searches over excavation and deposition order to minimize rover travel. Write-up: <a href="berm-planning.html">BiLevel Planner for Energy-Efficient Berm Construction</a>.</li></ul>
 
 
-    <blockquote class="result">The final validation demonstration built a 15 cm by 76 cm berm end to end with zero manual interventions, within 2.1 cm of the target height and 1.3 cm of the target length, moving 8 kg of simulant per excavation cycle against a 3 kg requirement. Presented at the NASA Lunar Surface Innovation Consortium.</blockquote>
+    <blockquote class="result">The final validation run built a 15 cm by 76 cm berm end to end with zero manual interventions, holding 2.1 cm of the target height and 1.3 cm of the target length, and moving 8 kg of simulant per excavation cycle against a 3 kg requirement. The work was presented at the NASA Lunar Surface Innovation Consortium.</blockquote>
 
     <h2>What worked</h2>
     <figure class="fig-side right">

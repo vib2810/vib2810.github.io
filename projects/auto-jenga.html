@@ -13,8 +13,8 @@
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://vib2810.github.io/projects/auto-jenga.html">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://vib2810.github.io/assets/img/og.jpg">
-<meta property="og:image:secure_url" content="https://vib2810.github.io/assets/img/og.jpg">
+<meta property="og:image" content="https://vib2810.github.io/assets/img/og.jpg?v=e94b4663">
+<meta property="og:image:secure_url" content="https://vib2810.github.io/assets/img/og.jpg?v=e94b4663">
 <meta property="og:image:type" content="image/jpeg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -22,7 +22,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Autonomous Jenga, Vibhakar Mohta">
 <meta name="twitter:description" content="A Franka arm that builds Jenga towers from a pile of blocks, and, more usefully, notices when a grasp has gone wrong and retries instead of building on the mistake.">
-<meta name="twitter:image" content="https://vib2810.github.io/assets/img/og.jpg">
+<meta name="twitter:image" content="https://vib2810.github.io/assets/img/og.jpg?v=e94b4663">
 <meta name="theme-color" content="#E8721C">
 <link rel="stylesheet" href="../assets/css/site.css">
 <link rel="icon" href="../favicon.ico" sizes="any">
@@ -89,7 +89,7 @@
     <ul><li>A finite state machine coordinating perception, planning and execution on a Franka Panda through frankapy, with MoveIt for motion planning.</li><li>YOLOv8 instance segmentation on a wrist-mounted RealSense, trained on a custom Jenga block dataset. Hand-eye calibration through easy_handeye with ArUco markers.</li><li>A heuristic grasp scorer that rejects poor candidates and picks a viable block out of the pile rather than reaching for the nearest one.</li><li>Explicit <strong>recovery behavior</strong>: a failed or slipped grasp is detected, the arm backs off and retries from a known pose instead of continuing with a bad state.</li><li>A compaction step after each placement that presses the block flush against the layer below, removing the accumulated misalignment that topples towers late in a build.</li></ul>
 
 
-    <blockquote class="result">84% pickup accuracy across runs, with heuristic grasp selection accounting for most of the gap over naive nearest-block picking. The system ran two full tower-building rounds, resetting and rebuilding without intervention.</blockquote>
+    <blockquote class="result">The system picked correctly 84% of the time from a pile of near-identical blocks lying at arbitrary orientations, with most of the margin over nearest-block picking coming from the heuristic grasp scorer. It built two full towers back to back, detecting and retrying its own failed grasps without anyone touching it.</blockquote>
 
     <h2>What worked</h2>
     
@@ -134,7 +134,7 @@ target="_blank" rel="noopener">Code</a>
   </div>
 
   <div class="projnav">
-<a href="berm-planning.html">&larr; Planning for berm construction</a>    <span class="spacer"></span>
+<a href="berm-planning.html">&larr; BiLevel Planner for Energy-Efficient Berm Construction</a>    <span class="spacer"></span>
 <a href="stable-diffusion-humans.html">Masked LDM &rarr;</a>  </div>
 </div>
 

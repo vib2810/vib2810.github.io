@@ -13,8 +13,8 @@
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://vib2810.github.io/projects/stable-diffusion-humans.html">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://vib2810.github.io/assets/img/og.jpg">
-<meta property="og:image:secure_url" content="https://vib2810.github.io/assets/img/og.jpg">
+<meta property="og:image" content="https://vib2810.github.io/assets/img/og.jpg?v=e94b4663">
+<meta property="og:image:secure_url" content="https://vib2810.github.io/assets/img/og.jpg?v=e94b4663">
 <meta property="og:image:type" content="image/jpeg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -22,7 +22,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Masked LDM, Vibhakar Mohta">
 <meta name="twitter:description" content="A mask-aware perceptual loss that pushes latent diffusion to render human faces and poses properly, with no pose skeleton or segmentation map required at generation time.">
-<meta name="twitter:image" content="https://vib2810.github.io/assets/img/og.jpg">
+<meta name="twitter:image" content="https://vib2810.github.io/assets/img/og.jpg?v=e94b4663">
 <meta name="theme-color" content="#E8721C">
 <link rel="stylesheet" href="../assets/css/site.css">
 <link rel="icon" href="../favicon.ico" sizes="any">
@@ -102,7 +102,7 @@
     <ul><li>A <strong>mask-aware perceptual loss</strong> with two terms: a masked LPIPS loss computed on VGG feature maps restricted to human segmentation masks, and a face term matching VGGFace2 activations on face crops. Combined with the standard LDM objective as a weighted sum.</li><li>Applied the loss in pixel space to the <em>one-step</em> estimate of the clean image rather than DDIM-sampling back to t=0, which is what makes the memory cost tractable. Ground-truth masks and boxes transfer directly to the one-step image because the two are close below moderate noise levels.</li><li>Trained the ControlNet parallel branch on a frozen Stable Diffusion 1.5 backbone, but used it as a loss-guided second modality rather than a conditioning input, so nothing extra is needed at generation time.</li><li>Data: an MS COCO subset with heavy human coverage, 37,470 train and 1,565 validation images, at 512x512, batch size 1, 12 epochs on an RTX 3090.</li><li>Ablated the loss timestep threshold T and both loss weights; best settings were T=100, lambda_1=0.2, lambda_2=0.5.</li></ul>
 
 
-    <blockquote class="result">Masked LDM at T=100 scored 61.72 against 62.32 for Stable Diffusion and 63.95 for the retrained ControlNet baseline. The margin is small and the measurement is weak. The qualitative comparison, where faces and poses are clearly better with no prompt engineering, is the substantive evidence.</blockquote>
+    <blockquote class="result">The model renders faces and poses visibly better than Stable Diffusion 1.5, with no pose skeleton, depth map or prompt engineering needed at generation time, which is the point of moving the supervision into the loss instead of the input. FID moved from 62.32 to 61.72 at T=100, a margin too small and measured on too few images to carry the claim on its own.</blockquote>
 
     <h2>What worked</h2>
     

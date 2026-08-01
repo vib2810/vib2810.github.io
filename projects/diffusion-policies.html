@@ -13,8 +13,8 @@
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://vib2810.github.io/projects/diffusion-policies.html">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://vib2810.github.io/assets/img/og.jpg">
-<meta property="og:image:secure_url" content="https://vib2810.github.io/assets/img/og.jpg">
+<meta property="og:image" content="https://vib2810.github.io/assets/img/og.jpg?v=e94b4663">
+<meta property="og:image:secure_url" content="https://vib2810.github.io/assets/img/og.jpg?v=e94b4663">
 <meta property="og:image:type" content="image/jpeg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -22,7 +22,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Play it by Ear, Vibhakar Mohta">
 <meta name="twitter:description" content="A diffusion policy conditioned on vision, gripper-mounted contact audio and joint states, aimed at the moments in a manipulation task when the camera cannot see what matters.">
-<meta name="twitter:image" content="https://vib2810.github.io/assets/img/og.jpg">
+<meta name="twitter:image" content="https://vib2810.github.io/assets/img/og.jpg?v=e94b4663">
 <meta name="theme-color" content="#E8721C">
 <link rel="stylesheet" href="../assets/css/site.css">
 <link rel="icon" href="../favicon.ico" sizes="any">
@@ -87,7 +87,7 @@
     <ul><li>Extended Diffusion Policy conditioning from vision alone to three streams: a 512-dimensional ResNet-18 image feature over an observation history of 2, a 264-dimensional audio embedding from 1D convolutions over the spectrogram of the last two seconds from a gripper-mounted microphone, and an 8-dimensional joint state (7 joint positions plus gripper width). All fused into the noise prediction network with FiLM.</li><li>Receding-horizon execution: predict <em>T<sub>p</sub></em> = 16 actions, execute <em>T<sub>a</sub></em> = 8. DDIM with about 10 denoising steps at inference to run in real time on the Franka.</li><li>Three tasks of increasing difficulty: fixed-location pick and place, vision-based pick and place from a random start pose, and identifying which of two <em>visually identical</em> bags holds coins from the sound it makes when dropped.</li><li>Data collected by a finite state machine rather than teleoperation: 100, 185 and 120 trajectories at 10 Hz for the three tasks. Trained 400 epochs, batch size 128, Adam at 1e-4, on an RTX 3090.</li><li>A standalone audio classifier (coin bag drop, empty bag drop, no drop) used to initialize the audio encoder. It reached about 95% accuracy on its own.</li></ul>
 
 
-    <blockquote class="result">On vision-based pick and place, the diffusion policy succeeded 85% of the time against 15% for a fully connected behavior-cloning baseline trained on the same demonstrations. Both reached 100% on the fixed-location task, where vision is not needed.</blockquote>
+    <blockquote class="result">The diffusion policy succeeded 85% of the time on pick and place from a random start pose, against 15% for a fully connected behavior-cloning baseline trained on the same demonstrations. Both reach 100% on the fixed-location task, where vision is not needed, which puts the gap in visual generalization rather than in low-level control.</blockquote>
 
     <h2>What worked</h2>
     
@@ -119,7 +119,7 @@ Project report (drive_diffpol_report.pdf)      </li>
 
   <div class="projnav">
 <a href="lunar-x.html">&larr; LunAR-X</a>    <span class="spacer"></span>
-<a href="berm-planning.html">Planning for berm construction &rarr;</a>  </div>
+<a href="berm-planning.html">BiLevel Planner for Energy-Efficient Berm Construction &rarr;</a>  </div>
 </div>
 
 </main>

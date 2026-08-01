@@ -13,8 +13,8 @@
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://vib2810.github.io/projects/weavehacks.html">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://vib2810.github.io/assets/img/og.jpg">
-<meta property="og:image:secure_url" content="https://vib2810.github.io/assets/img/og.jpg">
+<meta property="og:image" content="https://vib2810.github.io/assets/img/og.jpg?v=e94b4663">
+<meta property="og:image:secure_url" content="https://vib2810.github.io/assets/img/og.jpg?v=e94b4663">
 <meta property="og:image:type" content="image/jpeg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -22,7 +22,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="ReviveAgent, Vibhakar Mohta">
 <meta name="twitter:description" content="Point it at a research repository that stopped working years ago and it works out what rotted and fixes it, which is most of what reproducing anything actually costs.">
-<meta name="twitter:image" content="https://vib2810.github.io/assets/img/og.jpg">
+<meta name="twitter:image" content="https://vib2810.github.io/assets/img/og.jpg?v=e94b4663">
 <meta name="theme-color" content="#E8721C">
 <link rel="stylesheet" href="../assets/css/site.css">
 <link rel="icon" href="../favicon.ico" sizes="any">
@@ -82,14 +82,14 @@
 
     <h2>The problem</h2>
     
-    <p>The reference implementation for a method you want to build on is four years old, its dependencies no longer resolve, and the APIs it calls have moved underneath it. Reproducing the original result is mostly archaeology, and it is the single most common reason a good idea never gets built on. It is also badly suited to a one-shot code model: you cannot tell whether a fix worked without running the thing.</p>
+    <p>The reference implementation for a method you want to build on is four years old, its dependencies no longer resolve, and the APIs it calls have moved underneath it. Reproducing the original result turns into archaeology, which is one of the most common reasons a good idea never gets built on. It is also a poor fit for a one-shot code model, because whether a fix worked is not visible in the diff. You have to run it.</p>
 
     <h2>What I built</h2>
     
-    <ul><li>An agent that takes a repository URL, diagnoses why it no longer runs (unresolvable dependencies, moved or deleted APIs, changed environment assumptions), and iterates on fixes.</li><li>A self-improving loop: the agent runs its own attempts, reads what broke, and revises, rather than emitting one patch and stopping. That loop is what the category award was for.</li><li>Demonstrated on a reinforcement learning environment repository roughly four years stale, brought back up and compared against a current RL environment.</li></ul>
+    <ul><li>An agent that takes a repository URL, diagnoses why it no longer runs (unresolvable dependencies, moved or deleted APIs, changed environment assumptions), and iterates on fixes.</li><li>A self-improving loop: the agent runs its own attempts, reads what broke, and revises, rather than emitting one patch and stopping. That loop is what the category award was for.</li><li>Demonstrated on a reinforcement learning environment roughly four years stale: diagnosed, restored to a running state, and benchmarked against a current RL environment.</li></ul>
 
 
-    <blockquote class="result">Category award among 67 teams at Weavehacks 2, run by Weights &amp; Biases and Google Cloud during SF Hack Week.</blockquote>
+    <blockquote class="result">The agent diagnosed a four-year-stale reinforcement learning repository and brought it back to a running state on its own, with no human reading the stack traces for it. It won Best Self-Improving Agent among 67 teams at Weavehacks 2, run by Weights &amp; Biases and Google Cloud during SF Hack Week.</blockquote>
 
     <h2>What worked</h2>
     
