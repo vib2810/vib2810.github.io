@@ -435,24 +435,22 @@ a.chip:hover { border-color: var(--accent); color: var(--accent-ink); text-decor
 @media (max-width: 720px) {
   /* Nine wrapping chips at 44px each ate half the viewport before a single
      project was visible. One scrollable row instead, tap height preserved. */
-  /* count on its own line, chips in one horizontally scrollable row below */
-  .filterbar { position: static; padding-block: .55rem; }
+  /* All chips visible, wrapped into a few compact rows. No horizontal scroll:
+     a filter you have to swipe to find is a filter you do not use. */
+  .filterbar { position: static; padding-block: .5rem; }
   .filterbar-row { display: block; }
-  .filterbar .count { display: block; margin: 0 0 .45rem; }
-  .filterbar .inner {
-    flex-wrap: nowrap; overflow-x: auto; gap: .4rem;
-    scroll-snap-type: x proximity;
-    -webkit-overflow-scrolling: touch; scrollbar-width: none;
-    padding-bottom: .15rem;
-    /* bleed to the screen edge so the row reads as scrollable */
-    margin-inline: calc(var(--pad) * -1);
-    padding-inline: var(--pad);
-  }
-  .filterbar .inner::-webkit-scrollbar { display: none; }
+  .filterbar .count { display: block; margin: 0 0 .4rem; font-size: .64rem; }
+  .filterbar .inner { flex-wrap: wrap; gap: .3rem; }
   .filterbar button {
-    flex: 0 0 auto; scroll-snap-align: start;
-    font-size: .72rem; padding: .34rem .72rem; letter-spacing: .04em;
+    flex: 0 0 auto;
+    font-size: .6rem; line-height: 1.35; letter-spacing: .02em;
+    padding: .22rem .5rem; border-radius: 100px;
   }
+  .filterbar button .chip-n { margin-left: .35em; }
+
+  /* tag chips on the project cards, same treatment */
+  .chip { font-size: .6rem; padding: .18rem .48rem; letter-spacing: .02em; }
+  .card .chips { gap: .28rem; }
 }
 
 /* ==========================================================================
@@ -911,3 +909,10 @@ a.chip:hover { border-color: var(--accent); color: var(--accent-ink); text-decor
 :root[data-theme="dark"] .pub .thumb img { filter: brightness(.9) contrast(1.02); }
 
 .filterbar button .chip-n { opacity: .55; margin-left: .5em; font-variant-numeric: tabular-nums; }
+
+/* Full tag labels on wide screens, short forms on phones. */
+.lbl-short { display: none; }
+@media (max-width: 720px) {
+  .lbl-full  { display: none; }
+  .lbl-short { display: inline; }
+}
