@@ -8,7 +8,7 @@
 <meta name="author" content="Vibhakar Mohta">
 <link rel="canonical" href="https://vib2810.github.io/projects/dream-in-graphs.html">
 <meta property="og:site_name" content="Vibhakar Mohta">
-<meta property="og:title" content="Vibhakar Mohta">
+<meta property="og:title" content="Dream in Graphs, Vibhakar Mohta">
 <meta property="og:description" content="A diffusion model used as the latent transition function of a world model, on top of a frozen VAE, so open-loop rollouts still decode into images you can actually look at.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://vib2810.github.io/projects/dream-in-graphs.html">
@@ -20,7 +20,7 @@
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Vibhakar Mohta, Research Scientist, Nuro">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Vibhakar Mohta">
+<meta name="twitter:title" content="Dream in Graphs, Vibhakar Mohta">
 <meta name="twitter:description" content="A diffusion model used as the latent transition function of a world model, on top of a frozen VAE, so open-loop rollouts still decode into images you can actually look at.">
 <meta name="twitter:image" content="https://vib2810.github.io/assets/img/og.jpg">
 <meta name="theme-color" content="#E8721C">
@@ -92,10 +92,10 @@
     <h2>What I built</h2>
     <figure class="fig-side left">
   <div class="frame  fit-contain">
-  <img src="../assets/media/dream-in-graphs/results.jpg" alt="" loading="lazy" decoding="async">
+  <img src="../assets/media/dream-in-graphs/rollout.jpg" alt="" loading="lazy" decoding="async">
 </div>
 
-  <figcaption>Quantitative comparison across environments.</figcaption>
+  <figcaption>Open-loop prediction. Each pair is the model&#39;s rollout above the ground truth below, decoded through the frozen VAE, over successive timesteps.</figcaption>
 </figure>
 
     <ul><li>Froze a variational autoencoder first, guaranteeing the latent is decodable, then learned <em>p(z<sub>t+1</sub> | z<sub>t</sub>, a<sub>t</sub>)</em> entirely inside that fixed latent with a DDPM.</li><li>Noise prediction network: a fully convolutional UNet with Mish activations, FiLM conditioning on the previous latent and a one-hot action, and a squared-cosine noise schedule. Trained with AdamW, a cosine schedule with warm restarts, and an EMA weight copy used at inference.</li><li>Two baselines: a contrastive structured world model (CNN encoder, GNN transition, contrastive loss) and an autoencoder with a GNN transition model, evaluated on Space Invaders, a three-body problem, and a 2D block-pushing environment.</li><li>Measured latent MSE, reconstruction MSE, Hits@1 and mean reciprocal rank, so latent-space prediction quality and image quality are reported separately rather than conflated.</li></ul>
@@ -107,7 +107,14 @@
     </div>
 
     <h2>What worked</h2>
-    
+    <figure class="fig-side right">
+  <div class="frame  fit-contain">
+  <img src="../assets/media/dream-in-graphs/table.jpg" alt="" loading="lazy" decoding="async">
+</div>
+
+  <figcaption>Final results on 2D shapes. The diffusion model reaches 0.00205 latent MSE against 0.0433 for the autoencoder with a GNN transition, but the contrastive baseline still wins on Hits@1.</figcaption>
+</figure>
+
     <ul class="ticks"><li>Normalizing the VAE latents was the difference between working and not. Diffusion sampling clips to [-1, 1] and raw VAE latents are not in that range; without normalization the model produced nothing usable.</li><li>FiLM conditioning on the previous latent, plus one-hot action labels. Feeding action class indices directly was consistently worse.</li><li>Separating the two objectives is what buys interpretability. Because the VAE was never asked to make transitions easy, its latent stayed decodable, and a sufficiently expressive transition model absorbed the extra difficulty.</li></ul>
 
     <h2>What didn't</h2>

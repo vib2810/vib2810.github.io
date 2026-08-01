@@ -94,7 +94,7 @@ p  { margin: 0 0 1.05em; }
 }
 .skip:focus { left: .5rem; top: .5rem; }
 
-:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
+:focus-visible { outline: 3px solid var(--accent-ink); outline-offset: 2px; border-radius: 2px; }
 
 /* the mono metadata voice used everywhere */
 .mono, .eyebrow, .chip, .meta, .datecol, .linkrow a, .count {
@@ -191,7 +191,7 @@ section + section { border-top: 1px solid var(--rule); }
 }
 .sec-head .num {
   font-family: var(--mono); font-size: .88rem; letter-spacing: .1em;
-  color: var(--accent); white-space: nowrap;
+  color: var(--accent-ink); white-space: nowrap;
 }
 .sec-head h2 { font-size: clamp(1.5rem, 3vw, 2.05rem); white-space: nowrap; }
 .sec-head::after {
@@ -330,7 +330,7 @@ section + section { border-top: 1px solid var(--rule); }
   border-bottom: 1px dashed var(--rule);
 }
 .updates li:last-child { border-bottom: 0; }
-.datecol { color: var(--accent); padding-top: .3em; white-space: nowrap; }
+.datecol { color: var(--accent-ink); padding-top: .3em; white-space: nowrap; }
 .updates .txt { color: var(--ink-2); }
 .updates .txt strong { color: var(--ink); font-weight: 620; }
 @media (max-width: 540px) {
@@ -503,7 +503,7 @@ a.chip:hover { border-color: var(--accent); color: var(--accent-ink); text-decor
 .prose { max-width: 68ch; }
 .prose h2 {
   font-family: var(--mono); font-size: .92rem; letter-spacing: .11em;
-  text-transform: uppercase; color: var(--accent);
+  text-transform: uppercase; color: var(--accent-ink);
   margin: 2.4rem 0 .8rem; font-weight: 600;
 }
 .prose ul { margin: 0 0 1.1em; padding-left: 1.15em; }
@@ -625,7 +625,7 @@ a.chip:hover { border-color: var(--accent); color: var(--accent-ink); text-decor
 
 .talks { display: grid; gap: 1.6rem; }
 .talk { display: grid; grid-template-columns: 7rem minmax(0, 1fr); gap: 1.4rem; }
-.talk .when { font-family: var(--mono); font-size: .74rem; color: var(--accent); padding-top: .3em; }
+.talk .when { font-family: var(--mono); font-size: .74rem; color: var(--accent-ink); padding-top: .3em; }
 .talk h3 { font-size: 1.03rem; margin-bottom: .15rem; line-height: 1.4; }
 .talk .where { font-size: .9rem; color: var(--slate); margin-bottom: .4rem; }
 .talk p { font-size: .95rem; color: var(--ink-2); margin-bottom: .55rem; }
@@ -787,7 +787,7 @@ a.chip:hover { border-color: var(--accent); color: var(--accent-ink); text-decor
 .about-block + .about-block { border-top: 1px solid var(--rule); padding-top: clamp(1.5rem, 3vw, 2.1rem); }
 .about-block h2 {
   font-family: var(--mono); font-size: .85rem; letter-spacing: .11em;
-  text-transform: uppercase; color: var(--accent);
+  text-transform: uppercase; color: var(--accent-ink);
   font-weight: 600; margin-bottom: .7rem;
 }
 .about-block p {
@@ -869,3 +869,24 @@ a.chip:hover { border-color: var(--accent); color: var(--accent-ink); text-decor
   .video-card .play svg { width: 54px; height: 38px; }
   .video-card .vlabel { font-size: .7rem; padding: .65rem .8rem .75rem; }
 }
+
+/* Active filter chips are white-on-accent, which is fine on paper but only
+   2.34:1 against the lighter dark-mode accent. Use dark text there instead. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .filterbar button[aria-pressed="true"] { color: #14161A; }
+  :root:not([data-theme="light"]) .card .badge.star { color: #14161A; }
+  :root:not([data-theme="light"]) .pub .venue .badge { color: #14161A; }
+}
+:root[data-theme="dark"] .filterbar button[aria-pressed="true"],
+:root[data-theme="dark"] .card .badge.star,
+:root[data-theme="dark"] .pub .venue .badge { color: #14161A; }
+
+/* Figures from papers are drawn on white plates, which glare on a dark page.
+   Knock them back slightly so they sit on the surface instead of floating. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .fig img, :root:not([data-theme="light"]) .fig-side img,
+  :root:not([data-theme="light"]) .pub .thumb img { filter: brightness(.9) contrast(1.02); }
+}
+:root[data-theme="dark"] .fig img,
+:root[data-theme="dark"] .fig-side img,
+:root[data-theme="dark"] .pub .thumb img { filter: brightness(.9) contrast(1.02); }
