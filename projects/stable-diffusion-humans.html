@@ -101,8 +101,7 @@
 
     <ul><li>A <strong>mask-aware perceptual loss</strong> with two terms: a masked LPIPS loss computed on VGG feature maps restricted to human segmentation masks, and a face term matching VGGFace2 activations on face crops. Combined with the standard LDM objective as a weighted sum.</li><li>Applied the loss in pixel space to the <em>one-step</em> estimate of the clean image rather than DDIM-sampling back to t=0, which is what makes the memory cost tractable. Ground-truth masks and boxes transfer directly to the one-step image because the two are close below moderate noise levels.</li><li>Trained the ControlNet parallel branch on a frozen Stable Diffusion 1.5 backbone, but used it as a loss-guided second modality rather than a conditioning input, so nothing extra is needed at generation time.</li><li>Data: an MS COCO subset with heavy human coverage, 37,470 train and 1,565 validation images, at 512x512, batch size 1, 12 epochs on an RTX 3090.</li><li>Ablated the loss timestep threshold T and both loss weights; best settings were T=100, lambda_1=0.2, lambda_2=0.5.</li></ul>
 
-
-    <blockquote class="result">The model renders faces and poses visibly better than Stable Diffusion 1.5, with no pose skeleton, depth map or prompt engineering needed at generation time, which is the point of moving the supervision into the loss instead of the input. FID moved from 62.32 to 61.72 at T=100, a margin too small and measured on too few images to carry the claim on its own.</blockquote>
+<p class="note">Masked LDM at T=100 scored 61.72 FID against 62.32 for Stable Diffusion and 63.95 for the retrained ControlNet baseline, computed on 500 images.</p>
 
     <h2>What worked</h2>
     

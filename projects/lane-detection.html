@@ -88,8 +88,7 @@
     
     <ul><li>Perspective transformation into a bird's-eye view, so lane geometry becomes metric and roughly parallel instead of projective and converging.</li><li>Principal component analysis with lateral clustering over candidate lane pixels, fitting lane curves and separating stop lines from lane markings by their orientation.</li><li>An unscented Kalman filter tracking the fitted lane parameters across frames, carrying the estimate through gaps and detection dropouts.</li><li>Integrated as the perception front end of the EKLAVYA IGVC autonomy stack, feeding the vehicle's navigation.</li></ul>
 
-
-    <blockquote class="result">The pipeline recovers lane curves and stop lines from hand-painted markings on grass, separating the two by orientation alone with no classifier, and tracks them through detection dropouts at frame rate on the vehicle&#39;s onboard compute. It was the perception front end of the EKLAVYA stack that finished runner-up at IGVC, and it was published at IVPAI 2019 (SPIE).</blockquote>
+<p class="note">Ran onboard at frame rate as part of the IGVC autonomy stack, and was published at IVPAI 2019 (SPIE).</p>
 
     <h2>What worked</h2>
     

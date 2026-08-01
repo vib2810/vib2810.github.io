@@ -88,10 +88,9 @@
 
     <h2>What I built</h2>
     
-    <ul><li>Individual short-horizon specialist policies trained with <strong>ACT</strong>: 60 demonstrations each with location randomization, 70k training steps at batch size 64.</li><li>An <strong>LLM judge</strong> on top that reads the scene, chooses which specialist to invoke next, and decides when the current one has finished or failed. The slow deliberative layer over the fast learned skills.</li><li>The top level's action space is the set of specialists, not raw robot actions. Long-horizon structure becomes something the system reasons over explicitly, rather than something one policy has to absorb from data.</li><li>Demonstrated end to end on cup stacking, built over a single hackathon weekend.</li></ul>
+    <ul><li>Individual short-horizon specialist policies trained with <strong>ACT</strong>: 60 demonstrations each with location randomization, 70k training steps at batch size 64.</li><li>An <strong>LLM judge</strong> on top that reads the scene, chooses which specialist to invoke next, and decides when the current one has finished or failed. The slow deliberative layer over the fast learned skills.</li><li>The top level's action space is the set of specialists, not raw robot actions. Long-horizon structure becomes something the system reasons over explicitly, rather than something one policy has to absorb from data.</li><li>Demonstrated end to end on cup stacking, about 80% success across 20 consecutive rollouts, built over a single hackathon weekend.</li></ul>
 
 
-    <blockquote class="result">The full stacking task succeeded in about 80% of 20 consecutive rollouts, with the LLM catching a failed skill mid-episode and re-invoking it rather than pushing on from a broken state. The system placed runners-up among 45+ teams and 900+ participants at the Physical AI Hack at Founders Inc.</blockquote>
 
     <h2>What worked</h2>
     

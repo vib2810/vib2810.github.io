@@ -88,8 +88,7 @@
     
     <ul><li>A finite state machine coordinating perception, planning and execution on a Franka Panda through frankapy, with MoveIt for motion planning.</li><li>YOLOv8 instance segmentation on a wrist-mounted RealSense, trained on a custom Jenga block dataset. Hand-eye calibration through easy_handeye with ArUco markers.</li><li>A heuristic grasp scorer that rejects poor candidates and picks a viable block out of the pile rather than reaching for the nearest one.</li><li>Explicit <strong>recovery behavior</strong>: a failed or slipped grasp is detected, the arm backs off and retries from a known pose instead of continuing with a bad state.</li><li>A compaction step after each placement that presses the block flush against the layer below, removing the accumulated misalignment that topples towers late in a build.</li></ul>
 
-
-    <blockquote class="result">The system picked correctly 84% of the time from a pile of near-identical blocks lying at arbitrary orientations, with most of the margin over nearest-block picking coming from the heuristic grasp scorer. It built two full towers back to back, detecting and retrying its own failed grasps without anyone touching it.</blockquote>
+<p class="note">84% pickup accuracy across runs, with heuristic grasp selection accounting for most of the margin over nearest-block picking. The system ran two full tower-building rounds, resetting and rebuilding without intervention.</p>
 
     <h2>What worked</h2>
     
