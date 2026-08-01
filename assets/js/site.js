@@ -104,7 +104,18 @@
       v.dataset.loaded = '1';
     }
     var p = v.play();
-    if (p && p.catch) p.catch(function () { /* autoplay blocked, poster stands in */ });
+    if (p && p.catch) p.catch(function () {
+      // Autoplay refused (iOS Low Power Mode and similar). Swap in the GIF so the
+      // clip still animates. Only fetched in this branch, never on a normal load.
+      var gif = v.dataset.gif;
+      if (!gif || v.dataset.swapped) return;
+      v.dataset.swapped = '1';
+      var img = document.createElement('img');
+      img.src = gif;
+      img.alt = '';
+      img.className = v.className;
+      v.replaceWith(img);
+    });
   }
 
   if (!('IntersectionObserver' in window)) {
