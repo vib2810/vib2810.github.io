@@ -415,7 +415,8 @@ a.chip:hover { border-color: var(--accent); color: var(--accent-ink); text-decor
   padding-block: .85rem;
   margin-bottom: clamp(1.75rem, 4vw, 2.5rem);
 }
-.filterbar .inner { display: flex; align-items: center; gap: .75rem; flex-wrap: wrap; }
+.filterbar-row { display: flex; align-items: center; gap: .9rem; }
+.filterbar .inner { display: flex; align-items: center; gap: .45rem; flex-wrap: wrap; flex: 1 1 auto; }
 .filterbar button {
   font-family: var(--mono); font-size: .82rem; letter-spacing: .06em;
   text-transform: uppercase; cursor: pointer;
@@ -432,8 +433,26 @@ a.chip:hover { border-color: var(--accent); color: var(--accent-ink); text-decor
 /* The header is two rows tall on phones, so sticking the filter bar under it
    would hide the top row of cards. Let it scroll away instead. */
 @media (max-width: 720px) {
-  .filterbar { position: static; }
-  .filterbar .count { margin-left: 0; width: 100%; }
+  /* Nine wrapping chips at 44px each ate half the viewport before a single
+     project was visible. One scrollable row instead, tap height preserved. */
+  /* count on its own line, chips in one horizontally scrollable row below */
+  .filterbar { position: static; padding-block: .55rem; }
+  .filterbar-row { display: block; }
+  .filterbar .count { display: block; margin: 0 0 .45rem; }
+  .filterbar .inner {
+    flex-wrap: nowrap; overflow-x: auto; gap: .4rem;
+    scroll-snap-type: x proximity;
+    -webkit-overflow-scrolling: touch; scrollbar-width: none;
+    padding-bottom: .15rem;
+    /* bleed to the screen edge so the row reads as scrollable */
+    margin-inline: calc(var(--pad) * -1);
+    padding-inline: var(--pad);
+  }
+  .filterbar .inner::-webkit-scrollbar { display: none; }
+  .filterbar button {
+    flex: 0 0 auto; scroll-snap-align: start;
+    font-size: .72rem; padding: .34rem .72rem; letter-spacing: .04em;
+  }
 }
 
 /* ==========================================================================
@@ -890,3 +909,5 @@ a.chip:hover { border-color: var(--accent); color: var(--accent-ink); text-decor
 :root[data-theme="dark"] .fig img,
 :root[data-theme="dark"] .fig-side img,
 :root[data-theme="dark"] .pub .thumb img { filter: brightness(.9) contrast(1.02); }
+
+.filterbar button .chip-n { opacity: .55; margin-left: .5em; font-variant-numeric: tabular-nums; }
