@@ -108,10 +108,7 @@ data-lazyvideo>
     <ul><li>Learn a <strong>latent world model</strong> and a <strong>reward model</strong> from a mixture of expert demonstrations and the base policy's own rollouts. The reward model is trained to tell expert states from base-policy states in latent space, so no ground-truth reward labels are needed.</li><li>Pre-train a diffusion policy on the expert data as the base policy, then alternate rounds of on-policy collection, world and reward model updates, and optional distillation back into the policy.</li><li>At test time, run <strong>MPPI inside the learned latent space</strong> to search for a correction to the base policy's nominal plan, scoring candidates with the learned reward plus a terminal value from the critic. Execute the first action, replan on the next observation, MPC style.</li><li>Evaluate on 12 visual manipulation tasks across three suites (RoboMimic, RoboSuite, ManiSkill) at three dataset scales, against diffusion-policy baselines trained on identical data. RoboSuite and ManiSkill demonstrations were collected by hand with a 3D SpaceMouse, up to 200 per task.</li><li>Scale the search at test time to 8× the sample budget seen during training, to check whether harder optimization against a learned reward starts hacking it.</li></ul>
 
 
-    <div class="result">
-      <div class="big">2 to 3x</div>
-      <div class="txt">higher success than diffusion policies trained by behavior cloning on the same data, consistently across all 12 tasks. Scaling the baseline up to 5 to 10x more demonstrations still leaves a gap. Spotlight at NeurIPS 2025.</div>
-    </div>
+    <blockquote class="result">2 to 3x higher success than diffusion policies trained by behavior cloning on the same data, consistently across all 12 tasks. Scaling the baseline up to 5 to 10x more demonstrations still leaves a gap. Spotlight at NeurIPS 2025.</blockquote>
 
     <h2>What worked</h2>
     <figure class="fig-side right">

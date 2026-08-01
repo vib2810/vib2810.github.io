@@ -529,19 +529,14 @@ a.chip:hover { border-color: var(--accent); color: var(--accent-ink); text-decor
 .prose li { margin-bottom: .5em; color: var(--ink-2); }
 .prose p { color: var(--ink-2); }
 
+/* Pull quote, not a scoreboard. The figure already lives in the sentence. */
 .result {
-  display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 1.25rem;
-  align-items: center;
-  border: 1px solid var(--rule-2); border-left: 3px solid var(--accent);
-  background: var(--paper-2); border-radius: var(--radius);
-  padding: 1.1rem 1.3rem; margin: 1.5rem 0 0;
+  margin: 1.9rem 0;
+  padding: .1rem 0 .1rem 1.4rem;
+  border-left: 3px solid var(--accent);
+  font-size: 1.3rem; line-height: 1.5; letter-spacing: -.011em;
+  color: var(--ink); font-weight: 450;
 }
-.result .big {
-  font-size: clamp(1.6rem, 4vw, 2.3rem); font-weight: 700;
-  letter-spacing: -.03em; color: var(--ink); line-height: 1.05; white-space: nowrap;
-}
-.result .txt { color: var(--ink-2); font-size: .96rem; }
-@media (max-width: 560px) { .result { grid-template-columns: 1fr; gap: .5rem; } }
 
 /* what worked / what didn't */
 .prose ul.ticks, .prose ul.crosses { list-style: none; padding-left: 0; }
@@ -759,9 +754,7 @@ a.chip:hover { border-color: var(--accent); color: var(--accent-ink); text-decor
   .proj-head .sub { font-size: 1.02rem; }
   .prose h2 { font-size: .82rem; margin-top: 1.9rem; }
   .prose p, .prose li { font-size: .91rem; }
-  .result { padding: .9rem 1rem; }
-  .result .big { font-size: 1.5rem; }
-  .result .txt { font-size: .92rem; }
+  .result { font-size: 1.08rem; padding-left: 1rem; margin: 1.4rem 0; }
   .figs { gap: 1.1rem; grid-template-columns: 1fr; }
   .fig figcaption { font-size: .7rem; }
 

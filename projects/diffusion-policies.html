@@ -87,10 +87,7 @@
     <ul><li>Extended Diffusion Policy conditioning from vision alone to three streams: a 512-dimensional ResNet-18 image feature over an observation history of 2, a 264-dimensional audio embedding from 1D convolutions over the spectrogram of the last two seconds from a gripper-mounted microphone, and an 8-dimensional joint state (7 joint positions plus gripper width). All fused into the noise prediction network with FiLM.</li><li>Receding-horizon execution: predict <em>T<sub>p</sub></em> = 16 actions, execute <em>T<sub>a</sub></em> = 8. DDIM with about 10 denoising steps at inference to run in real time on the Franka.</li><li>Three tasks of increasing difficulty: fixed-location pick and place, vision-based pick and place from a random start pose, and identifying which of two <em>visually identical</em> bags holds coins from the sound it makes when dropped.</li><li>Data collected by a finite state machine rather than teleoperation: 100, 185 and 120 trajectories at 10 Hz for the three tasks. Trained 400 epochs, batch size 128, Adam at 1e-4, on an RTX 3090.</li><li>A standalone audio classifier (coin bag drop, empty bag drop, no drop) used to initialize the audio encoder. It reached about 95% accuracy on its own.</li></ul>
 
 
-    <div class="result">
-      <div class="big">85% vs 15%</div>
-      <div class="txt">On vision-based pick and place, the diffusion policy succeeded 85% of the time against 15% for a fully connected behavior-cloning baseline trained on the same demonstrations. Both reached 100% on the fixed-location task, where vision is not needed.</div>
-    </div>
+    <blockquote class="result">On vision-based pick and place, the diffusion policy succeeded 85% of the time against 15% for a fully connected behavior-cloning baseline trained on the same demonstrations. Both reached 100% on the fixed-location task, where vision is not needed.</blockquote>
 
     <h2>What worked</h2>
     

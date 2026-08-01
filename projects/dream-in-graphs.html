@@ -101,10 +101,7 @@
     <ul><li>Froze a variational autoencoder first, guaranteeing the latent is decodable, then learned <em>p(z<sub>t+1</sub> | z<sub>t</sub>, a<sub>t</sub>)</em> entirely inside that fixed latent with a DDPM.</li><li>Noise prediction network: a fully convolutional UNet with Mish activations, FiLM conditioning on the previous latent and a one-hot action, and a squared-cosine noise schedule. Trained with AdamW, a cosine schedule with warm restarts, and an EMA weight copy used at inference.</li><li>Two baselines: a contrastive structured world model (CNN encoder, GNN transition, contrastive loss) and an autoencoder with a GNN transition model, evaluated on Space Invaders, a three-body problem, and a 2D block-pushing environment.</li><li>Measured latent MSE, reconstruction MSE, Hits@1 and mean reciprocal rank, so latent-space prediction quality and image quality are reported separately rather than conflated.</li></ul>
 
 
-    <div class="result">
-      <div class="big">~20x</div>
-      <div class="txt">Latent MSE of 0.00205 on 2D block pushing against 0.0433 for the autoencoder with a GNN transition model, roughly a factor of 20. Open-loop rollouts stayed near pixel-perfect, and held together over 100 successive imagined steps.</div>
-    </div>
+    <blockquote class="result">Latent MSE of 0.00205 on 2D block pushing against 0.0433 for the autoencoder with a GNN transition model, roughly a factor of 20. Open-loop rollouts stayed near pixel-perfect, and held together over 100 successive imagined steps.</blockquote>
 
     <h2>What worked</h2>
     <figure class="fig-side right">

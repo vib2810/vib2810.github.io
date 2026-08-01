@@ -90,10 +90,7 @@ data-lazyvideo>
     <ul><li>Formulated construction as a search over which excavation zone to dig, which berm section to deposit into, and in what order, minimizing <strong>total distance traveled</strong> by the rover.</li><li>Used a <strong>hybrid A*</strong> planner to compute edge costs, so every transition is a path the rover can actually drive over traversable terrain rather than a straight-line estimate.</li><li>Built the heuristic by relaxing the problem to a collision-free <strong>TSP over deposition poses</strong> and solving it with Google OR-Tools.</li><li>Ran weighted A* at several inflation factors to trade optimality against search time.</li><li>Implemented in C++ on ROS 2 as a task optimizer node, with worksites specified in YAML and the resulting sequence rendered as an animation for inspection.</li></ul>
 
 
-    <div class="result">
-      <div class="big">2.6x faster</div>
-      <div class="txt">On the hardest of three worksites, uninformed search produced no plan in ten minutes. The TSP heuristic solved it in 70 seconds, and inflating the heuristic to eps=5 cut that to 27 seconds while costing 1.3 percent more plan cost (174.6 against 172.3).</div>
-    </div>
+    <blockquote class="result">On the hardest of three worksites, uninformed search produced no plan in ten minutes. The TSP heuristic solved it in 70 seconds, and inflating the heuristic to eps=5 cut that to 27 seconds while costing 1.3 percent more plan cost (174.6 against 172.3).</blockquote>
 
     <h2>What worked</h2>
     
