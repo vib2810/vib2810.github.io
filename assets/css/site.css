@@ -921,8 +921,9 @@ a.chip:hover { border-color: var(--accent); color: var(--accent-ink); text-decor
 .bio-ps .ps-mark {
   font-family: var(--mono); font-size: .68rem; letter-spacing: .1em;
   text-transform: uppercase; color: var(--accent-ink);
-  margin-right: .5em;
+  margin-right: .45em;
 }
+.bio-ps .ps-mark::after { content: ":"; }
 .bio-ps strong { color: var(--ink-2); font-weight: 620; }
 @media (max-width: 720px) {
   .bio-ps { font-size: .88rem; margin-top: .9rem; padding-left: .8rem; }
