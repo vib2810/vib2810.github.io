@@ -4,12 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Intelligent Pickers, Vibhakar Mohta</title>
-<meta name="description" content="A warehouse picking stack built for Flipkart&#39;s national robotics challenge: a mobile base that maps the shelf, a 6-DOF arm, a custom gripper, and grasp planning over the resulting point cloud. Second in the country out of more than 6500 teams.">
+<meta name="description" content="A warehouse picking system designed for Flipkart&#39;s national robotics challenge: a 6-DOF arm sized from its own kinematics and torque analysis, a gripper built around the product mix, and grasp selection on a segmented point cloud. Second in the country out of more than 6500 teams.">
 <meta name="author" content="Vibhakar Mohta">
 <link rel="canonical" href="https://vib2810.github.io/projects/flipkart-grid.html">
 <meta property="og:site_name" content="Vibhakar Mohta">
 <meta property="og:title" content="Intelligent Pickers, Vibhakar Mohta">
-<meta property="og:description" content="A warehouse picking stack built for Flipkart&#39;s national robotics challenge: a mobile base that maps the shelf, a 6-DOF arm, a custom gripper, and grasp planning over the resulting point cloud. Second in the country out of more than 6500 teams.">
+<meta property="og:description" content="A warehouse picking system designed for Flipkart&#39;s national robotics challenge: a 6-DOF arm sized from its own kinematics and torque analysis, a gripper built around the product mix, and grasp selection on a segmented point cloud. Second in the country out of more than 6500 teams.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://vib2810.github.io/projects/flipkart-grid.html">
 <meta property="og:locale" content="en_US">
@@ -21,7 +21,7 @@
 <meta property="og:image:alt" content="Vibhakar Mohta, Research Scientist, Nuro">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Intelligent Pickers, Vibhakar Mohta">
-<meta name="twitter:description" content="A warehouse picking stack built for Flipkart&#39;s national robotics challenge: a mobile base that maps the shelf, a 6-DOF arm, a custom gripper, and grasp planning over the resulting point cloud. Second in the country out of more than 6500 teams.">
+<meta name="twitter:description" content="A warehouse picking system designed for Flipkart&#39;s national robotics challenge: a 6-DOF arm sized from its own kinematics and torque analysis, a gripper built around the product mix, and grasp selection on a segmented point cloud. Second in the country out of more than 6500 teams.">
 <meta name="twitter:image" content="https://vib2810.github.io/assets/img/og.jpg?v=e94b4663">
 <meta name="theme-color" content="#E8721C">
 <link rel="stylesheet" href="../assets/css/site.css">
@@ -60,7 +60,7 @@
 <div class="wrap proj-head">
   <a class="backlink" href="../projects/index.html">← All projects</a>
   <h1>Intelligent Pickers</h1>
-  <p class="sub">Flipkart GRID 2.0 National Intelligent Picking Challenge</p>
+  <p class="sub">Designing a picking system for the Flipkart GRID 2.0 national challenge</p>
   <span class="meta">2020 to 2021 · IIT Kharagpur · Team Intelligent Pickers</span>
 <div class="venue">National runners-up · 6500+ teams</div>  <div class="chips">
 <a class="chip" href="../projects/index.html?tag=manipulation">Manipulation</a>
@@ -86,10 +86,10 @@
   <img src="../assets/media/flipkart-grid/cad.jpg" alt="" loading="lazy" decoding="async">
 </div>
 
-  <figcaption>The 6-DOF manipulator, designed in CAD against the challenge&#39;s reach and payload envelope before anything was fabricated.</figcaption>
+  <figcaption>The 6-DOF manipulator, laid out in CAD against the reach and payload envelope the challenge required.</figcaption>
 </figure>
 
-    <p>Picking a named item out of a bin of retail products is not clean pick and place. The products are jumbled, many are deformable or shiny, and several look alike from above, so the grasp has to be chosen from a point cloud of a pile rather than from a known object pose. The competition added its own constraint: the whole thing had to be demonstrable end to end under elimination-round deadlines.</p>
+    <p>Picking a named item out of a bin of retail products is not clean pick and place. The products are jumbled, many are deformable or shiny, and several look alike from above, so the grasp has to be chosen from a point cloud of a pile rather than from a known object pose. The competition added its own constraint: the whole system had to be specified end to end, from actuator sizing up to grasp selection, and defended under elimination-round deadlines.</p>
 
     <h2>What I built</h2>
     <figure class="fig-side left">
@@ -100,10 +100,10 @@
   <figcaption>Segmenting the picking area. RGB views of the product pile, the instance masks over them, and the segmented point cloud the grasp planner actually works on.</figcaption>
 </figure>
 
-    <ul><li>Motion planning for a 6-DOF manipulator across the full reach, grasp, lift and place cycle, demonstrated on the challenge's own retail product mix.</li><li>A gripper designed around that product mix rather than as a general-purpose end effector.</li><li>A mobile base that builds a point cloud of the picking area as it is driven across the shelf, so the grasp planner works from a reconstruction of the actual bin instead of one fixed camera view.</li><li>Grasp planning directly on that point cloud, selecting a grasp on one product in clutter with no object model and no known pose.</li></ul>
+    <ul><li>A <strong>6-DOF manipulator designed from the kinematics up</strong>: a TRRTRT joint arrangement, DH parameters and an inverse kinematics solution for the required reach, then the work envelope swept and checked against the pickup and drop areas.</li><li>Actuators sized from a <strong>free-body and torque analysis</strong> across the trajectory rather than picked from a catalog, with harmonic drives at the joints that carry the load and 3D-printed structure where the loads allowed it.</li><li>A gripper designed around the challenge's actual product mix rather than as a general-purpose end effector.</li><li>Perception over point clouds of the picking area: instance segmentation across the pile, then localization of individual products within the cloud.</li><li>Grasp selection on that segmented cloud, scoring candidate grasps on one product in clutter with no object model and no known pose.</li><li>The whole system modelled in <strong>ROS and Gazebo</strong>, with the reach, grasp and place cycle run through in simulation.</li></ul>
 
 
-    <blockquote class="result">The stack placed second in the country out of more than 6500 teams in the Flipkart GRID 2.0 Intelligent Picking Challenge, with the full drive, map, grasp-plan and pick cycle running on real retail products through the national elimination rounds.</blockquote>
+    <blockquote class="result">The design placed second in the country out of more than 6500 teams in the Flipkart GRID 2.0 Intelligent Picking Challenge, carried through the national elimination rounds as a complete specification: manipulator kinematics, actuator sizing, gripper, and grasp selection on a segmented point cloud.</blockquote>
 
     <h2>What worked</h2>
     <figure class="fig-side right">
@@ -114,11 +114,11 @@
   <figcaption>Grasp candidates scored on individual objects. The grasp rectangle&#39;s position, orientation and width come out of the point cloud, not from a known object pose.</figcaption>
 </figure>
 
-    <ul class="ticks"><li>Splitting the system into stages that stand alone (drive and map, plan a grasp against the point cloud, execute with the arm) meant each piece could be shown working independently. Under a competition deadline, that is worth more than a tighter but all-or-nothing loop.</li><li>Building the gripper for the specific product mix removed a large amount of grasp-planning difficulty at the hardware level, which is usually the cheaper place to solve it.</li></ul>
+    <ul class="ticks"><li>Splitting the system into stages that stand alone, segment the pile, localize a product, score a grasp, plan the reach, meant each piece could be specified and defended on its own. Under a competition deadline that is worth more than a tighter but all-or-nothing design.</li><li><strong>Sizing the arm from its own torque analysis rather than choosing parts first.</strong> Which joint actually constrains the design is not obvious until the free-body diagram exists, and it decided where the harmonic drives had to go and where printed parts were enough.</li><li>Building the gripper for the specific product mix removed a large amount of grasp-planning difficulty at the hardware level, which is usually the cheaper place to solve it.</li></ul>
 
     <h2>What didn't</h2>
     
-    <ul class="crosses"><li>This was a competition deliverable, not a deployed system. Everything ran in a controlled setup with a joystick-driven mapping pass, and there is no measured pick rate on a realistic, continuously restocked bin.</li></ul>
+    <ul class="crosses"><li>Everything here is design and simulation, verified in ROS and Gazebo. The numbers that decide a real picking system, cycle time and pick rate on a continuously restocked bin, are not in it.</li><li>Simulated contact is the weakest part of the model. Deformable and shiny products are exactly the cases where Gazebo's physics and a clean simulated depth image flatter the design.</li></ul>
 
   </article>
 </div>
