@@ -4,7 +4,7 @@ Regenerate with:  `python3 tools/make_media.py --slug aarohi`
 
 | file | source | clip |
 |---|---|---|
-| `hero` | https://youtu.be/T4Ktph3kpYc | 190s +16s |
+| `hero` | https://youtu.be/T4Ktph3kpYc | 198s +16s |
 | `climb` | https://youtu.be/YAetBlpEgMw | 40s +7s |
 | `farm` | https://youtu.be/YAetBlpEgMw | 148s +7s |
 
