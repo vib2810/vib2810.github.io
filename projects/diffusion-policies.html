@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Vibhakar Mohta</title>
+<title>Play it by Ear, Vibhakar Mohta</title>
 <meta name="description" content="A diffusion policy conditioned on vision, gripper-mounted contact audio and joint states, aimed at the moments in a manipulation task when the camera cannot see what matters.">
 <meta name="author" content="Vibhakar Mohta">
 <link rel="canonical" href="https://vib2810.github.io/projects/diffusion-policies.html">
@@ -50,7 +50,7 @@
       <a href="../publications.html"    >Publications</a>
       <a href="../about.html"           >About</a>
       <a href="../assets/docs/vibhakar-mohta-resume.pdf">CV</a>
-      <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch colour theme">◐</button>
+      <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch color theme">◐</button>
     </nav>
   </div>
 </header>
@@ -61,8 +61,8 @@
   <a class="backlink" href="../projects/index.html">← All projects</a>
   <h1>Play it by Ear</h1>
   <p class="sub">Diffusion policies for manipulation when the camera cannot see</p>
-  <span class="meta">Oct to Dec 2023 · CMU · with Deepak Pathak · Abhinav Gupta, Shri Ishwaryaa S V</span>
-<div class="venue">Franka Emika Panda</div>  <div class="chips">
+  <span class="meta">Oct to Dec 2023 · CMU · with Deepak Pathak · Abhinav Gupta, Shri Ishwaryaa S V · Franka Emika Panda</span>
+<div class="venue">Course project</div>  <div class="chips">
 <a class="chip" href="../projects/index.html?tag=manipulation">Manipulation</a>
 <a class="chip" href="../projects/index.html?tag=robot-learning">Robot learning</a>
 </div>
@@ -80,7 +80,7 @@
 
     <h2>The problem</h2>
     
-    <p>Vision-conditioned policies go blind exactly when precision matters: at contact, the gripper and the object occlude each other. Sound is the cheap way back in, but it is a sparse signal in a dense trajectory. In our target task, the audio that distinguishes the two objects lasts about two seconds out of a sixty-second episode, so the policy&#39;s easiest route to low training loss is to ignore the microphone entirely.</p>
+    <p>Vision-conditioned policies go blind exactly when precision matters: at contact, the gripper and the object occlude each other. Sound is the cheap way back in, but it is a sparse signal in a dense trajectory. In our target task, the audio that distinguishes the two objects lasts 2 to 3 seconds out of a 60 to 70 second episode, so the policy&#39;s easiest route to low training loss is to ignore the microphone entirely.</p>
 
     <h2>What I built</h2>
     
@@ -91,7 +91,7 @@
 
     <h2>What worked</h2>
     
-    <ul class="ticks"><li>The failure mode the diffusion policy avoids is getting stuck. The fully connected baseline had <em>lower</em> validation MSE and still froze mid-trajectory; when it did not freeze it finished the task. Validation loss was the wrong signal for rollout success, which is the practical argument for action-sequence prediction over single-step regression.</li><li>Spectrograms made the discrimination easy in isolation: a bag of coins rings noticeably longer on impact than one of paper, and a small 1D convolutional classifier picked that up at about 95% accuracy.</li><li>Scripting demonstrations with a state machine instead of teleoperating produced smoother, more consistent trajectories and made 200-trajectory datasets a 5 to 6 hour job rather than a skill-intensive one.</li></ul>
+    <ul class="ticks"><li>The failure mode the diffusion policy avoids is getting stuck. The fully connected baseline had <em>lower</em> validation MSE and still froze mid-trajectory; when it did not freeze it finished the task. Validation loss was the wrong signal for rollout success, which is the practical argument for action-sequence prediction over single-step regression.</li><li>Spectrograms made the discrimination easy in isolation: a bag of coins rings noticeably longer on impact than one of paper, and a small 1D convolutional classifier picked that up at about 95% accuracy.</li><li>Scripting demonstrations with a state machine instead of teleoperating produced smoother, more consistent trajectories and made datasets of 100 to 185 trajectories a 5 to 6 hour job rather than a skill-intensive one.</li></ul>
 
     <h2>What didn't</h2>
     

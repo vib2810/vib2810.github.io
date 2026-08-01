@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Masked LDM, Vibhakar Mohta</title>
+<meta name="description" content="A mask-aware perceptual loss that pushes latent diffusion to render human faces and poses properly, with no pose skeleton or segmentation map required at generation time.">
+<meta name="author" content="Vibhakar Mohta">
+<link rel="canonical" href="https://vib2810.github.io/projects/stable-diffusion-humans.html">
+<meta property="og:site_name" content="Vibhakar Mohta">
+<meta property="og:title" content="Masked LDM, Vibhakar Mohta">
+<meta property="og:description" content="A mask-aware perceptual loss that pushes latent diffusion to render human faces and poses properly, with no pose skeleton or segmentation map required at generation time.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://vib2810.github.io/projects/stable-diffusion-humans.html">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://vib2810.github.io/assets/img/og.jpg">
+<meta property="og:image:secure_url" content="https://vib2810.github.io/assets/img/og.jpg">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Vibhakar Mohta, Research Scientist, Nuro">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Masked LDM, Vibhakar Mohta">
+<meta name="twitter:description" content="A mask-aware perceptual loss that pushes latent diffusion to render human faces and poses properly, with no pose skeleton or segmentation map required at generation time.">
+<meta name="twitter:image" content="https://vib2810.github.io/assets/img/og.jpg">
+<meta name="theme-color" content="#E8721C">
+<link rel="stylesheet" href="../assets/css/site.css">
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="../assets/img/favicon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="../assets/img/favicon-180.png">
+<script>
+  /* set the theme before first paint so there is no flash */
+  (function () {
+    try {
+      var t = localStorage.getItem('theme');
+      if (t) document.documentElement.setAttribute('data-theme', t);
+    } catch (e) {}
+  })();
+</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="site-head">
+  <div class="wrap">
+    <a class="brand" href="../index.html">Vibhakar Mohta</a>
+    <nav class="site-nav" aria-label="Primary">
+      <a href="../index.html"           >Home</a>
+      <a href="../projects/index.html"  aria-current="page">Projects</a>
+      <a href="../publications.html"    >Publications</a>
+      <a href="../about.html"           >About</a>
+      <a href="../assets/docs/vibhakar-mohta-resume.pdf">CV</a>
+      <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch color theme">◐</button>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+<div class="wrap proj-head">
+  <a class="backlink" href="../projects/index.html">← All projects</a>
+  <h1>Masked LDM</h1>
+  <p class="sub">Improving latent diffusion with a perceptual mask-aware loss</p>
+  <span class="meta">Feb to Apr 2023 · CMU · Visual Learning, with Deepak Pathak · Abhinav Gupta, Poorvi Hebbar · MS COCO</span>
+<div class="venue">Course project</div>  <div class="chips">
+<a class="chip" href="../projects/index.html?tag=generative">Generative &amp; foundation models</a>
+</div>
+</div>
+
+<div class="wrap proj-hero">
+  <div class="frame  fit-cover">
+  <video poster="../assets/media/stable-diffusion-humans/hero.jpg"         muted loop playsinline preload="none" data-lazyvideo>
+    <source src="../assets/media/stable-diffusion-humans/hero.mp4" type="video/mp4">
+  </video>
+</div>
+
+</div>
+
+<div class="wrap">
+  <article class="prose blog">
+
+    <h2>The problem</h2>
+    <figure class="fig-side right">
+  <div class="frame  fit-contain">
+  <img src="../assets/media/stable-diffusion-humans/method.jpg" alt="" loading="lazy" decoding="async">
+</div>
+
+  <figcaption>The training pipeline and the loss. Stable Diffusion stays frozen while the parallel ControlNet branch trains against the one-step estimate of the clean image, which is decoded and scored by masked LPIPS over the human mask plus a VGGFace2 term over face crops.</figcaption>
+</figure>
+
+    <p>Stable Diffusion renders scenes well and people badly: extra limbs, unresolved hands, poses that do not close. Conditioning methods such as ControlNet fix this if you hand the model a pose or depth map, but for text-to-image generation you do not have one, which is the entire difficulty. The alternative, classifier guidance, needs a segmentation model retrained on noisy latents, and naively decoding intermediate samples to apply a pixel-space loss means storing roughly a terabyte of computation graph.</p>
+
+    <h2>What I built</h2>
+    <figure class="fig-side left">
+  <div class="frame  fit-contain">
+  <img src="../assets/media/stable-diffusion-humans/grid.jpg" alt="" loading="lazy" decoding="async">
+</div>
+
+  <figcaption>Generations from the model. No pose skeleton, depth map or prompt engineering at generation time.</figcaption>
+</figure>
+
+    <ul><li>A <strong>mask-aware perceptual loss</strong> with two terms: a masked LPIPS loss computed on VGG feature maps restricted to human segmentation masks, and a face term matching VGGFace2 activations on face crops. Combined with the standard LDM objective as a weighted sum.</li><li>Applied the loss in pixel space to the <em>one-step</em> estimate of the clean image rather than DDIM-sampling back to t=0, which is what makes the memory cost tractable. Ground-truth masks and boxes transfer directly to the one-step image because the two are close below moderate noise levels.</li><li>Trained the ControlNet parallel branch on a frozen Stable Diffusion 1.5 backbone, but used it as a loss-guided second modality rather than a conditioning input, so nothing extra is needed at generation time.</li><li>Data: an MS COCO subset with heavy human coverage, 37,470 train and 1,565 validation images, at 512x512, batch size 1, 12 epochs on an RTX 3090.</li><li>Ablated the loss timestep threshold T and both loss weights; best settings were T=100, lambda_1=0.2, lambda_2=0.5.</li></ul>
+
+
+    <blockquote class="result">Masked LDM at T=100 scored 61.72 against 62.32 for Stable Diffusion and 63.95 for the retrained ControlNet baseline. The margin is small and the measurement is weak. The qualitative comparison, where faces and poses are clearly better with no prompt engineering, is the substantive evidence.</blockquote>
+
+    <h2>What worked</h2>
+    
+    <ul class="ticks"><li>The one-step approximation is the enabling trick. Below roughly t=200 it is close enough to the clean image that pretrained VGG, VGGFace2 and the ground-truth masks apply directly, which sidesteps retraining any model on noisy inputs.</li><li>The two hyperparameters do different jobs, and separating them mattered: the loss weights control what the model attends to, while T controls smoothness. At T=400 faces and poses improved but outputs went waxy, because one-step predictions at high noise are blurry. T=100 kept low-level detail.</li><li>Retraining the ControlNet branch with no change to the loss produced no visible improvement. That negative control is what justifies attributing the gain to the loss rather than to the extra capacity.</li></ul>
+
+    <h2>What didn't</h2>
+    
+    <ul class="crosses"><li>The FID numbers do not support the ranking. Scores were almost constant throughout training and were computed on 500 images where at least 10,000 is standard, so the ordering is within noise. Human inspection is the only honest evidence here, and the report says so.</li><li>Masked LPIPS covers the whole body mask, so hands and fingers, which occupy few pixels, are still frequently wrong. A keypoint-based pose loss is the obvious next step and was not implemented.</li><li>Whole-image metrics like FID, KID and IS score the scene, not the person. A generation can look good to them while the faces are unusable, which means the project never had a metric aligned with the thing it set out to fix.</li></ul>
+
+  </article>
+</div>
+
+
+
+<div class="wrap proj-foot">
+  <div class="sec-head"><span class="num">[ &rarr; ]</span><h2>Links</h2></div>
+  <div class="linkrow">
+  <a href="https://drive.google.com/file/d/126go8VUizd5Md1EouuFGzuf2pLqqj17M/view?usp=sharing"
+target="_blank" rel="noopener">Report</a>
+</div>
+
+  <div class="sources">
+    <h3>Where the figures came from</h3>
+    <ul>
+      <li><b>hero</b> &middot;
+Local file (maskedldm_mosaic.mp4)      </li>
+      <li><b>grid</b> &middot;
+Local file (maskedldm_grid.png)      </li>
+      <li><b>method</b> &middot;
+Project report (drive_sd_report.pdf)      </li>
+    </ul>
+  </div>
+
+  <div class="projnav">
+<a href="auto-jenga.html">&larr; Autonomous Jenga</a>    <span class="spacer"></span>
+<a href="aarohi.html">AAROHI &rarr;</a>  </div>
+</div>
+
+</main>
+
+<footer class="site-foot">
+  <div class="wrap">
+    <div class="note">
+      Vibhakar Mohta<br>
+      Research Scientist, Nuro<br>
+      <span style="opacity:.7">Built by hand. No trackers.</span>
+    </div>
+    <div class="linkrow">
+  <a href="mailto:vib2810@gmail.com"
+>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 6 10-6"/></svg>
+Email
+  </a>
+  <a href="https://scholar.google.com/citations?user=2ZRnqiEAAAAJ&amp;hl=en"
+target="_blank" rel="noopener">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2 0 8.5l12 6.5 9.8-5.3v6.8H24V8.5L12 2ZM4.6 13.4v4.1c0 1.9 3.3 3.5 7.4 3.5s7.4-1.6 7.4-3.5v-4.1L12 17.4l-7.4-4Z"/></svg>
+Scholar
+  </a>
+  <a href="https://github.com/vib2810"
+target="_blank" rel="noopener">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1.1-.7 0-.7 0-.7 1.2.1 1.9 1.3 1.9 1.3 1.1 1.8 2.9 1.3 3.6 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-5.9 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17.3 4.9 18.3 5.2 18.3 5.2c.6 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .5Z"/></svg>
+GitHub
+  </a>
+  <a href="https://linkedin.com/in/vibhakarmohta"
+target="_blank" rel="noopener">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 1 1 0 3.5a2.5 2.5 0 0 1 4.98 0ZM.24 8.25h4.5V24h-4.5V8.25Zm7.86 0h4.31v2.15h.06a4.72 4.72 0 0 1 4.25-2.34c4.55 0 5.39 3 5.39 6.88V24h-4.5v-7.9c0-1.88-.03-4.3-2.62-4.3-2.63 0-3.03 2.05-3.03 4.16V24H8.1V8.25Z"/></svg>
+LinkedIn
+  </a>
+  <a href="../assets/docs/vibhakar-mohta-resume.pdf"
+>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6M8 13h8M8 17h5"/></svg>
+Résumé
+  </a>
+</div>
+  </div>
+</footer>
+
+<script src="../assets/js/site.js" defer></script>
+</body>
+</html>

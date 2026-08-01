@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Vibhakar Mohta</title>
+<title>Path trackers, compared honestly, Vibhakar Mohta</title>
 <meta name="description" content="Five path-tracking controllers implemented, tuned and benchmarked against each other on identical courses: first in Gazebo, then on a real electric car.">
 <meta name="author" content="Vibhakar Mohta">
 <link rel="canonical" href="https://vib2810.github.io/projects/path-tracking.html">
@@ -50,7 +50,7 @@
       <a href="../publications.html"    >Publications</a>
       <a href="../about.html"           >About</a>
       <a href="../assets/docs/vibhakar-mohta-resume.pdf">CV</a>
-      <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch colour theme">◐</button>
+      <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch color theme">◐</button>
     </nav>
   </div>
 </header>
@@ -61,8 +61,8 @@
   <a class="backlink" href="../projects/index.html">← All projects</a>
   <h1>Path trackers, compared honestly</h1>
   <p class="sub">Pure pursuit, PID, Stanley, LQR and MPC on Ackermann vehicles</p>
-  <span class="meta">2020 · IIT Kharagpur</span>
-<div class="venue">arXiv · tested on a Mahindra e2o</div>  <div class="chips">
+  <span class="meta">2020 · IIT Kharagpur · Mahindra e2o</span>
+<div class="venue">arXiv preprint</div>  <div class="chips">
 <a class="chip" href="../projects/index.html?tag=autonomous-driving">Autonomous driving</a>
 <a class="chip" href="../projects/index.html?tag=planning">Planning &amp; control</a>
 </div>
@@ -81,7 +81,16 @@
   <article class="prose blog">
 
     <h2>The problem</h2>
-    
+    <figure class="fig-side right">
+  <div class="frame  fit-cover">
+  <video poster="../assets/media/path-tracking/sim.jpg"         muted loop playsinline preload="none" data-lazyvideo>
+    <source src="../assets/media/path-tracking/sim.mp4" type="video/mp4">
+  </video>
+</div>
+
+  <figcaption>Tracking the reference course in Gazebo, where all five controllers were benchmarked before anything went near the car.</figcaption>
+</figure>
+
     <p>Every autonomy stack picks a path tracker, and the choice is usually made by folklore. Published comparisons are hard to use because they vary the vehicle model, the reference paths and the tuning effort all at once, so nothing transfers to your vehicle. Making the comparison mean anything requires holding all three fixed, and then repeating it on hardware, where the assumptions in the model start to matter.</p>
 
     <h2>What I built</h2>
@@ -89,7 +98,7 @@
     <ul><li>Implemented pure pursuit, PID, Stanley, LQR and MPC against a common Ackermann vehicle model, with comparable tuning effort spent on each.</li><li>Benchmarked all five in Gazebo on lane-shift and sinusoidal courses at matched speeds up to 30 km/h.</li><li>Validated on a Mahindra e2o electric vehicle, so the comparison is not simulation-only.</li></ul>
 
 
-    <blockquote class="result">Five trackers implemented, tuned and compared on identical courses in simulation and then on a real vehicle. Published as an arXiv preprint (2012.02978).</blockquote>
+    <blockquote class="result">MPC tracked best of the five through the medium velocity range, on identical courses in simulation and then on the instrumented Mahindra e2o. The comparison also produced a tuning methodology for each controller, which is the part that actually transfers to another vehicle.</blockquote>
 
     <h2>What worked</h2>
     
@@ -97,7 +106,7 @@
 
     <h2>What didn't</h2>
     
-    <ul class="crosses"><li>The comparison rests on a kinematic Ackermann model. It says nothing about tire slip or actuator dynamics, so the ranking should not be read as holding near the limits of handling.</li><li>Every controller's numbers are only as good as its tuning, and MPC has considerably more knobs than pure pursuit. Comparable effort is not the same as comparable tuning quality, and that caveat applies to any benchmark of this kind, including this one.</li></ul>
+    <ul class="crosses"><li>Most of the comparison sits in the low-to-medium speed range where a kinematic Ackermann model holds. A few of the methods do model lateral dynamics for high-speed navigation, but the ranking should still not be read as holding near the limits of handling.</li><li>Every controller's numbers are only as good as its tuning, and MPC has considerably more knobs than pure pursuit. Comparable effort is not the same as comparable tuning quality, and that caveat applies to any benchmark of this kind, including this one.</li></ul>
 
   </article>
 </div>
@@ -113,7 +122,7 @@
           <svg viewBox="0 0 68 48"><path class="bg" d="M66.5 7.7a8.6 8.6 0 0 0-6-6C55.2 0 34 0 34 0S12.8 0 7.5 1.6a8.6 8.6 0 0 0-6 6A90 90 0 0 0 0 24a90 90 0 0 0 1.5 16.3 8.6 8.6 0 0 0 6 6C12.8 48 34 48 34 48s21.2 0 26.5-1.6a8.6 8.6 0 0 0 6-6A90 90 0 0 0 68 24a90 90 0 0 0-1.5-16.3z"/><path class="arrow" d="M27 34V14l18 10z"/></svg>
         </span>
       </span>
-      <span class="vlabel">Video</span>
+      <span class="vlabel">Video, in simulation</span>
     </a>
   </div>
 </div>
@@ -123,6 +132,8 @@
   <div class="linkrow">
   <a href="https://arxiv.org/abs/2012.02978"
 target="_blank" rel="noopener">Paper</a>
+  <a href="https://www.youtube.com/watch?v=3we2rlaAFhE"
+target="_blank" rel="noopener">Video, on the car</a>
 </div>
 
   <div class="sources">
