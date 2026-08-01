@@ -66,7 +66,7 @@ body {
   background: var(--paper);
   color: var(--ink);
   font-family: var(--sans);
-  font-size: 19.5px;
+  font-size: 17.5px;
   line-height: 1.62;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
@@ -78,8 +78,8 @@ a { color: var(--accent-ink); text-decoration: none; }
 a:hover { text-decoration: underline; text-underline-offset: .18em; }
 
 h1, h2, h3, h4 { line-height: 1.16; letter-spacing: -.021em; margin: 0; font-weight: 640; }
-h1 { font-size: clamp(2.4rem, 5.6vw, 3.9rem); }
-h2 { font-size: clamp(1.65rem, 3.4vw, 2.3rem); }
+h1 { font-size: clamp(2.2rem, 5vw, 3.4rem); }
+h2 { font-size: clamp(1.55rem, 3.1vw, 2.05rem); }
 h3 { font-size: 1.22rem; }
 p  { margin: 0 0 1.05em; }
 
@@ -117,10 +117,10 @@ p  { margin: 0 0 1.05em; }
 }
 .site-head .wrap {
   display: flex; align-items: center; gap: 1.5rem;
-  min-height: 70px;
+  min-height: 74px;
 }
 .brand {
-  font-family: var(--mono); font-weight: 700; font-size: .95rem;
+  font-family: var(--mono); font-weight: 700; font-size: 1rem;
   letter-spacing: .1em; text-transform: uppercase;
   color: var(--ink); text-decoration: none; white-space: nowrap;
 }
@@ -129,9 +129,9 @@ p  { margin: 0 0 1.05em; }
 
 .site-nav { margin-left: auto; display: flex; align-items: center; gap: .25rem; flex-wrap: wrap; }
 .site-nav a {
-  font-family: var(--mono); font-size: .84rem; letter-spacing: .075em;
+  font-family: var(--mono); font-size: .95rem; letter-spacing: .07em;
   text-transform: uppercase; color: var(--ink-2);
-  padding: .55rem .75rem; border-radius: var(--radius);
+  padding: .6rem .85rem; border-radius: var(--radius);
   transition: color var(--t), background var(--t);
 }
 .site-nav a:hover { color: var(--ink); background: var(--paper-2); text-decoration: none; }
@@ -143,8 +143,8 @@ p  { margin: 0 0 1.05em; }
 
 .theme-toggle {
   border: 1px solid var(--rule-2); background: transparent; color: var(--ink-2);
-  font-family: var(--mono); font-size: .82rem; letter-spacing: .08em;
-  padding: .45rem .65rem; border-radius: var(--radius); cursor: pointer;
+  font-family: var(--mono); font-size: 1.05rem; line-height: 1; letter-spacing: .08em;
+  padding: .5rem .7rem; border-radius: var(--radius); cursor: pointer;
   margin-left: .35rem; transition: border-color var(--t), color var(--t);
 }
 .theme-toggle:hover { border-color: var(--accent); color: var(--accent-ink); }
@@ -159,7 +159,23 @@ p  { margin: 0 0 1.05em; }
   .theme-toggle { margin-left: .1rem; padding: .3rem .4rem; }
 }
 @media (max-width: 380px) {
-  .site-nav a { font-size: .63rem; }
+  .site-nav a { font-size: .7rem; padding-inline: .25rem; }
+}
+
+/* Touch targets. Standalone controls get at least 44px of tappable height on
+   phones; inline links inside prose are left alone, since padding them out
+   would wreck the line spacing. */
+@media (hover: none) and (pointer: coarse) {
+  .site-nav a, .brand, .theme-toggle, .backlink,
+  .linkrow a, .chip, .filterbar button, .showmore, .projnav a {
+    min-height: 44px;
+    display: inline-flex; align-items: center; justify-content: center;
+  }
+  .site-nav a { padding-block: 0; }
+  .brand { justify-content: flex-start; }
+  .backlink, .projnav a { justify-content: flex-start; }
+  .theme-toggle { min-width: 44px; }
+  .robot .cap { min-height: 44px; }
 }
 
 /* ==========================================================================
@@ -235,7 +251,7 @@ section + section { border-top: 1px solid var(--rule); }
 
 .hero h1 { margin-bottom: .5rem; }
 .hero .tagline {
-  font-size: clamp(1.2rem, 2.5vw, 1.5rem); color: var(--slate);
+  font-size: clamp(1.15rem, 2.3vw, 1.4rem); color: var(--slate);
   font-weight: 500; margin-bottom: 1.5rem; max-width: none; text-wrap: balance;
   letter-spacing: -.012em;
 }
@@ -643,6 +659,99 @@ a.chip:hover { border-color: var(--accent); color: var(--accent-ink); text-decor
    misc
    ========================================================================== */
 
-.lede { font-size: 1.2rem; color: var(--ink-2); max-width: 62ch; }
+.lede { font-size: 1.08rem; color: var(--ink-2); max-width: 62ch; }
 .center { text-align: center; }
 .stack > * + * { margin-top: 1.1rem; }
+
+
+/* ==========================================================================
+   phones — the desktop scale is deliberately large, which is too much at
+   390px. Everything below is mobile-only; desktop is untouched.
+   ========================================================================== */
+
+@media (max-width: 720px) {
+  body { font-size: 16px; line-height: 1.55; }
+
+  h1 { font-size: clamp(1.85rem, 8.5vw, 2.5rem); }
+  h2 { font-size: clamp(1.3rem, 5.5vw, 1.6rem); }
+  h3 { font-size: 1.08rem; }
+
+  .mono, .eyebrow, .chip, .meta, .datecol, .linkrow a, .count { font-size: .72rem; }
+
+  /* header: one tight row for the brand, one for the links */
+  .site-head .wrap { min-height: 0; padding-block: .3rem; row-gap: .1rem; }
+  .brand { font-size: .76rem; }
+  .site-nav { flex-wrap: nowrap; justify-content: space-between; gap: 0; }
+  .site-nav a { font-size: .68rem; letter-spacing: .02em; padding-inline: .3rem; white-space: nowrap; }
+  /* CV also sits in the hero link row, so drop it here to keep one clean line */
+  .site-nav a[href$="resume.pdf"] { display: none; }
+
+  /* hero */
+  .hero { padding-block: 1.75rem 1.5rem; }
+  .hero .status {
+    font-size: .66rem; letter-spacing: .06em;
+    padding: .3rem .7rem .3rem .55rem; margin-bottom: .9rem;
+  }
+  .hero .tagline { font-size: 1.08rem; margin-bottom: 1.1rem; }
+  .hero .bio { font-size: .95rem; }
+  .linkrow { gap: .45rem; margin-top: 1.1rem; }
+  .linkrow a { padding: .5rem .7rem; font-size: .68rem; }
+  .linkrow svg { width: 15px; height: 15px; }
+
+  /* Portrait leads on a phone. Explicit box: `width:100%` inside a
+     shrink-wrapped flex item collapses, so set both dimensions outright. */
+  .hero-grid { display: flex; flex-direction: column-reverse; align-items: flex-start; gap: 1.1rem; }
+  .portrait {
+    width: 168px; max-width: 168px; height: 168px;
+    aspect-ratio: auto; object-fit: cover; object-position: 50% 22%;
+  }
+
+  /* sections */
+  section { padding-block: 2.4rem; }
+  .sec-head { gap: .7rem; margin-bottom: 1.25rem; }
+  .sec-head .num { font-size: .74rem; }
+  .sec-head h2 { font-size: 1.3rem; }
+  .sec-head .more { font-size: .7rem; }
+
+  /* updates */
+  .updates li { padding-block: .55rem; }
+  .updates .txt { font-size: .95rem; }
+
+  /* robot rail */
+  .robot { width: 190px; }
+  .robot .cap { font-size: .68rem; }
+  .robot-strip .label { font-size: .72rem; }
+
+  /* cards and features */
+  .card .body { padding: .9rem 1rem 1rem; }
+  .card h3 { font-size: 1.05rem; }
+  .card p { font-size: .92rem; }
+  .feature h3 { font-size: 1.3rem; }
+  .feature .sub { font-size: .95rem; }
+  .feature p.desc { font-size: .95rem; }
+
+  /* project pages */
+  .proj-head { padding-block: 1.5rem 1rem; }
+  .proj-head h1 { font-size: clamp(1.7rem, 7.5vw, 2.2rem); }
+  .proj-head .sub { font-size: 1.02rem; }
+  .prose h2 { font-size: .82rem; margin-top: 1.9rem; }
+  .prose p, .prose li { font-size: .95rem; }
+  .result { padding: .9rem 1rem; }
+  .result .big { font-size: 1.5rem; }
+  .result .txt { font-size: .92rem; }
+  .figs { gap: 1.1rem; grid-template-columns: 1fr; }
+  .fig figcaption { font-size: .7rem; }
+
+  /* lists */
+  .lede { font-size: 1.02rem; }
+  .entry li, .pub .authors, .pub .venue { font-size: .93rem; }
+  .talk p { font-size: .93rem; }
+  .sources li { font-size: .68rem; }
+}
+
+@media (max-width: 400px) {
+  body { font-size: 15.5px; }
+  .portrait { width: 148px; max-width: 148px; height: 148px; }
+  .robot { width: 172px; }
+  .site-nav a { font-size: .64rem; padding-inline: .22rem; }
+}
