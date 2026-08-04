@@ -608,22 +608,41 @@ a.chip:hover { border-color: var(--accent); color: var(--accent-ink); text-decor
   border-left: 2px solid var(--rule-2); padding-left: .9rem; margin: 1.25rem 0;
 }
 
-/* Photographs, not figures. These range from a 3:1 group panorama to portrait
-   phone shots, so the column flow keeps every one of them uncropped. */
-.beyond-lead { margin: 0 0 1.6rem; }
-.gallery { columns: 250px 4; column-gap: 1.2rem; }
-.gallery figure { break-inside: avoid; margin: 0 0 1.5rem; }
-.gallery img {
-  display: block; width: 100%; height: auto;
-  background: var(--paper-2); border: 1px solid var(--rule); border-radius: var(--radius);
+/* ==========================================================================
+   gallery
+   Photographs run from a 3:1 group panorama to portrait phone shots. Rather
+   than crop them all to one box, each figure carries its own aspect ratio as
+   --ar and flexes in proportion to it, so a row justifies to a common height
+   and nothing loses its edges.
+   ========================================================================== */
+
+.gal-head { padding-top: clamp(2rem, 5vw, 3.4rem); }
+.gal-head h1 { margin-bottom: .5rem; }
+.gal-group { margin-top: clamp(2.4rem, 5vw, 3.6rem); }
+.gal-note { color: var(--ink-2); max-width: 68ch; margin: 0 0 1.5rem; }
+
+.gal-grid { display: flex; flex-wrap: wrap; gap: 1.15rem; align-items: flex-start; }
+.gal-grid figure {
+  margin: 0;
+  flex: var(--ar, 1) 1 calc(var(--ar, 1) * 265px);
+  min-width: min(260px, 100%);
 }
-.gallery figcaption {
-  margin-top: .5rem; font-size: .84rem; line-height: 1.55; color: var(--ink-3);
+.gal-grid img {
+  display: block; width: 100%; height: auto; aspect-ratio: var(--ar, 1);
+  object-fit: cover; background: var(--paper-2);
+  border: 1px solid var(--rule); border-radius: var(--radius);
 }
-@media (max-width: 520px) {
-  .gallery { columns: 150px 2; column-gap: .8rem; }
-  .gallery figure { margin-bottom: 1.1rem; }
-  .gallery figcaption { font-size: .78rem; }
+.gal-grid figcaption {
+  margin-top: .55rem; font-size: .86rem; line-height: 1.6; color: var(--ink-3);
+  max-width: 48ch;
+}
+/* Soak up the slack on the final row, so a photo left on its own keeps its
+   size instead of stretching to the full width of the page. */
+.gal-grid::after { content: ""; flex-grow: 5; }
+@media (max-width: 640px) {
+  .gal-grid { gap: 1.4rem; }
+  .gal-grid figure { flex-basis: 100%; min-width: 100%; }
+  .gal-grid figcaption { font-size: .82rem; }
 }
 
 .figs { display: grid; gap: 1.5rem; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); }
