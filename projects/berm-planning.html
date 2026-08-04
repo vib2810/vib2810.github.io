@@ -83,19 +83,24 @@
 
     <h2>Dozens of excavations, and the order matters</h2>
     <figure class="fig-side right">
-  <div class="frame  fit-cover">
-  <video poster="../assets/media/berm-planning/sequence.jpg"         muted loop playsinline preload="none" data-lazyvideo>
-    <source src="../assets/media/berm-planning/sequence.mp4" type="video/mp4">
-  </video>
+  <div class="frame  fit-contain">
+  <img src="../assets/media/berm-planning/setup.jpg" alt="" loading="lazy" decoding="async">
 </div>
 
-  <figcaption>One worksite, planned and animated. The rover drives between the excavation zones and the berm sections it is filling, in the order the upper level chose, with every leg a path hybrid A* said it could actually drive.</figcaption>
+  <figcaption>What the upper level is searching over. Berm sections numbered in build order, each reachable from two deposition poses, and the excavation zones feeding them from the left. Every section that gets built becomes an obstacle the remaining passes have to drive around, which is what makes the edge costs change as the plan proceeds.</figcaption>
 </figure>
 
     <p>Building a berm is not one excavation, it is dozens, and the order matters. Every pass changes the terrain the next one starts from, and driving between distant excavation and deposition sites is the dominant cost on a rover with a fixed power budget. The space of orderings is combinatorial, so uninformed search does not finish.</p>
 
     <h2>Two levels of search</h2>
-    
+    <figure class="fig-side left">
+  <div class="frame  fit-contain">
+  <img src="../assets/media/berm-planning/results.jpg" alt="" loading="lazy" decoding="async">
+</div>
+
+  <figcaption>What the heuristic is worth. With no heuristic the planner returns nothing at all inside ten minutes on the two harder worksites. At eps=1 it finishes, and inflating to eps=5 roughly halves the time again for about a percent of extra plan cost.</figcaption>
+</figure>
+
     <ul><li>A <strong>bilevel formulation</strong>. The upper level searches over which excavation zone to dig, which berm section to deposit into, and in what order; the lower level plans the actual drive between any two of those poses, and hands its cost back up as the edge weight.</li><li>Since <strong>energy spent is proportional to distance traveled</strong> for an electric rover at steady speed, where drive force is dominated by rolling resistance, this turns an energy objective into a distance objective the search can optimize directly.</li><li>Used a <strong>hybrid A*</strong> planner for the lower level, so every transition is a path the rover can actually drive over traversable terrain rather than a straight-line estimate.</li><li>Built the heuristic by relaxing the problem to a collision-free <strong>TSP over deposition poses</strong> and solving it with Google OR-Tools.</li><li>Ran weighted A* at several inflation factors to trade optimality against search time.</li><li>Implemented in C++ on ROS 2 as a task optimizer node, with worksites specified in YAML and the resulting sequence rendered as an animation for inspection.</li></ul>
 
 
@@ -113,6 +118,8 @@
 <div class="wrap proj-foot">
   <div class="sec-head"><span class="num">[ &rarr; ]</span><h2>Links</h2></div>
   <div class="linkrow">
+  <a href="https://drive.google.com/open?id=1E1d_Ks4znFoPX9TVhLTD4QVd8uxXk2M8"
+target="_blank" rel="noopener">Report</a>
   <a href="https://github.com/vib2810/planning_for_berm_construction"
 target="_blank" rel="noopener">Code</a>
   <a href="lunar-x.html"
@@ -124,8 +131,8 @@ target="_blank" rel="noopener">Code</a>
     <ul>
       <li><b>hero</b> &middot;
 Local file (berm_env16_padded.mp4)      </li>
-      <li><b>sequence</b> &middot;
-Local file (animation_env_5_10.mp4)      </li>
+      <li><b>setup</b> &middot;
+Project report (drive_lunarx_report.pdf)      </li>
     </ul>
   </div>
 
