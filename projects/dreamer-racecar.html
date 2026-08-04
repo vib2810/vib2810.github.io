@@ -80,7 +80,8 @@
 <div class="wrap">
   <article class="prose blog">
 
-    <h2>The problem</h2>
+
+    <h2>Why model-based RL breaks on contact with hardware</h2>
     <figure class="fig-side right">
   <div class="frame  fit-cover">
   <video poster="../assets/media/dreamer-racecar/track.jpg"         muted loop playsinline preload="none" data-lazyvideo>
@@ -93,7 +94,7 @@
 
     <p>Model-based RL is sample efficient because it trains the policy inside a learned world model, and that is exactly why it breaks on contact with hardware: the model is fit to one simulator and one track layout. Two specific failures dominate. The policies come out bang-bang, saturating the steering at both limits in a way no physical servo tracks and no servo survives for long. And 1080 LiDAR beams flattened into an MLP throw away the spatial structure that makes a scan interpretable in the first place.</p>
 
-    <h2>What I built</h2>
+    <h2>DreamerV3, adapted for a real car</h2>
     <figure class="fig-side left">
   <div class="frame  fit-contain">
   <img src="../assets/media/dreamer-racecar/maps.jpg" alt="" loading="lazy" decoding="async">
@@ -107,7 +108,7 @@
 
     <blockquote class="result">The policy trained on a single simulated track from raw LiDAR and then drove the physical 1/10-scale car with no real-world fine-tuning and no retuning, so DreamerV3&#39;s fixed-hyperparameter recipe held across the sim-to-real gap. In simulation, trained on Austria alone, it completed 65% of runs on Austria and 100% on the unseen Columbia layout.</blockquote>
 
-    <h2>What worked</h2>
+    <h2>What survived the servo</h2>
     
     <ul class="ticks"><li><strong>Treating the LiDAR scan as an image.</strong> Rendering the beams into 2D lets the convolutional encoder impose an inductive bias the MLP encodings used in prior racing Dreamer work do not have. The world model's reconstructed scans track ground truth closely, which is the evidence that the latent state actually holds track geometry rather than a memorized policy.</li><li><strong>The quadratic steering penalties changed the shape of the policy, not just its score.</strong> The steering histogram goes from piled up at the two limits to spread across the range. That is the difference between a command stream a servo can follow and one that just chatters.</li><li>Picking the simulator with the more comprehensive physics model over the more popular one was a sim2real decision made up front, before any tuning, and it is what left nothing to tune afterward.</li></ul>
 

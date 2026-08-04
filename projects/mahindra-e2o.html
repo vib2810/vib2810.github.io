@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mahindra e2o driverless car, Vibhakar Mohta</title>
+<meta name="description" content="The car the path-tracking work ran on. Mahindra handed thirteen finalist teams a drive-by-wire e2o and asked them to make it drive itself; ours ran on the roads of IIT Kharagpur&#39;s campus.">
+<meta name="author" content="Vibhakar Mohta">
+<link rel="canonical" href="https://vib2810.github.io/projects/mahindra-e2o.html">
+<meta property="og:site_name" content="Vibhakar Mohta">
+<meta property="og:title" content="Mahindra e2o driverless car, Vibhakar Mohta">
+<meta property="og:description" content="The car the path-tracking work ran on. Mahindra handed thirteen finalist teams a drive-by-wire e2o and asked them to make it drive itself; ours ran on the roads of IIT Kharagpur&#39;s campus.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://vib2810.github.io/projects/mahindra-e2o.html">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://vib2810.github.io/assets/img/og.jpg?v=e94b4663">
+<meta property="og:image:secure_url" content="https://vib2810.github.io/assets/img/og.jpg?v=e94b4663">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Vibhakar Mohta, Research Scientist, Nuro">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Mahindra e2o driverless car, Vibhakar Mohta">
+<meta name="twitter:description" content="The car the path-tracking work ran on. Mahindra handed thirteen finalist teams a drive-by-wire e2o and asked them to make it drive itself; ours ran on the roads of IIT Kharagpur&#39;s campus.">
+<meta name="twitter:image" content="https://vib2810.github.io/assets/img/og.jpg?v=e94b4663">
+<meta name="theme-color" content="#E8721C">
+<link rel="stylesheet" href="../assets/css/site.css">
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="../assets/img/favicon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="../assets/img/favicon-180.png">
+<script>
+  /* set the theme before first paint so there is no flash */
+  (function () {
+    try {
+      var t = localStorage.getItem('theme');
+      if (t) document.documentElement.setAttribute('data-theme', t);
+    } catch (e) {}
+  })();
+</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="site-head">
+  <div class="wrap">
+    <a class="brand" href="../index.html"><span class="brand-logo" role="img" aria-label="vib2810"></span>Vibhakar Mohta</a>
+    <nav class="site-nav" aria-label="Primary">
+      <a href="../index.html"           >Home</a>
+      <a href="../projects/index.html"  aria-current="page">Projects</a>
+      <a href="../publications.html"    >Publications</a>
+      <a href="../about.html"           >About</a>
+      <a href="../assets/docs/vibhakar-mohta-resume.pdf">CV</a>
+      <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch color theme">◐</button>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+<div class="wrap proj-head">
+  <a class="backlink" href="../projects/index.html">← All projects</a>
+  <h1>Mahindra e2o driverless car</h1>
+  <p class="sub">Turning a production electric car into an autonomous one, on Indian campus roads</p>
+  <span class="meta">2018 to 2020 · IIT Kharagpur · Autonomous Ground Vehicle Research Group</span>
+<div class="venue">Mahindra Rise Prize · 13 finalists from 400+ entrants</div>  <div class="chips">
+<a class="chip" href="../projects/index.html?tag=autonomous-driving">Autonomous driving</a>
+<a class="chip" href="../projects/index.html?tag=perception">Perception</a>
+<a class="chip" href="../projects/index.html?tag=planning">Planning &amp; control</a>
+</div>
+</div>
+
+<div class="wrap proj-hero">
+  <div class="frame  fit-cover">
+  <img src="../assets/media/mahindra-e2o/hero.jpg" alt="" loading="lazy" decoding="async">
+</div>
+
+</div>
+
+<div class="wrap">
+  <article class="prose blog">
+
+
+    <h2>A production car, and roads nothing was trained for</h2>
+    <figure class="fig-side right">
+  <div class="frame  fit-contain">
+  <img src="../assets/media/mahindra-e2o/sim.jpg" alt="" loading="lazy" decoding="async">
+</div>
+
+  <figcaption>The simulated campus environment. Controllers and planners were tuned here first, because the alternative was tuning them on a car with a person in it.</figcaption>
+</figure>
+
+    <p>Indian campus and city roads break the assumptions a driving stack is usually built on. Lane paint is intermittent where it exists at all, the road edge is often the only cue, and the traffic does not stay in lanes. On top of that the platform is a real car rather than a test rig: the actuation is drive-by-wire through an interface you did not design, the vehicle has mass and a turning circle, and every control error is a real one.</p>
+
+    <h2>Building the stack the car needed</h2>
+    <figure class="fig-side left">
+  <div class="frame  fit-cover">
+  <img src="../assets/media/mahindra-e2o/lanemap.jpg" alt="" loading="lazy" decoding="async">
+</div>
+
+  <figcaption>The GPS-tagged lane map of the test area, projected back into the camera frame at run time to carry the lane estimate across the stretches where the paint has gone.</figcaption>
+</figure>
+
+    <ul><li>A full autonomy stack on a <strong>Mahindra e2o</strong> with a factory drive-by-wire interface, covering perception, localization, planning and control, and driven on campus roads.</li><li><strong>Lateral and longitudinal control.</strong> PID and adaptive PID for velocity, and a sequence of lateral controllers built against a kinematic bicycle model, tuned in simulation before anything ran on the car. The comparison that came out of this is written up separately in <a href="path-tracking.html">Path trackers, compared honestly</a>.</li><li><strong>Global and local planning</strong> as two layers: a Dijkstra global planner over the route, and a Time Elastic Band local planner that re-shapes the trajectory around whatever the sensors currently see, subject to the car's own dynamics.</li><li>A <strong>GPS-tagged lane map</strong> of the test area, held in a tree structure for fast lookup during a live run. Nearby mapped lane geometry is projected back into the camera frame and fused with the live detection, so the estimate survives the stretches where the paint does not.</li><li>Road feature extraction shared with the <a href="lane-detection.html">lane detection work</a>: a bird's-eye perspective transform, lane fitting, and stop lines separated by orientation.</li><li>Everything staged on a <strong>Clearpath Husky A200</strong> first, with the heavy perception split across an onboard PC and an external machine over a static LAN, so modules were debugged on a platform that could not hurt anyone before they moved to a car that could.</li></ul>
+
+
+    <blockquote class="result">Mahindra picked thirteen finalists out of more than 400 entrants for the Rise Prize Driverless Car Challenge and handed each an e2o to convert. The car drove autonomously on campus roads, and the controller study that came out of the programme became an arXiv preprint still used as a reference for tuning Ackermann path trackers.</blockquote>
+
+    <h2>What the campus taught us</h2>
+    
+    <ul class="ticks"><li><strong>Staging everything on the Husky first.</strong> The e2o is a car, so a bad controller is not a bad log, it is a real vehicle moving badly. Debugging the stack on a small differential base with the same ROS interfaces meant the code that reached the car had already met real sensors, real latency and real network drops.</li><li><strong>The map is there to cover the detector, not to replace it.</strong> Fusing mapped lane geometry with live detection is what got the system through the stretches with no usable paint, and it degrades gracefully: where the map is wrong the detector still votes.</li><li>Splitting planning into a fixed global route and a local planner that owns the vehicle's dynamics kept the hard constraint, that the path has to be drivable by this car, in one place instead of smeared across the stack.</li></ul>
+
+  </article>
+</div>
+
+
+<div class="wrap videos-wrap">
+  <div class="sec-head"><span class="num">[ &#9654; ]</span><h2>Watch</h2></div>
+  <div class="video-cards">
+    <a class="video-card" href="https://www.youtube.com/watch?v=3we2rlaAFhE" target="_blank" rel="noopener">
+      <span class="vthumb">
+        <img src="../assets/media/mahindra-e2o/yt_3we2rlaAFhE.jpg" alt="" loading="lazy" decoding="async">
+        <span class="play" aria-hidden="true">
+          <svg viewBox="0 0 68 48"><path class="bg" d="M66.5 7.7a8.6 8.6 0 0 0-6-6C55.2 0 34 0 34 0S12.8 0 7.5 1.6a8.6 8.6 0 0 0-6 6A90 90 0 0 0 0 24a90 90 0 0 0 1.5 16.3 8.6 8.6 0 0 0 6 6C12.8 48 34 48 34 48s21.2 0 26.5-1.6a8.6 8.6 0 0 0 6-6A90 90 0 0 0 68 24a90 90 0 0 0-1.5-16.3z"/><path class="arrow" d="M27 34V14l18 10z"/></svg>
+        </span>
+      </span>
+      <span class="vlabel">Video, on the car</span>
+    </a>
+  </div>
+</div>
+
+<div class="wrap proj-foot">
+  <div class="sec-head"><span class="num">[ &rarr; ]</span><h2>Links</h2></div>
+  <div class="linkrow">
+  <a href="https://arxiv.org/abs/2012.02978"
+target="_blank" rel="noopener">Path tracking paper</a>
+  <a href="https://agv.iitkgp.ac.in/"
+target="_blank" rel="noopener">Team AGV</a>
+  <a href="path-tracking.html"
+>Path trackers</a>
+</div>
+
+  <div class="sources">
+    <h3>Where the figures came from</h3>
+    <ul>
+      <li><b>hero</b> &middot;
+Local file (gallery_agv_e2o.jpg)      </li>
+      <li><b>sim</b> &middot;
+Local file (e2o_sim.jpg)      </li>
+      <li><b>lanemap</b> &middot;
+Local file (e2o_lanemap.jpg)      </li>
+    </ul>
+  </div>
+
+  <div class="projnav">
+<a href="path-tracking.html">&larr; Path trackers, compared honestly</a>    <span class="spacer"></span>
+<a href="lane-detection.html">Lane detection for unstructured roads &rarr;</a>  </div>
+</div>
+
+</main>
+
+<footer class="site-foot">
+  <div class="wrap">
+    <div class="note">
+      Vibhakar Mohta<br>
+      Research Scientist, Nuro<br>
+      <span style="opacity:.7">Built by hand. No trackers.</span>
+    </div>
+    <div class="linkrow">
+  <a href="mailto:vib2810@gmail.com"
+>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 6 10-6"/></svg>
+Email
+  </a>
+  <a href="https://scholar.google.com/citations?user=2ZRnqiEAAAAJ&amp;hl=en"
+target="_blank" rel="noopener">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2 0 8.5l12 6.5 9.8-5.3v6.8H24V8.5L12 2ZM4.6 13.4v4.1c0 1.9 3.3 3.5 7.4 3.5s7.4-1.6 7.4-3.5v-4.1L12 17.4l-7.4-4Z"/></svg>
+Scholar
+  </a>
+  <a href="https://github.com/vib2810"
+target="_blank" rel="noopener">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1.1-.7 0-.7 0-.7 1.2.1 1.9 1.3 1.9 1.3 1.1 1.8 2.9 1.3 3.6 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-5.9 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17.3 4.9 18.3 5.2 18.3 5.2c.6 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .5Z"/></svg>
+GitHub
+  </a>
+  <a href="https://linkedin.com/in/vibhakarmohta"
+target="_blank" rel="noopener">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 1 1 0 3.5a2.5 2.5 0 0 1 4.98 0ZM.24 8.25h4.5V24h-4.5V8.25Zm7.86 0h4.31v2.15h.06a4.72 4.72 0 0 1 4.25-2.34c4.55 0 5.39 3 5.39 6.88V24h-4.5v-7.9c0-1.88-.03-4.3-2.62-4.3-2.63 0-3.03 2.05-3.03 4.16V24H8.1V8.25Z"/></svg>
+LinkedIn
+  </a>
+  <a href="../assets/docs/vibhakar-mohta-resume.pdf"
+>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6M8 13h8M8 17h5"/></svg>
+Résumé
+  </a>
+</div>
+  </div>
+</footer>
+
+<script src="../assets/js/site.js" defer></script>
+</body>
+</html>

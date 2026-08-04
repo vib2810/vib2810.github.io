@@ -79,7 +79,8 @@
 <div class="wrap">
   <article class="prose blog">
 
-    <h2>The problem</h2>
+
+    <h2>People are where diffusion falls apart</h2>
     <figure class="fig-side right">
   <div class="frame  fit-contain">
   <img src="../assets/media/stable-diffusion-humans/method.jpg" alt="" loading="lazy" decoding="async">
@@ -90,7 +91,7 @@
 
     <p>Stable Diffusion renders scenes well and people badly: extra limbs, unresolved hands, poses that do not close. Conditioning methods such as ControlNet fix this if you hand the model a pose or depth map, but for text-to-image generation you do not have one, which is the entire difficulty. The alternative, classifier guidance, needs a segmentation model retrained on noisy latents, and naively decoding intermediate samples to apply a pixel-space loss means storing roughly a terabyte of computation graph.</p>
 
-    <h2>What I built</h2>
+    <h2>Moving the supervision into the loss</h2>
     <figure class="fig-side left">
   <div class="frame  fit-contain">
   <img src="../assets/media/stable-diffusion-humans/grid.jpg" alt="" loading="lazy" decoding="async">
@@ -103,7 +104,7 @@
 
 <p class="note">Masked LDM at T=100 scored 61.72 FID against 62.32 for Stable Diffusion and 63.95 for the retrained ControlNet baseline, computed on 500 images.</p>
 
-    <h2>What worked</h2>
+    <h2>What the one-step estimate unlocked</h2>
     
     <ul class="ticks"><li>The one-step approximation is the enabling trick. Below roughly t=200 it is close enough to the clean image that pretrained VGG, VGGFace2 and the ground-truth masks apply directly, which sidesteps retraining any model on noisy inputs.</li><li>The two hyperparameters do different jobs, and separating them mattered: the loss weights control what the model attends to, while T controls smoothness. At T=400 faces and poses improved but outputs went waxy, because one-step predictions at high noise are blurry. T=100 kept low-level detail.</li><li>Retraining the ControlNet branch with no change to the loss produced no visible improvement. That negative control is what justifies attributing the gain to the loss rather than to the extra capacity.</li></ul>
 

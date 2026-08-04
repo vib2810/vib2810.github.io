@@ -81,7 +81,8 @@
 <div class="wrap">
   <article class="prose blog">
 
-    <h2>The problem</h2>
+
+    <h2>Where behavior cloning runs out</h2>
     <figure class="fig-side right">
   <div class="frame  fit-cover">
   <video poster="../assets/media/sailor/door.jpg"         muted loop playsinline preload="none" data-lazyvideo>
@@ -94,7 +95,7 @@
 
     <p>Behavior cloning supervises a policy only at the states the expert visited. The first small error moves the robot off that support, where there is no supervision at all, and the errors compound from there. Adding demonstrations shrinks the off-support region but never removes it. The standard fixes (DAgger-style human corrections, ground-truth reward labels, a privileged simulator) all require exactly the supervision you do not have.</p>
 
-    <h2>What I built</h2>
+    <h2>Learning to search from demonstrations alone</h2>
     <figure class="fig-side left">
   <div class="frame  fit-cover">
   <img src="../assets/media/sailor/arch.png" alt="" loading="lazy" decoding="async">
@@ -108,7 +109,7 @@
 
     <blockquote class="result">SAILOR reaches 2 to 3x higher success than state-of-the-art diffusion policies trained on exactly the same data, across all 12 tasks, and it gets there with no additional demonstrations, no DAgger-style corrections and no ground-truth reward labels. Scaling the baseline up by 5 to 10x still leaves a gap. The paper was a Spotlight at NeurIPS 2025, the top 3% of submissions.</blockquote>
 
-    <h2>What worked</h2>
+    <h2>Why a local search was enough</h2>
     <figure class="fig-side right">
   <div class="frame  fit-contain">
   <img src="../assets/media/sailor/results.png" alt="" loading="lazy" decoding="async">

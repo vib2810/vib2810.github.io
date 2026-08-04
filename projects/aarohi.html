@@ -79,7 +79,8 @@
 <div class="wrap">
   <article class="prose blog">
 
-    <h2>The problem</h2>
+
+    <h2>Forty centimetre steps, and no room for a tractor</h2>
     <figure class="fig-side right">
   <div class="frame  fit-cover">
   <video poster="../assets/media/aarohi/climb.jpg"         muted loop playsinline preload="none" data-lazyvideo>
@@ -92,7 +93,7 @@
 
     <p>Terrace steps on Indian hill farms reach 40 cm, on terraces 60 to 80 m long and only a few meters wide. That rules out tractors, and most stair-climbing mechanisms with them: star-wheel designs need a wheel radius well above the step height and turn bulky, while tracked and legged designs are large, unstable under payload, or too expensive for a field. A misjudged step drops the robot off a terrace edge, and whatever climbs up still has to carry payload and then do the work.</p>
 
-    <h2>What I built</h2>
+    <h2>A robot that lifts itself onto the next terrace</h2>
     <figure class="fig-side left">
   <div class="frame  fit-cover">
   <video poster="../assets/media/aarohi/farm.jpg"         muted loop playsinline preload="none" data-lazyvideo>
@@ -103,12 +104,12 @@
   <figcaption>Tool head actuating on the upper terrace.</figcaption>
 </figure>
 
-    <ul><li>A four-wheel differential drive chassis in V-slot aluminum extrusion, with front and rear <strong>scissor lifts</strong> actuated independently by one linear actuator each, plus four pairs of unpowered dummy wheels that carry the robot across the step edge mid-climb.</li><li>Sized the lift by <strong>multi-objective optimization</strong> rather than by catalog: closed-form expressions for peak actuator force and stroke length in terms of the linkage geometry, then a genetic algorithm over attachment points, link angle, link length and stage count to trace the Pareto front. A 1000 N, 25 cm-stroke actuator came off that front at a factor of safety near 1.74, with 3 mm steel links set by an ANSYS stress and deflection study.</li><li>A six-stage climb algorithm driven entirely by 1D LiDAR: align yaw against the terrace wall, extend both lifts to step height, advance on the dummy wheels, lift the front wheel pair, advance, lift the rear pair, advance. The center of mass stays inside the wheel contact polygon at every stage.</li><li>A modular tool head running in series: a disc plow at 45° disc angle and 15° tilt, with disc orientation alternating so the side thrust cancels, then a primary roller, a V-furrower, stepper-driven seed metering and a secondary roller. A two-tank pump and five-nozzle sprayer switches between water and pesticide on solenoid valves.</li><li>A ROS stack: EKF localization, terrace edge detection by vertical gradient filtering and probabilistic Hough transform, terrace width estimation from a pair of 45° downward LiDARs, adaptive pure pursuit for row traversal, and adaptive PID for lift pitch.</li></ul>
+    <ul><li>A four-wheel differential drive chassis in V-slot aluminum extrusion, with front and rear <strong>scissor lifts</strong> actuated independently by one linear actuator each, plus four pairs of unpowered dummy wheels that carry the robot across the step edge mid-climb. Nine motors and three linear actuators in all.</li><li>Sized the lift by <strong>multi-objective optimization</strong> rather than by catalog: closed-form expressions for peak actuator force and stroke length in terms of the linkage geometry, then a genetic algorithm over attachment points, link angle, link length and stage count to trace the Pareto front. A 1000 N, 25 cm-stroke actuator came off that front at a factor of safety near 1.74, with 3 mm steel links set by an ANSYS stress and deflection study.</li><li>A six-stage climb algorithm driven entirely by 1D LiDAR: align yaw against the terrace wall, extend both lifts to step height, advance on the dummy wheels, lift the front wheel pair, advance, lift the rear pair, advance. The center of mass stays inside the wheel contact polygon at every stage.</li><li>A modular tool head running in series: a disc plow at 45° disc angle and 15° tilt, with disc orientation alternating so the side thrust cancels, then a primary roller, a V-furrower, stepper-driven seed metering and a secondary roller. A two-tank pump and five-nozzle sprayer switches between water and pesticide on solenoid valves.</li><li>A ROS stack driven by a <strong>finite state machine</strong> over the climb and farming tasks: EKF localization, terrace edge detection by vertical gradient filtering and probabilistic Hough transform, terrace width estimation from a pair of 45° downward LiDARs, adaptive pure pursuit for row traversal, and adaptive PID for lift pitch.</li></ul>
 
 
     <blockquote class="result">The prototype climbs terrace steps up to 40 cm, carries 50 kg on the lift, and plows, sows, rolls, waters and sprays once it is up there. It took gold in the autonomous terrace farming event at the 8th Inter-IIT Tech Meet, among 23 IITs, and the design was published as first author at IEEE/ASME MESA 2022.</blockquote>
 
-    <h2>What worked</h2>
+    <h2>What the optimization decided</h2>
     
     <ul class="ticks"><li><strong>Actuator selection as a two-objective problem.</strong> Peak force and stroke length trade against each other through the linkage geometry, so there is no single best design. Solving for the Pareto front turned the choice into a shopping list you could match against actuators a farming household could actually afford, which is the real constraint here.</li><li><strong>Two independently actuated lifts, not one.</strong> Only one wheel pair leaves the ground at a time, so the support polygon never collapses during a climb. The same mechanism doubles as continuous height adjustment for watering, spraying and harvesting crops of different heights.</li><li><strong>1D LiDARs, used generously.</strong> Eighteen of them (eight at the corners, four downward, two for width estimation, four angled failsafes) did work a depth camera would normally be asked for, at a fraction of the cost and with clean failure semantics: a sudden jump in any failsafe beam means an edge is under the robot, and that triggers an immediate stop.</li></ul>
 

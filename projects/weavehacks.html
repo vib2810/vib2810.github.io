@@ -80,7 +80,8 @@
 <div class="wrap">
   <article class="prose blog">
 
-    <h2>The problem</h2>
+
+    <h2>Why dead repositories stay dead</h2>
     <figure class="fig-side right">
   <div class="frame  fit-contain">
   <img src="../assets/media/weavehacks/arch.jpg" alt="" loading="lazy" decoding="async">
@@ -91,7 +92,7 @@
 
     <p>The reference implementation you want to build on is four years old and its dependencies no longer resolve against anything current. Reproducing the original result turns into archaeology, which is one of the most common reasons a good idea never gets built on. It is also a poor fit for a one-shot code model: whether a fix worked is not visible in the diff, only in whether the thing runs, and the failures arrive one import error at a time.</p>
 
-    <h2>What I built</h2>
+    <h2>An agent that reconciles two codebases</h2>
     <figure class="fig-side left">
   <div class="frame  fit-contain">
   <img src="../assets/media/weavehacks/toolcalls.jpg" alt="" loading="lazy" decoding="async">
@@ -105,7 +106,7 @@
 
     <blockquote class="result">Rewriting its own playbook from the previous run&#39;s mistakes cut the same integration task from 159 tool calls to 123, a 23% reduction, bringing a four-year-stale racecar_gym up against the current Gymnasium API. It won Best Self-Improving Agent among 67 teams at Weavehacks 2, run by Weights &amp; Biases and Google Cloud during SF Hack Week.</blockquote>
 
-    <h2>What worked</h2>
+    <h2>Why the loop could score itself</h2>
     
     <ul class="ticks"><li>Bit rot comes with a free reward function. The code either imports and executes or it does not, so the agent can score its own attempts without a human in the loop, which is exactly the condition a self-improving loop needs.</li><li><strong>The self-improvement is legible.</strong> What the loop produces is not a better set of weights but a written playbook you can read, disagree with and reuse. That is also why the improvement could be counted in tool calls at all.</li><li>Scoping to reconciling two repositories rather than general repair. The target behavior already exists and is described in both codebases, so the agent has a specification to work toward instead of having to infer intent.</li></ul>
 

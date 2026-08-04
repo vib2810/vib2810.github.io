@@ -80,19 +80,9 @@
 <div class="wrap">
   <article class="prose blog">
 
-    <h2>The problem</h2>
+
+    <h2>Everyone picks a tracker, mostly by folklore</h2>
     <figure class="fig-side right">
-  <div class="frame  fit-cover">
-  <img src="../assets/media/path-tracking/car.jpg" alt="" loading="lazy" decoding="async">
-</div>
-
-  <figcaption>The instrumented Mahindra e2o the five controllers were finally compared on, after the ranking had been established in Gazebo.</figcaption>
-</figure>
-
-    <p>Every autonomy stack picks a path tracker, and the choice is usually made by folklore. Published comparisons are hard to use because they vary the vehicle model, the reference paths and the tuning effort all at once, so nothing transfers to your vehicle. Making the comparison mean anything requires holding all three fixed, and then repeating it on hardware, where the assumptions in the model start to matter.</p>
-
-    <h2>What I built</h2>
-    <figure class="fig-side left">
   <div class="frame  fit-cover">
   <video poster="../assets/media/path-tracking/sim.jpg"         muted loop playsinline preload="none" data-lazyvideo>
     <source src="../assets/media/path-tracking/sim.mp4" type="video/mp4">
@@ -102,11 +92,15 @@
   <figcaption>Tracking the reference course in Gazebo, where all five controllers were benchmarked before anything went near the car.</figcaption>
 </figure>
 
+    <p>Every autonomy stack picks a path tracker, and the choice is usually made by folklore. Published comparisons are hard to use because they vary the vehicle model, the reference paths and the tuning effort all at once, so nothing transfers to your vehicle. Making the comparison mean anything requires holding all three fixed, and then repeating it on hardware, where the assumptions in the model start to matter.</p>
+
+    <h2>Five controllers, one vehicle, the same courses</h2>
+    
     <ul><li>Implemented pure pursuit, PID, Stanley, LQR and MPC against a common Ackermann vehicle model, with comparable tuning effort spent on each.</li><li>Benchmarked all five in Gazebo on lane-shift and sinusoidal courses at matched speeds up to 30 km/h.</li><li>Validated on a Mahindra e2o electric vehicle, so the comparison is not simulation-only.</li></ul>
 
 <p class="note">MPC tracked best of the five through the medium velocity range, on identical courses in Gazebo and then on the instrumented Mahindra e2o. The paper also documents a tuning methodology for each controller, which is the part that transfers to another vehicle.</p>
 
-    <h2>What worked</h2>
+    <h2>What makes the comparison mean anything</h2>
     
     <ul class="ticks"><li>Holding the vehicle model, the courses and the speed fixed is the whole point of the exercise. It is the only way a reader can attribute a difference in tracking error to the controller rather than to the setup.</li><li>The two course types probe different things: the lane shift is a step response, the sinusoid is sustained curvature tracking. Controllers that look equivalent on one separate on the other.</li></ul>
 
@@ -117,6 +111,15 @@
 <div class="wrap videos-wrap">
   <div class="sec-head"><span class="num">[ &#9654; ]</span><h2>Watch</h2></div>
   <div class="video-cards">
+    <a class="video-card" href="https://www.youtube.com/watch?v=3we2rlaAFhE" target="_blank" rel="noopener">
+      <span class="vthumb">
+        <img src="../assets/media/path-tracking/yt_3we2rlaAFhE.jpg" alt="" loading="lazy" decoding="async">
+        <span class="play" aria-hidden="true">
+          <svg viewBox="0 0 68 48"><path class="bg" d="M66.5 7.7a8.6 8.6 0 0 0-6-6C55.2 0 34 0 34 0S12.8 0 7.5 1.6a8.6 8.6 0 0 0-6 6A90 90 0 0 0 0 24a90 90 0 0 0 1.5 16.3 8.6 8.6 0 0 0 6 6C12.8 48 34 48 34 48s21.2 0 26.5-1.6a8.6 8.6 0 0 0 6-6A90 90 0 0 0 68 24a90 90 0 0 0-1.5-16.3z"/><path class="arrow" d="M27 34V14l18 10z"/></svg>
+        </span>
+      </span>
+      <span class="vlabel">Video, on the car</span>
+    </a>
     <a class="video-card" href="https://www.youtube.com/watch?v=O4yM6Skd_dY" target="_blank" rel="noopener">
       <span class="vthumb">
         <img src="../assets/media/path-tracking/yt_O4yM6Skd_dY.jpg" alt="" loading="lazy" decoding="async">
@@ -134,8 +137,6 @@
   <div class="linkrow">
   <a href="https://arxiv.org/abs/2012.02978"
 target="_blank" rel="noopener">Paper</a>
-  <a href="https://www.youtube.com/watch?v=3we2rlaAFhE"
-target="_blank" rel="noopener">Video, on the car</a>
 </div>
 
   <div class="sources">
@@ -152,7 +153,7 @@ Local file (gallery_agv_e2o.jpg)      </li>
 
   <div class="projnav">
 <a href="flipkart-grid.html">&larr; Intelligent Pickers</a>    <span class="spacer"></span>
-<a href="lane-detection.html">Lane detection for unstructured roads &rarr;</a>  </div>
+<a href="mahindra-e2o.html">Mahindra e2o driverless car &rarr;</a>  </div>
 </div>
 
 </main>

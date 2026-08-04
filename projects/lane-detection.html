@@ -80,7 +80,8 @@
 <div class="wrap">
   <article class="prose blog">
 
-    <h2>The problem</h2>
+
+    <h2>No tarmac, no contrast, and the paint keeps vanishing</h2>
     <figure class="fig-side right">
   <div class="frame  fit-cover">
   <video poster="../assets/media/lane-detection/detect.jpg"         muted loop playsinline preload="none" data-lazyvideo>
@@ -93,7 +94,7 @@
 
     <p>Lane detection methods assume a highway: high-contrast paint on dark tarmac, roughly straight, consistently lit. IGVC provides the opposite. Hand-painted lines on a grass field under moving sun, no consistent lane structure, and frequent gaps where the paint has worn away. Every assumption the standard pipeline rests on fails simultaneously, and the result still has to run at frame rate on the vehicle&#39;s onboard compute.</p>
 
-    <h2>What I built</h2>
+    <h2>Geometry instead of learning</h2>
     <figure class="fig-side left">
   <div class="frame  fit-contain">
   <img src="../assets/media/lane-detection/poster.jpg" alt="" loading="lazy" decoding="async">
@@ -107,7 +108,7 @@
 
     <blockquote class="result">The method was published at IVPAI 2019 (SPIE) and ran at frame rate on the vehicle&#39;s onboard compute as the perception front end of the EKLAVYA IGVC stack. It recovers lane curves and stop lines from hand-painted markings on grass, separating the two by orientation alone with no classifier, and holds the estimate through the frames where the paint disappears.</blockquote>
 
-    <h2>What worked</h2>
+    <h2>What carried the estimate through the gaps</h2>
     
     <ul class="ticks"><li>The bird's-eye transform is what makes PCA usable. After it, a lane segment's principal axis lies roughly along the driving direction and a stop line's lies across it, so the two separate on geometry alone with no classifier involved.</li><li>The UKF absorbed exactly the dropouts that faded paint and grass produce. Per-frame detection was too intermittent to steer on; the tracked estimate was not.</li><li>Fitting geometry rather than learning it kept the whole thing inside the vehicle's compute budget and independent of any labeled dataset from that particular field, which matters when the field changes every competition.</li></ul>
 
@@ -150,7 +151,7 @@ Local file (gallery_spie_poster.jpg)      </li>
   </div>
 
   <div class="projnav">
-<a href="path-tracking.html">&larr; Path trackers, compared honestly</a>    <span class="spacer"></span>
+<a href="mahindra-e2o.html">&larr; Mahindra e2o driverless car</a>    <span class="spacer"></span>
 <a href="eklavya.html">EKLAVYA &rarr;</a>  </div>
 </div>
 

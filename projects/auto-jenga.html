@@ -80,7 +80,8 @@
 <div class="wrap">
   <article class="prose blog">
 
-    <h2>The problem</h2>
+
+    <h2>Stacking works until a grasp slips</h2>
     <figure class="fig-side right">
   <div class="frame  fit-cover">
   <video poster="../assets/media/auto-jenga/recovery.jpg"         muted loop playsinline preload="none" data-lazyvideo>
@@ -93,13 +94,13 @@
 
     <p>Stacking looks like solved pick and place right up until a grasp slips. Jenga blocks are near-identical, they lie in a pile at arbitrary orientations, and a single bad pickup either drops a block or topples what is already built. The hard part is not the nominal pipeline; it is that the nominal pipeline has no notion of its own failure, so every error compounds into the next placement.</p>
 
-    <h2>What I built</h2>
+    <h2>Perception, grasping, and a way back</h2>
     
     <ul><li>A finite state machine coordinating perception, planning and execution on a Franka Panda through frankapy, with MoveIt for motion planning.</li><li>YOLOv8 instance segmentation on a wrist-mounted RealSense, trained on a custom Jenga block dataset. Hand-eye calibration through easy_handeye with ArUco markers.</li><li>A heuristic grasp scorer that rejects poor candidates and picks a viable block out of the pile rather than reaching for the nearest one.</li><li>Explicit <strong>recovery behavior</strong>: a failed or slipped grasp is detected, the arm backs off and retries from a known pose instead of continuing with a bad state.</li><li>A compaction step after each placement that presses the block flush against the layer below, removing the accumulated misalignment that topples towers late in a build.</li></ul>
 
 <p class="note">84% pickup accuracy across runs, with heuristic grasp selection accounting for most of the margin over nearest-block picking. The system ran two full tower-building rounds, resetting and rebuilding without intervention.</p>
 
-    <h2>What worked</h2>
+    <h2>Why recovery beat precision</h2>
     
     <ul class="ticks"><li>Segmentation rather than bounding-box detection. An instance mask gives the block's in-plane orientation directly, so the wrist angle for the grasp comes out of perception instead of needing a separate pose estimation stage.</li><li>Making failure a state in the machine rather than an exception. Once retrying is a normal transition, one bad grasp costs a few seconds instead of the tower.</li><li>The compaction press is trivial to implement and disproportionately useful. Millimeter errors that individually look harmless are what make the fifth layer fall over.</li></ul>
 

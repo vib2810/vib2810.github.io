@@ -82,7 +82,8 @@
 <div class="wrap">
   <article class="prose blog">
 
-    <h2>The problem</h2>
+
+    <h2>Where long horizons break policies</h2>
     <figure class="fig-side right">
   <div class="frame  fit-cover">
   <video poster="../assets/media/physical-ai-hack/recover.jpg"         muted loop playsinline preload="none" data-lazyvideo>
@@ -95,13 +96,13 @@
 
     <p>Visuomotor policies are good at short, well-defined skills and degrade over long horizons. Errors compound from one sub-task into the next, and a policy trained to imitate successful trajectories has no way to represent the decision to stop, back up and try again. Covering a whole long-horizon task with demonstrations, including every way it can go wrong partway through, is not a data budget anyone can afford.</p>
 
-    <h2>What I built</h2>
+    <h2>Specialists, and a judge above them</h2>
     
     <ul><li>Individual short-horizon specialist policies trained with <strong>ACT</strong>: 60 demonstrations each with location randomization, 70k training steps at batch size 64.</li><li>An <strong>LLM judge</strong> on top that reads the scene, chooses which specialist to invoke next, and decides when the current one has finished or failed. The slow deliberative layer over the fast learned skills.</li><li>The top level's action space is the set of specialists, not raw robot actions. Long-horizon structure becomes something the system reasons over explicitly, rather than something one policy has to absorb from data.</li><li>Demonstrated end to end on cup stacking, about 80% success across 20 consecutive rollouts, built over a single hackathon weekend.</li></ul>
 
 
 
-    <h2>What worked</h2>
+    <h2>What the hierarchy bought</h2>
     
     <ul class="ticks"><li>Decomposition is what made the data budget work. Each specialist only has to cover a few seconds of behavior, so 60 demonstrations per skill was enough; the long-horizon burden moved out of the policy and onto the LLM.</li><li>Location randomization in those 60 demonstrations is what let each specialist tolerate whatever state the previous one left behind. Without it, the handoff between skills is the thing that breaks.</li><li>Making failure a first-class transition. The LLM can decide a skill has failed and re-invoke it, which is behavior a monolithic policy has no way to express at all.</li></ul>
 

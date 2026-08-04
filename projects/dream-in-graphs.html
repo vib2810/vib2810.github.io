@@ -78,7 +78,8 @@
 <div class="wrap">
   <article class="prose blog">
 
-    <h2>The problem</h2>
+
+    <h2>Latents you can predict, latents you can see</h2>
     <figure class="fig-side right">
   <div class="frame  fit-cover">
   <img src="../assets/media/dream-in-graphs/cswm.jpg" alt="" loading="lazy" decoding="async">
@@ -89,7 +90,7 @@
 
     <p>Latent world models train the encoder and the transition function together, so the latent drifts toward whatever is easiest to predict rather than whatever can be decoded. The imagined rollout then does not turn back into an image anyone can inspect. The obvious fix, freezing a reconstruction-optimized latent and learning dynamics inside it, moves all the difficulty into the transition model, because a latent chosen for image quality is not shaped for easy prediction.</p>
 
-    <h2>What I built</h2>
+    <h2>Diffusion inside a frozen latent</h2>
     <figure class="fig-side left">
   <div class="frame  fit-contain">
   <img src="../assets/media/dream-in-graphs/rollout.jpg" alt="" loading="lazy" decoding="async">
@@ -102,7 +103,7 @@
 
 <p class="note">On 2D block pushing the diffusion transition reached 0.00205 latent MSE against 0.0433 for the autoencoder with a GNN transition, and open-loop rollouts held together over 100 successive imagined steps.</p>
 
-    <h2>What worked</h2>
+    <h2>What made the transition learnable</h2>
     <figure class="fig-side right">
   <div class="frame  fit-contain">
   <img src="../assets/media/dream-in-graphs/table.jpg" alt="" loading="lazy" decoding="async">

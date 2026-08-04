@@ -80,7 +80,8 @@
 <div class="wrap">
   <article class="prose blog">
 
-    <h2>The problem</h2>
+
+    <h2>Dozens of excavations, and the order matters</h2>
     <figure class="fig-side right">
   <div class="frame  fit-cover">
   <video poster="../assets/media/berm-planning/sequence.jpg"         muted loop playsinline preload="none" data-lazyvideo>
@@ -93,14 +94,14 @@
 
     <p>Building a berm is not one excavation, it is dozens, and the order matters. Every pass changes the terrain the next one starts from, and driving between distant excavation and deposition sites is the dominant cost on a rover with a fixed power budget. The space of orderings is combinatorial, so uninformed search does not finish.</p>
 
-    <h2>What I built</h2>
+    <h2>Two levels of search</h2>
     
     <ul><li>A <strong>bilevel formulation</strong>. The upper level searches over which excavation zone to dig, which berm section to deposit into, and in what order; the lower level plans the actual drive between any two of those poses, and hands its cost back up as the edge weight.</li><li>Since <strong>energy spent is proportional to distance traveled</strong> for an electric rover at steady speed, where drive force is dominated by rolling resistance, this turns an energy objective into a distance objective the search can optimize directly.</li><li>Used a <strong>hybrid A*</strong> planner for the lower level, so every transition is a path the rover can actually drive over traversable terrain rather than a straight-line estimate.</li><li>Built the heuristic by relaxing the problem to a collision-free <strong>TSP over deposition poses</strong> and solving it with Google OR-Tools.</li><li>Ran weighted A* at several inflation factors to trade optimality against search time.</li><li>Implemented in C++ on ROS 2 as a task optimizer node, with worksites specified in YAML and the resulting sequence rendered as an animation for inspection.</li></ul>
 
 
     <blockquote class="result">The TSP relaxation is what makes the search finish at all. On the hardest of three worksites, uninformed search returned no plan in ten minutes, while the heuristic solved it in 70 seconds. Inflating to eps=5 cut that to 27 seconds for 1.3 percent more plan cost, 174.6 against 172.3.</blockquote>
 
-    <h2>What worked</h2>
+    <h2>Why the relaxation is the result</h2>
     
     <ul class="ticks"><li>The TSP relaxation is the whole result. It is cheap to compute and tight enough that it turns an intractable search into one that finishes, which is the difference between the planner existing and not.</li><li>Weighted A* was a very good trade here. A 2.6x speedup for a 1.3 percent worse plan is worth taking on a rover where planning time is idle time.</li><li>Computing edge costs with hybrid A* rather than Euclidean distance meant the plan did not fall apart when handed to the controller.</li></ul>
 
