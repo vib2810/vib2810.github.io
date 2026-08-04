@@ -43,7 +43,7 @@
 
 <header class="site-head">
   <div class="wrap">
-    <a class="brand" href="../index.html">Vibhakar Mohta</a>
+    <a class="brand" href="../index.html"><span class="brand-logo" role="img" aria-label="vib2810"></span>Vibhakar Mohta</a>
     <nav class="site-nav" aria-label="Primary">
       <a href="../index.html"           >Home</a>
       <a href="../projects/index.html"  aria-current="page">Projects</a>
@@ -112,10 +112,6 @@
 </figure>
 
     <ul class="ticks"><li>Normalizing the VAE latents was the difference between working and not. Diffusion sampling clips to [-1, 1] and raw VAE latents are not in that range; without normalization the model produced nothing usable.</li><li>FiLM conditioning on the previous latent, plus one-hot action labels. Feeding action class indices directly was consistently worse.</li><li>Separating the two objectives is what buys interpretability. Because the VAE was never asked to make transitions easy, its latent stayed decodable, and a sufficiently expressive transition model absorbed the extra difficulty.</li></ul>
-
-    <h2>What didn't</h2>
-    
-    <ul class="crosses"><li>Not a clean win. The contrastive baseline scored 0.9995 Hits@1 against 0.346 for the diffusion model: its latent is far easier to predict in. It also has no reconstruction objective, so its dreams cannot be decoded at all, which is the tradeoff the project is about rather than a result that settles it.</li><li>Failure modes were specific and visible: blocks disappearing mid-rollout, a block changing color between steps, and occasional non-sharp reconstructions. More training would likely help; diffusion models are data and compute hungry.</li><li>Freezing a trained VAE and training only the GNN transition against a reconstruction objective diverged: latent-space loss climbed while reconstruction loss fell. Optimizing latents indirectly through pixels does not work.</li></ul>
 
   </article>
 </div>

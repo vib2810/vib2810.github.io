@@ -43,7 +43,7 @@
 
 <header class="site-head">
   <div class="wrap">
-    <a class="brand" href="../index.html">Vibhakar Mohta</a>
+    <a class="brand" href="../index.html"><span class="brand-logo" role="img" aria-label="vib2810"></span>Vibhakar Mohta</a>
     <nav class="site-nav" aria-label="Primary">
       <a href="../index.html"           >Home</a>
       <a href="../projects/index.html"  aria-current="page">Projects</a>
@@ -84,13 +84,11 @@
 
     <h2>The problem</h2>
     <figure class="fig-side right">
-  <div class="frame  fit-cover">
-  <video poster="../assets/media/eklavya/run.jpg"         muted loop playsinline preload="none" data-lazyvideo>
-    <source src="../assets/media/eklavya/run.mp4" type="video/mp4">
-  </video>
+  <div class="frame  fit-contain">
+  <img src="../assets/media/eklavya/vehicle.jpg" alt="" loading="lazy" decoding="async">
 </div>
 
-  <figcaption>Running the barrel course at IGVC.</figcaption>
+  <figcaption>The vehicle on the course, built by the team from bare frame up: chassis, drivetrain and electronics as well as the autonomy stack.</figcaption>
 </figure>
 
     <p>IGVC puts the robot on a grass field with painted lane lines, construction barrels, ramps and GPS waypoints, and nobody may touch it. Grass under moving sun breaks every assumption a lane detector makes: no tarmac contrast, no straight lanes, hand-painted markings that fade in and out frame to frame. Everything underneath the algorithms is also yours to build, chassis, drivetrain and electronics included.</p>
@@ -98,10 +96,12 @@
     <h2>What I built</h2>
     <figure class="fig-side left">
   <div class="frame  fit-cover">
-  <img src="../assets/media/eklavya/detection.jpg" alt="" loading="lazy" decoding="async">
+  <video poster="../assets/media/eklavya/run.jpg"         muted loop playsinline preload="none" data-lazyvideo>
+    <source src="../assets/media/eklavya/run.mp4" type="video/mp4">
+  </video>
 </div>
 
-  <figcaption>Collision detection geometry. The relative velocity vector and minimum distance decide whether an avoidance maneuver is needed at all.</figcaption>
+  <figcaption>Running the barrel course at IGVC.</figcaption>
 </figure>
 
     <ul><li>Real-time lane detection for unstructured ground: perspective transform into a bird's-eye view so lane geometry becomes metric rather than projective, then PCA with lateral clustering to pull lane and stop-line structure out of noisy candidate pixels, tracked frame to frame with an <strong>unscented Kalman filter</strong>.</li><li>Localization fusing GPS, IMU and wheel odometry, with waypoint navigation across the course.</li><li>A collision-avoidance and replanning formulation for nonholonomic bases. Rather than switching the velocity vector instantaneously, which a wheeled robot cannot do, it changes it smoothly under a turn-radius constraint, then replans back to the goal with minimum deviation from the original path while avoiding a second collision.</li><li>The vehicle itself: chassis, drivetrain and electronics designed and fabricated in-house.</li></ul>
@@ -112,28 +112,35 @@
     <h2>What worked</h2>
     <figure class="fig-side right">
   <div class="frame  fit-cover">
-  <img src="../assets/media/eklavya/avoidzone.jpg" alt="" loading="lazy" decoding="async">
+  <img src="../assets/media/eklavya/detection.jpg" alt="" loading="lazy" decoding="async">
 </div>
 
-  <figcaption>The avoidance region around a moving obstacle, and the deviation the replanner is allowed to take.</figcaption>
+  <figcaption>Collision detection geometry. The relative velocity vector and minimum distance decide whether an avoidance maneuver is needed at all.</figcaption>
 </figure>
 
     <ul class="ticks"><li><strong>Doing the perspective transform first.</strong> Once the image is a bird's-eye view, a lane is a shape of known metric width, so PCA and lateral clustering become well-posed geometry instead of pixel heuristics, and the output drops into the planner in the units the planner already uses.</li><li><strong>The filter was doing more work than the detector.</strong> On grass, per-frame detection is intermittent by nature. Tracking the fitted lane across frames with a UKF is what converted a flickering detection into a lane the controller could actually follow.</li><li>Keeping collision avoidance geometric rather than search-based. The formulation was designed to be cheap enough to run online on a robot with limited compute, which the A* and RRT alternatives were not at that scale.</li></ul>
 
-    <h2>What didn't</h2>
-    <figure class="fig-side left">
-  <div class="frame  fit-cover">
-  <img src="../assets/media/eklavya/replan.jpg" alt="" loading="lazy" decoding="async">
-</div>
-
-  <figcaption>Replanning around a moving obstacle: the original path, the relative path at full speed, and the transformed path after speed reduction (TAROS 2021).</figcaption>
-</figure>
-
-    <ul class="crosses"><li>The collision-avoidance and replanning work was validated in simulation over randomized configurations, not on the vehicle at the competition.</li><li>The perception stack is hand-engineered geometry with hand-set thresholds throughout. It worked on a course whose markings and lighting we could characterize in advance; nothing in it adapts on its own.</li><li>Second place twice, never first.</li></ul>
-
   </article>
 </div>
 
+<div class="wrap figs-rest">
+  <div class="figs">
+    <figure class="fig" style="margin:0">
+      <div class="frame tall fit-cover">
+  <img src="../assets/media/eklavya/avoidzone.jpg" alt="" loading="lazy" decoding="async">
+</div>
+
+      <figcaption>The avoidance region around a moving obstacle, and the deviation the replanner is allowed to take.</figcaption>
+    </figure>
+    <figure class="fig" style="margin:0">
+      <div class="frame tall fit-cover">
+  <img src="../assets/media/eklavya/replan.jpg" alt="" loading="lazy" decoding="async">
+</div>
+
+      <figcaption>Replanning around a moving obstacle: the original path, the relative path at full speed, and the transformed path after speed reduction (TAROS 2021).</figcaption>
+    </figure>
+  </div>
+</div>
 
 <div class="wrap videos-wrap">
   <div class="sec-head"><span class="num">[ &#9654; ]</span><h2>Watch</h2></div>
@@ -176,6 +183,8 @@ Local file (formulation_and_cdetection.png)      </li>
 Local file (replanning_illu.png)      </li>
       <li><b>pubthumb</b> &middot;
 Local file (taros_pubthumb.png)      </li>
+      <li><b>vehicle</b> &middot;
+Local file (gallery_agv_course.jpg)      </li>
     </ul>
   </div>
 

@@ -43,7 +43,7 @@
 
 <header class="site-head">
   <div class="wrap">
-    <a class="brand" href="../index.html">Vibhakar Mohta</a>
+    <a class="brand" href="../index.html"><span class="brand-logo" role="img" aria-label="vib2810"></span>Vibhakar Mohta</a>
     <nav class="site-nav" aria-label="Primary">
       <a href="../index.html"           >Home</a>
       <a href="../projects/index.html"  aria-current="page">Projects</a>
@@ -119,10 +119,6 @@
 </figure>
 
     <ul class="ticks"><li><strong>The heuristic is what made the planner exist.</strong> With no heuristic, the top-level search produced no plan at all in 10 minutes on a 16-section berm. Relaxing to a collision-free 2D TSP and solving it with OR-Tools cut that to 70 s at optimal weight, and 27 s at weight 5 for 1.3% higher plan cost.</li><li><strong>Banning point turns is a planning decision, not a control one.</strong> The base is differential drive and can rotate in place perfectly well. The reason not to is that spinning in loose simulant digs a groove that strands you later, so the constraint belongs in the path planner as a minimum turn radius, not in the controller as a preference.</li><li>Localization came in at 2 cm against a 30 cm requirement. That margin is what the berm shaping fed on: the height tolerance actually achieved was 2.1 cm.</li></ul>
-
-    <h2>What didn't</h2>
-    
-    <ul class="crosses"><li>The whole demonstration ran in Earth gravity on a simulant testbed. The low-reaction-force case for continuous excavation is a design rationale carried over from the lunar setting, not something the testbed measured.</li><li>The capstone ran a simplified version of the sequencing planner. The full bilevel search with the TSP heuristic was evaluated separately in simulation, on berms of up to 16 sections.</li></ul>
 
   </article>
 </div>

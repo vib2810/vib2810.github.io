@@ -43,7 +43,7 @@
 
 <header class="site-head">
   <div class="wrap">
-    <a class="brand" href="../index.html">Vibhakar Mohta</a>
+    <a class="brand" href="../index.html"><span class="brand-logo" role="img" aria-label="vib2810"></span>Vibhakar Mohta</a>
     <nav class="site-nav" aria-label="Primary">
       <a href="../index.html"           >Home</a>
       <a href="../projects/index.html"  aria-current="page">Projects</a>
@@ -84,12 +84,12 @@
     <h2>The problem</h2>
     <figure class="fig-side right">
   <div class="frame  fit-cover">
-  <video poster="../assets/media/sailor/method_anim.jpg"         muted loop playsinline preload="none" data-lazyvideo>
-    <source src="../assets/media/sailor/method_anim.mp4" type="video/mp4">
+  <video poster="../assets/media/sailor/door.jpg"         muted loop playsinline preload="none" data-lazyvideo>
+    <source src="../assets/media/sailor/door.mp4" type="video/mp4">
   </video>
 </div>
 
-  <figcaption>How the search works: the base diffusion policy fails at an out-of-distribution state, local search runs in the learned world model against the learned reward, and SAILOR takes the corrected action.</figcaption>
+  <figcaption>Door opening, base diffusion policy on the left and SAILOR on the right. The search recovers after the gripper slips off the handle, which is exactly the behavior that behavior cloning cannot produce.</figcaption>
 </figure>
 
     <p>Behavior cloning supervises a policy only at the states the expert visited. The first small error moves the robot off that support, where there is no supervision at all, and the errors compound from there. Adding demonstrations shrinks the off-support region but never removes it. The standard fixes (DAgger-style human corrections, ground-truth reward labels, a privileged simulator) all require exactly the supervision you do not have.</p>
@@ -110,29 +110,14 @@
 
     <h2>What worked</h2>
     <figure class="fig-side right">
-  <div class="frame  fit-cover">
-  <video poster="../assets/media/sailor/square.jpg"         muted loop playsinline preload="none" data-lazyvideo>
-    <source src="../assets/media/sailor/square.mp4" type="video/mp4">
-  </video>
+  <div class="frame  fit-contain">
+  <img src="../assets/media/sailor/results.png" alt="" loading="lazy" decoding="async">
 </div>
 
-  <figcaption>Square assembly. Base policy on the left, SAILOR on the right.</figcaption>
+  <figcaption>Door, Cereal and Square at three dataset sizes each. Orange is SAILOR, purple is the diffusion policy. The traces on the right show the learned reward over a rollout, with the frames where each policy diverges.</figcaption>
 </figure>
 
     <ul class="ticks"><li><strong>The search only has to be local.</strong> The base diffusion policy already proposes a reasonable multi-step plan, so MPPI only searches for a correction to it rather than for a plan from scratch. That keeps the optimization tractable and means an imperfect world model is still useful.</li><li><strong>The failure data is the reward signal.</strong> Expert demonstrations versus the base policy's own rollouts is precisely the contrast that defines going wrong, so a discriminator over that pair yields a dense latent reward with no labels, no human in the loop, and no simulator reward function.</li><li><strong>No reward hacking at 8× the training sample budget.</strong> The usual objection to test-time scaling is that more optimization finds the learned reward's blind spots. Performance improved up to the training-time budget and then held flat rather than collapsing, plausibly because the models are refit on the same on-policy data the planner drives the agent into.</li></ul>
-
-    <h2>What didn't</h2>
-    <figure class="fig-side left">
-  <div class="frame  fit-cover">
-  <video poster="../assets/media/sailor/door.jpg"         muted loop playsinline preload="none" data-lazyvideo>
-    <source src="../assets/media/sailor/door.mp4" type="video/mp4">
-  </video>
-</div>
-
-  <figcaption>Door opening. The search recovers after the gripper slips off the handle.</figcaption>
-</figure>
-
-    <ul class="crosses"><li>SAILOR is not an offline method. It needs on-policy rollouts from the base policy to fit the world and reward models, so unlike plain behavior cloning it needs an environment to interact with.</li><li>Search is not free. Running MPPI in latent space at every control step is much more expensive per action than a forward pass of the base policy. Distillation recovers some of that, but it is a separate step and it gives back some of the recovery behavior.</li><li>All 12 tasks are simulated visual manipulation. No real-robot results in this work.</li></ul>
 
   </article>
 </div>
@@ -141,10 +126,30 @@
   <div class="figs">
     <figure class="fig" style="margin:0">
       <div class="frame tall fit-contain">
-  <img src="../assets/media/sailor/method.png" alt="" loading="lazy" decoding="async">
+  <video poster="../assets/media/sailor/cereal.jpg"         muted loop playsinline preload="none" data-lazyvideo>
+    <source src="../assets/media/sailor/cereal.mp4" type="video/mp4">
+  </video>
 </div>
 
-      <figcaption>SAILOR searches over imagined latent rollouts to propose a correction to the base policy&#39;s plan.</figcaption>
+      <figcaption>Cereal. Base policy on the left, SAILOR on the right, with success rate against dataset size alongside.</figcaption>
+    </figure>
+    <figure class="fig" style="margin:0">
+      <div class="frame tall fit-contain">
+  <video poster="../assets/media/sailor/round.jpg"         muted loop playsinline preload="none" data-lazyvideo>
+    <source src="../assets/media/sailor/round.mp4" type="video/mp4">
+  </video>
+</div>
+
+      <figcaption>Round. Base policy on the left, SAILOR on the right.</figcaption>
+    </figure>
+    <figure class="fig" style="margin:0">
+      <div class="frame tall fit-contain">
+  <video poster="../assets/media/sailor/stack.jpg"         muted loop playsinline preload="none" data-lazyvideo>
+    <source src="../assets/media/sailor/stack.mp4" type="video/mp4">
+  </video>
+</div>
+
+      <figcaption>Stack. Base policy on the left, SAILOR on the right.</figcaption>
     </figure>
     <figure class="fig" style="margin:0">
       <div class="frame tall fit-contain">
@@ -154,13 +159,6 @@
 </div>
 
       <figcaption>Behavior as test-time compute is scaled up.</figcaption>
-    </figure>
-    <figure class="fig" style="margin:0">
-      <div class="frame tall fit-contain">
-  <img src="../assets/media/sailor/results.png" alt="" loading="lazy" decoding="async">
-</div>
-
-      <figcaption>Door, Cereal and Square at three dataset sizes each. Orange is SAILOR, purple is the diffusion policy. The traces on the right show the learned reward over a rollout, with the frames where each policy diverges.</figcaption>
     </figure>
   </div>
 </div>
@@ -215,12 +213,16 @@ Local file (li_sailor.mp4)      </li>
 <a href="https://raw.githubusercontent.com/arnavkj1995/SAILOR/main/assets/sailor_arch_fig.png" target="_blank" rel="noopener">GitHub</a>      </li>
       <li><b>results</b> &middot;
 <a href="https://raw.githubusercontent.com/arnavkj1995/SAILOR/main/assets/sailor_combo_visual_fig.png" target="_blank" rel="noopener">GitHub</a>      </li>
-      <li><b>square</b> &middot;
-<a href="http://gokul.dev/sailor/resources/square_comparison.mp4" target="_blank" rel="noopener">gokul.dev</a>      </li>
       <li><b>door</b> &middot;
 <a href="http://gokul.dev/sailor/resources/door_comparison.mp4" target="_blank" rel="noopener">gokul.dev</a>      </li>
       <li><b>scaling</b> &middot;
 <a href="http://gokul.dev/sailor/resources/sailor_tts.mp4" target="_blank" rel="noopener">gokul.dev</a>      </li>
+      <li><b>cereal</b> &middot;
+Local file (url_cereal_comparison.mp4)      </li>
+      <li><b>round</b> &middot;
+Local file (url_round_comparison.mp4)      </li>
+      <li><b>stack</b> &middot;
+Local file (url_stack_comparison.mp4)      </li>
     </ul>
   </div>
 

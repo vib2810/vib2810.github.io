@@ -43,7 +43,7 @@
 
 <header class="site-head">
   <div class="wrap">
-    <a class="brand" href="../index.html">Vibhakar Mohta</a>
+    <a class="brand" href="../index.html"><span class="brand-logo" role="img" aria-label="vib2810"></span>Vibhakar Mohta</a>
     <nav class="site-nav" aria-label="Primary">
       <a href="../index.html"           >Home</a>
       <a href="../projects/index.html"  aria-current="page">Projects</a>
@@ -104,10 +104,6 @@
     <h2>What worked</h2>
     
     <ul class="ticks"><li>Decomposition is what made the data budget work. Each specialist only has to cover a few seconds of behavior, so 60 demonstrations per skill was enough; the long-horizon burden moved out of the policy and onto the LLM.</li><li>Location randomization in those 60 demonstrations is what let each specialist tolerate whatever state the previous one left behind. Without it, the handoff between skills is the thing that breaks.</li><li>Making failure a first-class transition. The LLM can decide a skill has failed and re-invoke it, which is behavior a monolithic policy has no way to express at all.</li></ul>
-
-    <h2>What didn't</h2>
-    
-    <ul class="crosses"><li>Whether an LLM makes a good judge was an open question on our own slides, and the weekend did not answer it. Its success and failure calls were never scored against ground truth, so the false-positive and false-negative rates are both unknown.</li><li>20 rollouts of one task in one setup is a demo, not an evaluation. Nothing here says how the hierarchy behaves as the number of specialists or the horizon grows.</li></ul>
 
   </article>
 </div>

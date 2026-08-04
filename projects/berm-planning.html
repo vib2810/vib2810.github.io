@@ -43,7 +43,7 @@
 
 <header class="site-head">
   <div class="wrap">
-    <a class="brand" href="../index.html">Vibhakar Mohta</a>
+    <a class="brand" href="../index.html"><span class="brand-logo" role="img" aria-label="vib2810"></span>Vibhakar Mohta</a>
     <nav class="site-nav" aria-label="Primary">
       <a href="../index.html"           >Home</a>
       <a href="../projects/index.html"  aria-current="page">Projects</a>
@@ -103,10 +103,6 @@
     <h2>What worked</h2>
     
     <ul class="ticks"><li>The TSP relaxation is the whole result. It is cheap to compute and tight enough that it turns an intractable search into one that finishes, which is the difference between the planner existing and not.</li><li>Weighted A* was a very good trade here. A 2.6x speedup for a 1.3 percent worse plan is worth taking on a rover where planning time is idle time.</li><li>Computing edge costs with hybrid A* rather than Euclidean distance meant the plan did not fall apart when handed to the controller.</li></ul>
-
-    <h2>What didn't</h2>
-    
-    <ul class="crosses"><li>The terrain update model is assumed rather than measured. Each excavation is treated as changing the worksite in a known way, which is optimistic on real regolith.</li><li>Energy enters only through the proportionality to distance. That assumption drops the part that is not uniform: the rover hauls a full bucket out and drives back empty, so the loaded legs cost more per meter than the model charges them, and grade is ignored entirely. Everything is evaluated in plan cost and search time, and no joules were measured on hardware.</li></ul>
 
   </article>
 </div>

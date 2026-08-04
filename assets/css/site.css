@@ -135,9 +135,23 @@ p  { margin: 0 0 1.05em; }
   font-family: var(--mono); font-weight: 700; font-size: 1rem;
   letter-spacing: .1em; text-transform: uppercase;
   color: var(--ink); text-decoration: none; white-space: nowrap;
+  display: inline-flex; align-items: center; gap: .55em;
 }
 .brand:hover { text-decoration: none; color: var(--accent-ink); }
-.brand::before { content: "▸ "; color: var(--accent); }
+
+/* The wordmark is a light painting, photographed once and reduced to an alpha
+   mask, so it takes the accent colour and works on either theme. */
+.brand-logo { display: none; }
+@supports ((mask-image: url("")) or (-webkit-mask-image: url(""))) {
+  .brand-logo {
+    display: inline-block; flex: none;
+    height: 1.45em; width: calc(1.45em * 1.81);
+    background-color: var(--accent);
+    -webkit-mask: url("../img/logo.png") no-repeat center / contain;
+            mask: url("../img/logo.png") no-repeat center / contain;
+  }
+}
+.brand:hover .brand-logo { background-color: var(--accent-ink); }
 
 .site-nav { margin-left: auto; display: flex; align-items: center; gap: .25rem; flex-wrap: wrap; }
 .site-nav a {

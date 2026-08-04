@@ -43,7 +43,7 @@
 
 <header class="site-head">
   <div class="wrap">
-    <a class="brand" href="../index.html">Vibhakar Mohta</a>
+    <a class="brand" href="../index.html"><span class="brand-logo" role="img" aria-label="vib2810"></span>Vibhakar Mohta</a>
     <nav class="site-nav" aria-label="Primary">
       <a href="../index.html"           >Home</a>
       <a href="../projects/index.html"  aria-current="page">Projects</a>
@@ -106,10 +106,6 @@
     <h2>What worked</h2>
     
     <ul class="ticks"><li>The one-step approximation is the enabling trick. Below roughly t=200 it is close enough to the clean image that pretrained VGG, VGGFace2 and the ground-truth masks apply directly, which sidesteps retraining any model on noisy inputs.</li><li>The two hyperparameters do different jobs, and separating them mattered: the loss weights control what the model attends to, while T controls smoothness. At T=400 faces and poses improved but outputs went waxy, because one-step predictions at high noise are blurry. T=100 kept low-level detail.</li><li>Retraining the ControlNet branch with no change to the loss produced no visible improvement. That negative control is what justifies attributing the gain to the loss rather than to the extra capacity.</li></ul>
-
-    <h2>What didn't</h2>
-    
-    <ul class="crosses"><li>The FID numbers do not support the ranking. Scores were almost constant throughout training and were computed on 500 images where at least 10,000 is standard, so the ordering is within noise. Human inspection is the only honest evidence here, and the report says so.</li><li>Masked LPIPS covers the whole body mask, so hands and fingers, which occupy few pixels, are still frequently wrong. A keypoint-based pose loss is the obvious next step and was not implemented.</li><li>Whole-image metrics like FID, KID and IS score the scene, not the person. A generation can look good to them while the faces are unusable, which means the project never had a metric aligned with the thing it set out to fix.</li></ul>
 
   </article>
 </div>

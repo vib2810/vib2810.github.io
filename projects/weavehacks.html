@@ -43,7 +43,7 @@
 
 <header class="site-head">
   <div class="wrap">
-    <a class="brand" href="../index.html">Vibhakar Mohta</a>
+    <a class="brand" href="../index.html"><span class="brand-logo" role="img" aria-label="vib2810"></span>Vibhakar Mohta</a>
     <nav class="site-nav" aria-label="Primary">
       <a href="../index.html"           >Home</a>
       <a href="../projects/index.html"  aria-current="page">Projects</a>
@@ -108,10 +108,6 @@
     <h2>What worked</h2>
     
     <ul class="ticks"><li>Bit rot comes with a free reward function. The code either imports and executes or it does not, so the agent can score its own attempts without a human in the loop, which is exactly the condition a self-improving loop needs.</li><li><strong>The self-improvement is legible.</strong> What the loop produces is not a better set of weights but a written playbook you can read, disagree with and reuse. That is also why the improvement could be counted in tool calls at all.</li><li>Scoping to reconciling two repositories rather than general repair. The target behavior already exists and is described in both codebases, so the agent has a specification to work toward instead of having to infer intent.</li></ul>
-
-    <h2>What didn't</h2>
-    
-    <ul class="crosses"><li>One repository pair, one weekend. There is no measurement across the range of decay that actually occurs: an unpinned dependency, a deleted API and a missing dataset are very different failures with very different fix rates.</li><li>159 against 123 tool calls is a single before-and-after on a single task. Nothing here controls for run-to-run variance in an agent that samples, so treat it as a direction, not an effect size.</li><li>The loop verifies that the code runs, not that it reproduces the original numbers. For research repositories that is the harder and more useful half of the problem, and it is untouched.</li></ul>
 
   </article>
 </div>

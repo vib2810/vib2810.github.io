@@ -43,7 +43,7 @@
 
 <header class="site-head">
   <div class="wrap">
-    <a class="brand" href="../index.html">Vibhakar Mohta</a>
+    <a class="brand" href="../index.html"><span class="brand-logo" role="img" aria-label="vib2810"></span>Vibhakar Mohta</a>
     <nav class="site-nav" aria-label="Primary">
       <a href="../index.html"           >Home</a>
       <a href="../projects/index.html"  aria-current="page">Projects</a>
@@ -110,10 +110,6 @@
     <h2>What worked</h2>
     
     <ul class="ticks"><li><strong>Treating the LiDAR scan as an image.</strong> Rendering the beams into 2D lets the convolutional encoder impose an inductive bias the MLP encodings used in prior racing Dreamer work do not have. The world model's reconstructed scans track ground truth closely, which is the evidence that the latent state actually holds track geometry rather than a memorized policy.</li><li><strong>The quadratic steering penalties changed the shape of the policy, not just its score.</strong> The steering histogram goes from piled up at the two limits to spread across the range. That is the difference between a command stream a servo can follow and one that just chatters.</li><li>Picking the simulator with the more comprehensive physics model over the more popular one was a sim2real decision made up front, before any tuning, and it is what left nothing to tune afterward.</li></ul>
-
-    <h2>What didn't</h2>
-    
-    <ul class="crosses"><li>Cross-track generalization was partial at best. Zero completed laps on Barcelona and Silverstone, at 68% and 62% average progress. The one unseen track it cleared, Columbia, is the simplest layout in the set.</li><li>Action regularization reduced the bang-bang behavior without eliminating it. The control is smoother, not smooth.</li><li>The world model runs off-board over a wireless ros-bridge, not on the Jetson. And a purely reactive LiDAR policy gives up the lap times map-based racing methods get. Domain randomization over track and vehicle parameters was the obvious next step, and we did not do it.</li></ul>
 
   </article>
 </div>

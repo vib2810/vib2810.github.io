@@ -43,7 +43,7 @@
 
 <header class="site-head">
   <div class="wrap">
-    <a class="brand" href="../index.html">Vibhakar Mohta</a>
+    <a class="brand" href="../index.html"><span class="brand-logo" role="img" aria-label="vib2810"></span>Vibhakar Mohta</a>
     <nav class="site-nav" aria-label="Primary">
       <a href="../index.html"           >Home</a>
       <a href="../projects/index.html"  aria-current="page">Projects</a>
@@ -111,10 +111,6 @@
     <h2>What worked</h2>
     
     <ul class="ticks"><li><strong>Actuator selection as a two-objective problem.</strong> Peak force and stroke length trade against each other through the linkage geometry, so there is no single best design. Solving for the Pareto front turned the choice into a shopping list you could match against actuators a farming household could actually afford, which is the real constraint here.</li><li><strong>Two independently actuated lifts, not one.</strong> Only one wheel pair leaves the ground at a time, so the support polygon never collapses during a climb. The same mechanism doubles as continuous height adjustment for watering, spraying and harvesting crops of different heights.</li><li><strong>1D LiDARs, used generously.</strong> Eighteen of them (eight at the corners, four downward, two for width estimation, four angled failsafes) did work a depth camera would normally be asked for, at a fraction of the cost and with clean failure semantics: a sudden jump in any failsafe beam means an edge is under the robot, and that triggers an immediate stop.</li></ul>
-
-    <h2>What didn't</h2>
-    
-    <ul class="crosses"><li>GPS was effectively useless. Roughly a meter of error on terraces a few meters wide meant the EKF had to lean on wheel odometry, IMU and LiDAR instead.</li><li>A standard PID could not hold the chassis level. Under added payload the pitch error settled at a nonzero value, which is a stability problem when half the robot is over a step edge. It took an adaptive PID with MIT-rule gain updates to close that out.</li><li>This is a prototype validated in a test arena, not a season on a hillside. The design also assumes flat, unramped steps and no high wind.</li></ul>
 
   </article>
 </div>

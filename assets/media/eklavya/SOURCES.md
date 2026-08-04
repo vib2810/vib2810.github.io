@@ -10,6 +10,7 @@ Regenerate with:  `python3 tools/make_media.py --slug eklavya`
 | `detection` | local:raw/taros_figs/formulation_and_cdetection.png | ,  |
 | `avoidzone` | local:raw/taros_figs/replanning_illu.png | ,  |
 | `pubthumb` | local:raw/taros_pubthumb.png | ,  |
+| `vehicle` | local:raw/gallery_agv_course.jpg | ,  |
 
 Replace any file in this folder with your own and keep the filename , 
 the site picks it up with no other change.

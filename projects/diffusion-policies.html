@@ -43,7 +43,7 @@
 
 <header class="site-head">
   <div class="wrap">
-    <a class="brand" href="../index.html">Vibhakar Mohta</a>
+    <a class="brand" href="../index.html"><span class="brand-logo" role="img" aria-label="vib2810"></span>Vibhakar Mohta</a>
     <nav class="site-nav" aria-label="Primary">
       <a href="../index.html"           >Home</a>
       <a href="../projects/index.html"  aria-current="page">Projects</a>
@@ -105,10 +105,6 @@
     <h2>What worked</h2>
     
     <ul class="ticks"><li>The failure mode the diffusion policy avoids is getting stuck. The fully connected baseline had <em>lower</em> validation MSE and still froze mid-trajectory; when it did not freeze it finished the task. Validation loss was the wrong signal for rollout success, which is the practical argument for action-sequence prediction over single-step regression.</li><li>Spectrograms made the discrimination easy in isolation: a bag of coins rings noticeably longer on impact than one of paper, and a small 1D convolutional classifier picked that up at about 95% accuracy.</li><li>Scripting demonstrations with a state machine instead of teleoperating produced smoother, more consistent trajectories and made datasets of 100 to 185 trajectories a 5 to 6 hour job rather than a skill-intensive one.</li></ul>
-
-    <h2>What didn't</h2>
-    
-    <ul class="crosses"><li>The headline task never worked. No model, with or without a pretrained audio encoder, solved coin-bag identification. The likely cause is signal sparsity: 2 to 3 seconds of informative audio in a 60 to 70 second trajectory, so the policy learns to ignore the modality. A working audio classifier is not the same as a policy that uses audio.</li><li>Scripted demonstrations have very low variance, so the policy left the training distribution as soon as anything drifted. DAgger-style expert relabeling was the obvious remedy and there was no time to do it.</li><li>ROS serialized the audio through MP3 before writing it out, and the lossy round trip corrupted the waveforms. A large block of early experiments was invalid before anyone noticed.</li></ul>
 
   </article>
 </div>

@@ -43,7 +43,7 @@
 
 <header class="site-head">
   <div class="wrap">
-    <a class="brand" href="../index.html">Vibhakar Mohta</a>
+    <a class="brand" href="../index.html"><span class="brand-logo" role="img" aria-label="vib2810"></span>Vibhakar Mohta</a>
     <nav class="site-nav" aria-label="Primary">
       <a href="../index.html"           >Home</a>
       <a href="../projects/index.html"  aria-current="page">Projects</a>
@@ -102,10 +102,6 @@
     <h2>What worked</h2>
     
     <ul class="ticks"><li>Segmentation rather than bounding-box detection. An instance mask gives the block's in-plane orientation directly, so the wrist angle for the grasp comes out of perception instead of needing a separate pose estimation stage.</li><li>Making failure a state in the machine rather than an exception. Once retrying is a normal transition, one bad grasp costs a few seconds instead of the tower.</li><li>The compaction press is trivial to implement and disproportionately useful. Millimeter errors that individually look harmless are what make the fifth layer fall over.</li></ul>
-
-    <h2>What didn't</h2>
-    
-    <ul class="crosses"><li>84% pickup accuracy means roughly one grasp in six still fails. Recovery behavior hides that cost rather than removing it, and it is the recovery, not the grasping, that is doing the work in the demo.</li><li>Everything is tuned to one table, one lighting setup and one hand-eye calibration. Moving the rig means recalibrating and, for the detector, recollecting data.</li></ul>
 
   </article>
 </div>
