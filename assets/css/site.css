@@ -608,6 +608,24 @@ a.chip:hover { border-color: var(--accent); color: var(--accent-ink); text-decor
   border-left: 2px solid var(--rule-2); padding-left: .9rem; margin: 1.25rem 0;
 }
 
+/* Photographs, not figures. These range from a 3:1 group panorama to portrait
+   phone shots, so the column flow keeps every one of them uncropped. */
+.beyond-lead { margin: 0 0 1.6rem; }
+.gallery { columns: 250px 4; column-gap: 1.2rem; }
+.gallery figure { break-inside: avoid; margin: 0 0 1.5rem; }
+.gallery img {
+  display: block; width: 100%; height: auto;
+  background: var(--paper-2); border: 1px solid var(--rule); border-radius: var(--radius);
+}
+.gallery figcaption {
+  margin-top: .5rem; font-size: .84rem; line-height: 1.55; color: var(--ink-3);
+}
+@media (max-width: 520px) {
+  .gallery { columns: 150px 2; column-gap: .8rem; }
+  .gallery figure { margin-bottom: 1.1rem; }
+  .gallery figcaption { font-size: .78rem; }
+}
+
 .figs { display: grid; gap: 1.5rem; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); }
 .fig .frame { border: 1px solid var(--rule); }
 .fig .frame > img, .fig .frame > video { aspect-ratio: auto; background: var(--card); object-fit: contain; }

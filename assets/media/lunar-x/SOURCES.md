@@ -8,6 +8,9 @@ Regenerate with:  `python3 tools/make_media.py --slug lunar-x`
 | `berm` | https://raw.githubusercontent.com/Lunar-Autonomous-Regolith-Excavator/LunAR-X/devel/media/curved_berm.gif | 0s +7s |
 | `robot` | https://raw.githubusercontent.com/Lunar-Autonomous-Regolith-Excavator/LunAR-X/devel/media/depiction.png | ,  |
 | `video` | https://youtu.be/YWWGcqENcMo | 30s +8s |
+| `requirements` | pdf:raw/lunarx_final_report.pdf#27 | ,  |
+| `map` | pdf:raw/lunarx_final_report.pdf#24 | ,  |
+| `evaluation` | pdf:raw/lunarx_final_report.pdf#24 | ,  |
 
 Replace any file in this folder with your own and keep the filename , 
 the site picks it up with no other change.

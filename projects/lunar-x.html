@@ -111,12 +111,10 @@
     <h2>Where the margins went</h2>
     <figure class="fig-side right">
   <div class="frame  fit-cover">
-  <video poster="../assets/media/lunar-x/video.jpg"         muted loop playsinline preload="none" data-lazyvideo>
-    <source src="../assets/media/lunar-x/video.mp4" type="video/mp4">
-  </video>
+  <img src="../assets/media/lunar-x/requirements.jpg" alt="" loading="lazy" decoding="async">
 </div>
 
-  <figcaption>From the team&#39;s project video.</figcaption>
+  <figcaption>Every mandatory requirement, against what the system actually did on the final validation run. Localization was asked for within 30 cm and came in under 2, the excavation rate was asked for at 3 kg per cycle and came in at 8, and the berm was asked for within 3 cm of height and came in at 2.1.</figcaption>
 </figure>
 
     <ul class="ticks"><li><strong>The heuristic is what made the planner exist.</strong> With no heuristic, the top-level search produced no plan at all in 10 minutes on a 16-section berm. Relaxing to a collision-free 2D TSP and solving it with OR-Tools cut that to 70 s at optimal weight, and 27 s at weight 5 for 1.3% higher plan cost.</li><li><strong>Banning point turns is a planning decision, not a control one.</strong> The base is differential drive and can rotate in place perfectly well. The reason not to is that spinning in loose simulant digs a groove that strands you later, so the constraint belongs in the path planner as a minimum turn radius, not in the controller as a preference.</li><li>Localization came in at 2 cm against a 30 cm requirement. That margin is what the berm shaping fed on: the height tolerance actually achieved was 2.1 cm.</li></ul>
@@ -124,6 +122,33 @@
   </article>
 </div>
 
+<div class="wrap figs-rest">
+  <div class="figs">
+    <figure class="fig" style="margin:0">
+      <div class="frame tall fit-cover">
+  <img src="../assets/media/lunar-x/map.jpg" alt="" loading="lazy" decoding="async">
+</div>
+
+      <figcaption>The worksite map partway through a curved berm, built from the two RGBD cameras and updated at 1 Hz. Lighter pixels are lower ground, darker are higher, so the berm shows up as the ridge the planner then measures itself against.</figcaption>
+    </figure>
+    <figure class="fig" style="margin:0">
+      <div class="frame tall fit-contain">
+  <img src="../assets/media/lunar-x/evaluation.jpg" alt="" loading="lazy" decoding="async">
+</div>
+
+      <figcaption>Berm evaluation. The green solid is the berm the system was asked for, laid over the surface it actually built, which is how height, length, volume and positional error were scored after each pass.</figcaption>
+    </figure>
+    <figure class="fig" style="margin:0">
+      <div class="frame tall fit-cover">
+  <video poster="../assets/media/lunar-x/video.jpg"         muted loop playsinline preload="none" data-lazyvideo>
+    <source src="../assets/media/lunar-x/video.mp4" type="video/mp4">
+  </video>
+</div>
+
+      <figcaption>From the team&#39;s project video.</figcaption>
+    </figure>
+  </div>
+</div>
 
 <div class="wrap videos-wrap">
   <div class="sec-head"><span class="num">[ &#9654; ]</span><h2>Watch</h2></div>
@@ -147,6 +172,8 @@
 target="_blank" rel="noopener">Project website</a>
   <a href="https://github.com/Lunar-Autonomous-Regolith-Excavator/LunAR-X"
 target="_blank" rel="noopener">Code</a>
+  <a href="https://drive.google.com/file/d/1_CaS9q1hhy6YJ9wwqd7rELhhbQ_Ql6Gi/view"
+target="_blank" rel="noopener">Final report</a>
   <a href="https://lsic.jhuapl.edu/"
 target="_blank" rel="noopener">NASA LSIC</a>
 </div>
@@ -162,6 +189,8 @@ target="_blank" rel="noopener">NASA LSIC</a>
 <a href="https://raw.githubusercontent.com/Lunar-Autonomous-Regolith-Excavator/LunAR-X/devel/media/depiction.png" target="_blank" rel="noopener">GitHub</a>      </li>
       <li><b>video</b> &middot;
 <a href="https://www.youtube.com/watch?v=YWWGcqENcMo" target="_blank" rel="noopener">YouTube</a>      </li>
+      <li><b>requirements</b> &middot;
+Project report (lunarx_final_report.pdf)      </li>
     </ul>
   </div>
 
